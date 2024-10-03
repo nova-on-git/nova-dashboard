@@ -6,9 +6,10 @@
         </cflex>
 
         <cflex class="admin-nav-links" v-if="$velorisConfig">
-            <div v-for="section in $velorisConfig.sections" :style="{ order: section?.order }">
+            <div v-for="(section, sectionKey) in $velorisConfig.sections" :style="{ order: section?.order }">
                 <div v-for="page of section?.pages">
-                    <anchor @click="" :to="page.url" class="page row" v-if="section?.switch">
+                    <anchor @click="" :to="page.url" class="page row" v-if="$velorisConfig.sectionSwitches[sectionKey]">
+                        <!-- v-if="$velorisConfig.sectionSwitches[sectionKey]" -->
                         <Icon :icon="page.icon" color="white" width="20px" />
                         {{ page.name }}
                     </anchor>
@@ -33,8 +34,9 @@
 
 <script setup lang="ts">
 import { Icon } from "@iconify/vue"
-import velorisConfig from "~/veloris.config"
-const $velorisConfig: VelorisConfig = velorisConfig
+// import { useVelorisConfig } from "~~/composables/useVelorisConfig"
+
+const $velorisConfig = useVelorisConfig()
 </script>
 
 <style lang="sass" scoped>

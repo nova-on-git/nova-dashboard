@@ -9,8 +9,10 @@
         "forceConsistentCasingInFileNames": true,
         "baseUrl": "./",
         "paths": {
-            "*": ["~/types/*"],
-            "~~/*": ["./*"]
+            "*": ["types/*"],
+            "~~/*": ["types/*"],
+            "~/*": ["./*"]
         }
-    }
+    },
+    "include": ["types/**/*.ts", "types/**/*.d.ts", "src/**/*.ts", "src/**/*.d.ts"]
 }
