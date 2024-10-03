@@ -1,0 +1,40 @@
+.box
+    background: white
+    border-radius: 10px
+    height: 100%
+    max-height: 500px
+
+.chart-box
+    min-height: 400px
+    max-height: 500px
+    position: relative
+
+.chart-tooltip
+    border: none
+    position: absolute
+    top: 10px
+    right: 10px
+    cursor: auto
+    background: transparent
+
+    .tooltip
+        text-align: left
+        font-size: 0.8rem
+        border-radius: 5px
+        background: white
+        padding: 10px 20px
+        box-shadow: $shadow-dark
+        width: max-content
+        z-index: 500
+        max-width: 400px
+        transform: translateX(25px)
+        transition: all 0.2s
+
+        h4
+            font-size: 1rem
+            margin-bottom: 5px
+            font-weight: bold
+        ul
+            margin-top: 10px
+            li
+                margin-bottom: 10px
