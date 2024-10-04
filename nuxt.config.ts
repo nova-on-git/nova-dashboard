@@ -1,22 +1,21 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+    devtools: { enabled: true },
 
-  // extends: ["../nova/"],
-  // extends: ["github:Veloris-Designs/nova#v1.1.8"],
+    // extends: ["../nova/"],
 
-  modules: ["@nuxt/fonts", "@pinia/nuxt", "nuxt-build-cache"],
+    modules: ["@nuxt/fonts", "@pinia/nuxt", "nuxt-build-cache"],
 
-  vite: {
-      css: {
-          preprocessorOptions: {
-              sass: {
-                  // Sass auto imports //
-                  additionalData: '@import "./styles/main.sass" \n',
-              },
-          },
-      },
-  },
+    vite: {
+        css: {
+            preprocessorOptions: {
+                sass: {
+                    // Sass auto imports //
+                    additionalData: '@import "./styles/main.sass" \n',
+                },
+            },
+        },
+    },
 
-  compatibilityDate: "2024-10-03",
+    compatibilityDate: "2024-10-03",
 })

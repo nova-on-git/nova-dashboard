@@ -34,8 +34,6 @@
 
 <script setup lang="ts">
 import { Icon } from "@iconify/vue"
-// import { useVelorisConfig } from "~~/composables/useVelorisConfig"
-
 const $velorisConfig = useVelorisConfig()
 </script>
 
