@@ -4,7 +4,13 @@
             <p class="notif-title text-xl">Notifications</p>
             <anchor>Mark all as read</anchor>
         </rflex>
-        <rflex class="notification" v-for="notification in $Notifications.getUnread.slice(0, 10)" :class="{ read: notification.read }">
+
+        <rflex
+            v-for="notification in $Notifications.getUnread.slice(0, 10)"
+            @click="$Notifications.markAsRead(notification.id, true)"
+            class="notification"
+            :class="{ read: notification.read }"
+        >
             <mflex class="icon-container" :style="{ backgroundColor: notification.style.backgroundColor }">
                 <Icon
                     class="icon"
@@ -25,14 +31,7 @@
 
 <script setup lang="ts">
 const notificationBox = ref(null)
-import { onClickOutside } from "@vueuse/core"
 import { Icon } from "@iconify/vue"
-
-onClickOutside(notificationBox, () => {
-    setTimeout(() => {
-        $Notifications.closePopUp()
-    }, 0)
-})
 
 const darkenColor = (hex: string, percentage: number): string => {
     // Remove the hash at the start if it's there
@@ -74,8 +73,9 @@ section
     width: 300px
     box-shadow: $shadow-dark
     max-height: 388px
-.notif-title 
-    
+.notif-title
+    text-align: left
+
 .top-row
     border-bottom: 1px solid $faint-grey
     padding-inline: 20px
