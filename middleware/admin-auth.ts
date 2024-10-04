@@ -4,12 +4,13 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const user = await $CurrentUser.asyncGet()
 
     if (!user) {
-        console.log("User not found")
+        console.debug("[Veloris Auth] User not found")
     }
 
-    let role = user.role
+    let role = $CurrentUser.role
 
     if (role != "admin" && role != "dev") {
+        console.debug("[Veloris Auth] Insufficient permissions to enter.")
         return navigateTo("/auth/login")
     }
 })

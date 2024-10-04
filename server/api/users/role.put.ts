@@ -11,7 +11,7 @@ export default eventHandler(async (event) => {
         }
     }
 
-    const db = event.context.db
+    const db = event.context.velorisDb
 
     // Create a query to find the user by email
     const usersColRef = collection(db, "users")

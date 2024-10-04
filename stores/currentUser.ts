@@ -7,7 +7,7 @@ interface UserObj {
     uid: string
     email: string
     displayName?: string
-    role: "user" | "admin" | "dev"
+    siteAccess: SiteAccess[]
 }
 
 export const useCurrentUserStore = defineStore("currentUserStore", {
@@ -50,7 +50,16 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
         },
 
         role(state) {
-            return state.currentUser?.role ? state.currentUser.role : "No role"
+            const domain = window.location.hostname
+
+            if (state.currentUser && state.currentUser.siteAccess) {
+                const siteAccessEntry = state.currentUser.siteAccess.find((site) => site.domain === domain)
+
+                return siteAccessEntry ? siteAccessEntry.role : "No role"
+            }
+
+            // Default to "No role" if user or siteAccess is not available
+            return "No role"
         },
 
         isLoading(state) {
@@ -75,23 +84,23 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
             const nuxtApp = useNuxtApp()
             const $auth = nuxtApp.$auth as Auth
             this.currentUser = await this.getCache()
-
             onAuthStateChanged($auth, async (user: User | null) => {
                 this.isLoadings = true
                 console.debug("[Veloris] Auth state change detected.")
 
                 if (user) {
-                    let role = await this.readRole(user.uid)
+                    let profile = await this.readProfile(user.uid)
 
                     this.currentUser = {
                         uid: user.uid,
                         email: user.email || "",
                         displayName: user.displayName || undefined,
-                        role: role || "user",
+                        siteAccess: profile.siteAccess || [],
                     }
 
                     await this.createUserProfile()
-                    this.currentUser.role = await this.readRole(user.uid)
+                    profile = await this.readProfile(user.uid)
+                    this.currentUser.siteAccess = profile.siteAccess
                 }
                 await this.cache()
                 this.isLoadings = false
@@ -106,7 +115,7 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
                 await axios.post(`/api/users`, {
                     uid: this.currentUser.uid,
                     email: this.currentUser.email,
-                    role: "user",
+                    siteAccess: [{ domain: window.location.hostname, role: "user" }],
                 })
             } catch (error) {
                 console.error("Failed to create user profile:", error)
@@ -115,11 +124,11 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
             }
         },
 
-        async readRole(uid: string) {
+        async readProfile(uid: string) {
             const response = await axios.get(`/api/users/role`, {
                 params: { uid: uid },
             })
-            return response.data.role
+            return response.data
         },
 
         async logout() {

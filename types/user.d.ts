@@ -6,4 +6,15 @@ declare global {
         email: string
         role: "user" | "admin" | "dev"
     }
+
+    interface UserProfile {
+        uid: string
+        email: string
+        siteAccess: siteAccess[]
+    }
+
+    interface SiteAccess {
+        domain: string
+        role: "user" | "admin" | "dev"
+    }
 }

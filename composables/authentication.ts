@@ -1,4 +1,3 @@
-import axios from "axios"
 import {
     signInWithEmailAndPassword,
     signInWithPopup,
@@ -23,13 +22,10 @@ export const signIn = async (email: string, password: string): Promise<AuthRespo
 
     try {
         await setPersistence($auth, browserLocalPersistence)
-        const userCredential: UserCredential = await signInWithEmailAndPassword(
-            $auth,
-            email,
-            password
-        )
+        const userCredential: UserCredential = await signInWithEmailAndPassword($auth, email, password)
         const user: User = userCredential.user
-
+        console.log("insignin")
+        console.log($CurrentUser.get)
         if (!user.emailVerified) {
             return {
                 success: false,
@@ -50,11 +46,7 @@ export const signUp = async (email: string, password: string): Promise<AuthRespo
     const nuxtApp = useNuxtApp()
     const $auth = nuxtApp.$auth as Auth
     try {
-        const userCredential: UserCredential = await createUserWithEmailAndPassword(
-            $auth,
-            email,
-            password
-        )
+        const userCredential: UserCredential = await createUserWithEmailAndPassword($auth, email, password)
 
         const user: User = userCredential.user
 
@@ -62,8 +54,7 @@ export const signUp = async (email: string, password: string): Promise<AuthRespo
 
         return {
             success: true,
-            message:
-                "Account created! A verification email has been sent. Please verify your email before logging in.",
+            message: "Account created! A verification email has been sent. Please verify your email before logging in.",
         }
     } catch (error: unknown) {
         console.error(error)
@@ -83,10 +74,7 @@ export const signInWithGoogle = async (): Promise<AuthResponse> => {
         const userCredential: UserCredential = await signInWithPopup($auth, provider)
         const user: User = userCredential.user
 
-        if (
-            user.providerData.some((provider) => provider.providerId === "password") &&
-            !user.emailVerified
-        ) {
+        if (user.providerData.some((provider) => provider.providerId === "password") && !user.emailVerified) {
             return {
                 success: false,
                 message: "Please verify your email before accessing the app.",

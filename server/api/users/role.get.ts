@@ -2,7 +2,7 @@ import { collection, doc, getDoc, getDocs } from "firebase/firestore"
 import { eventHandler, getQuery } from "h3"
 
 export default eventHandler(async (event) => {
-    const db = event.context.db
+    const db = event.context.velorisDb
 
     const query = getQuery(event)
     const uid = query.uid as string
@@ -18,6 +18,11 @@ export default eventHandler(async (event) => {
         const docSnap = await getDoc(docRef)
 
         if (docSnap.exists()) {
+            console.log({
+                id: docSnap.id,
+                ...docSnap.data(),
+            })
+
             return {
                 id: docSnap.id,
                 ...docSnap.data(),
