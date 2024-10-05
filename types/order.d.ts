@@ -2,7 +2,6 @@ export {}
 declare global {
     type OrderStatus = "pending" | "accepted" | "shipped" | "delivered" | "cancelled"
     type OrderStatusFilter = OrderStatus | "all"
-    type OrderWithoutId = Omit<Order, "id">
 
     interface OrderObj {
         id: string

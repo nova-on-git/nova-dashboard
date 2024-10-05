@@ -58,25 +58,10 @@ export const useNotificationStore = defineStore("notifications", {
         },
 
         async create(notification: CreateNotification) {
-            const style = this.getStyle(notification)
-
-            notification.timestamp = new Date()
-            notification.read = false
-
-            if (!notification.action) {
-                notification.action = {
-                    type: "none",
-                }
-            }
-
-            const notificationWithStyle = { ...notification, style }
-
-            try {
-                await axios.post("/api/notifications", { notification: notificationWithStyle })
-                // this.notifications.push(notification)
-            } catch (error) {
-                console.error("Error creating notification", error)
-            }
+            await useFetch("/api/notifications", {
+                method: "POST",
+                body: { notification },
+            })
         },
 
         async read() {
@@ -108,42 +93,6 @@ export const useNotificationStore = defineStore("notifications", {
             const randomIndex = Math.floor(Math.random() * exampleNotifications.length)
             this.create(exampleNotifications[randomIndex])
         },
-
-        getStyle(notification: CreateNotification) {
-            let style = {
-                icon: "",
-                backgroundColor: "",
-            }
-
-            switch (notification.type) {
-                case "store":
-                    style["icon"] = "ic:baseline-store"
-                    break
-                case "order":
-                    style["icon"] = "material-symbols:quick-reorder-outline"
-                    break
-                case "blog":
-                    style["icon"] = "material-symbols:edit-outline"
-                    break
-            }
-
-            switch (notification.mode) {
-                case "danger":
-                    style["backgroundColor"] = "#F7A1A1"
-                    break
-                case "success":
-                    style["backgroundColor"] = "#A7C7E7"
-                    break
-                case "info":
-                    style["backgroundColor"] = "#F7A1A1"
-                    break
-                case "warning":
-                    style["backgroundColor"] = "#FEE4A1"
-                    break
-            }
-
-            return style
-        },
     },
 })
 
@@ -153,83 +102,71 @@ export const exampleNotifications: CreateNotification[] = [
         mode: "success",
         title: "hello",
         message: "you have a notification",
-        timestamp: new Date(),
     },
     {
         type: "store",
         mode: "danger",
         title: "hello",
         message: "you have a notification",
-        timestamp: new Date(),
     },
     {
         type: "store",
         mode: "info",
         title: "hello",
         message: "you have a notification",
-        timestamp: new Date(),
     },
     {
         type: "store",
         mode: "warning",
         title: "hello",
         message: "you have a notification",
-        timestamp: new Date(),
     },
     {
         type: "order",
         mode: "success",
         title: "hello",
         message: "you have a notification",
-        timestamp: new Date(),
     },
     {
         type: "order",
         mode: "danger",
         title: "hello",
         message: "you have a notification",
-        timestamp: new Date(),
     },
     {
         type: "order",
         mode: "info",
         title: "hello",
         message: "you have a notification",
-        timestamp: new Date(),
     },
     {
         type: "order",
         mode: "warning",
         title: "hello",
         message: "you have a notification",
-        timestamp: new Date(),
     },
     {
         type: "blog",
         mode: "success",
         title: "hello",
         message: "you have a notification",
-        timestamp: new Date(),
     },
     {
         type: "blog",
         mode: "danger",
         title: "hello",
         message: "you have a notification",
-        timestamp: new Date(),
     },
     {
         type: "blog",
         mode: "info",
         title: "hello",
         message: "you have a notification",
-        timestamp: new Date(),
     },
     {
         type: "blog",
         mode: "warning",
         title: "hello",
         message: "you have a notification",
-        timestamp: new Date(),
     },
 ]

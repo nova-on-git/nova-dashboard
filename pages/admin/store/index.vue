@@ -6,9 +6,7 @@
                 <input class="rounded-input text-blue-50" type="text" v-model="addCategoryInput" />
 
                 <rflex class="buttonsContainer">
-                    <btn
-                        class="darkgrey-button"
-                        @click="$Products.createCategory(addCategoryInput), $Products.read(true)"
+                    <btn class="darkgrey-button" @click="$Products.createCategory(addCategoryInput), $Products.read(true)"
                         >Add Category</btn
                     >
                     <btn class="red-button text-blue-500" @click="categoryToggle.close()">
@@ -23,9 +21,7 @@
             <cflex class="discard-modal admin-box">
                 <rflex class="modal-top-row">
                     <h6>Are you sure?</h6>
-                    <btn @click="modalRef.close(), (itemToDelete = '')"
-                        ><Icon icon="material-symbols:close-rounded" width="25"
-                    /></btn>
+                    <btn @click="modalRef.close(), (itemToDelete = '')"><Icon icon="material-symbols:close-rounded" width="25" /></btn>
                 </rflex>
 
                 <rflex class="buttons-row">
@@ -40,11 +36,20 @@
                 </rflex>
             </cflex>
         </modal>
+
         <mpage class="admin-mpage">
             <cflex class="admin-header">
                 <header class="dashboard-header">
                     <breadcrumbs :links="links" />
                     <h1>Your Store</h1>
+
+                    <pre>
+                        TODO: 
+                            Add stats (revenue, sales, average order value, returns, return rate)
+                            Shipping integration - customer order tracking
+                            Returns, payment return etc
+                            Inventory Management
+                    </pre>
                 </header>
 
                 <rflex class="search-filter">
@@ -63,10 +68,7 @@
             <form @submit.prevent="addCategory">
                 <rflex class="categories-bar admin-box" v-if="velorisConfig.categories">
                     <rflex class="tabs">
-                        <tab
-                            :class="{ active: activeCategory === 'all' }"
-                            class="tab"
-                            @click="changeActiveCategory('all')"
+                        <tab :class="{ active: activeCategory === 'all' }" class="tab" @click="changeActiveCategory('all')"
                             >All Categories</tab
                         >
 
@@ -90,12 +92,7 @@
             <Suspense>
                 <template #default>
                     <rflex class="items" v-if="!isLoading">
-                        <StoreProductCard
-                            :product="item"
-                            v-for="item in filteredProducts"
-                            :key="item.id"
-                        >
-                        </StoreProductCard>
+                        <StoreProductCard :product="item" v-for="item in filteredProducts" :key="item.id"> </StoreProductCard>
                     </rflex>
                 </template>
 
@@ -132,9 +129,7 @@ const categories = ref([])
 
 const filteredProducts = computed(() => {
     let filtered =
-        activeCategory.value === "all"
-            ? products.value
-            : products.value.filter((product) => product.category === activeCategory.value)
+        activeCategory.value === "all" ? products.value : products.value.filter((product) => product.category === activeCategory.value)
 
     if (selectedFilter.value !== "all") {
         filtered = filtered.filter((product) => product.visibility === selectedFilter.value)
@@ -143,9 +138,7 @@ const filteredProducts = computed(() => {
     if (searchQuery.value) {
         const query = searchQuery.value.toLowerCase()
         filtered = filtered.filter(
-            (product) =>
-                product.name.toLowerCase().includes(query) ||
-                product.description.toLowerCase().includes(query)
+            (product) => product.name.toLowerCase().includes(query) || product.description.toLowerCase().includes(query)
         )
     }
 

@@ -16,7 +16,7 @@ declare global {
             type: "link" | "none"
             url?: string
         }
-        timestamp: Date
+        timestamp: string
     }
 
     interface CreateNotification extends Omit<AppNotification, "read" | "id" | "style" | "action" | "timestamp"> {
@@ -29,6 +29,6 @@ declare global {
             icon: string
             backgroundColor: string
         }
-        timestamp?: Date
+        timestamp?: string
     }
 }

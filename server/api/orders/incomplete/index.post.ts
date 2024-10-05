@@ -9,8 +9,6 @@ export default eventHandler(async (event) => {
 
     try {
         const docRef = await addDoc(colRef, body)
-        console.log("order created and awaiting payment")
-
         return docRef.id
     } catch (error) {
         console.error("Error adding document: ", error)

@@ -107,7 +107,12 @@ export const useOrderStore = defineStore("orders", {
                 //     )
                 // }
 
-                await axios.post(`${window.location.origin}/api/orders`, orderObj)
+                const { data } = await useFetch(`${window.location.origin}/api/orders/incomplete`, {
+                    method: "POST",
+                    body: { orderObj },
+                })
+
+                return data.value
             } catch (error) {
                 console.log(error)
             }
@@ -149,11 +154,15 @@ export const useOrderStore = defineStore("orders", {
         },
 
         async createDummy() {
-            await this.create(testOrderObject)
+            const id = await this.create(testOrderObject)
+            await useFetch("/api/orders/incomplete/resolve-order", {
+                method: "PUT",
+                body: { orderId: id },
+            })
         },
     },
 })
-export const testOrderObject: OrderWithoutId = {
+export const testOrderObject: Omit<OrderObj, "id"> = {
     currency: "gbp",
     items: [
         {

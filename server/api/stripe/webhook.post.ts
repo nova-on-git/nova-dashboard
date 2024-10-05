@@ -40,8 +40,9 @@ export default eventHandler(async (event) => {
 
             try {
                 // Resolve order
-                await axios.put(`http://localhost:3000/api/orders/incomplete/resolve-order`, {
-                    orderId,
+                await useFetch(`${origin}/api/orders/incomplete/resolve-order`, {
+                    method: "PUT",
+                    body: { orderId },
                 })
             } catch (error) {
                 console.error("Error resolving order", error)
