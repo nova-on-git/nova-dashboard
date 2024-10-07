@@ -10,7 +10,7 @@ framework
 dist
 .DS_Store
 
-
+pnpm-lock.yaml
 # Local History
 .history
 
