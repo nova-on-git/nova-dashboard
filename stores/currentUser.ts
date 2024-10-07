@@ -4,12 +4,6 @@ import type { Auth, User } from "firebase/auth"
 import axios from "axios"
 import { useAuth } from "~~/composables/useGlobals"
 
-interface UserObj {
-    uid: string
-    email: string
-    displayName?: string
-    siteAccess: SiteAccess[]
-}
 
 export const useCurrentUserStore = defineStore("currentUserStore", {
     state: () => ({

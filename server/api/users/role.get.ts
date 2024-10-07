@@ -25,6 +25,7 @@ export default eventHandler(async (event) => {
 
         const userObj = docSnap.data() as UserObj
 
+        if (!userObj.siteAccess) return "user"
         const roleEntry = userObj.siteAccess.find((site: SiteAccess) => site.domain === hostname)
 
         if (!roleEntry) return "user"

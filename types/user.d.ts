@@ -8,19 +8,10 @@ declare global {
     }
 
     interface UserObj {
+        uid: string
         displayName?: string
         email: string
-        siteAccess: SiteAccess[]
-    }
-
-    interface UserProfile {
-        uid: string
-        email: string
-        siteAccess: siteAccess[]
-    }
-
-    interface SiteAccess {
-        domain: string
-        role: "user" | "admin" | "dev"
+        siteAccess?: SiteAccess[]
+        role?: UserRole
     }
 }
