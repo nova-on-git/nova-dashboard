@@ -22,7 +22,6 @@ export default defineNuxtPlugin(() => {
         projectId: config.public.FIREBASE_PROJECT_ID as string,
     }
 
-    /** This is for the Veloris global authentication. Where all users of the cms sign in to the same auth db. */
     const velorisFirebaseConfig = {
         apiKey: "AIzaSyBAbJjwIWx1DDYbQaV8e6vTWQG5JQMqUYk",
         authDomain: "veloris-91865.firebaseapp.com",
@@ -30,7 +29,7 @@ export default defineNuxtPlugin(() => {
         storageBucket: "veloris-91865.appspot.com",
         messagingSenderId: "849032631896",
         appId: "1:849032631896:web:ea11e7e0769e7f5de05c2d",
-        measurementId: "G-EZV53X4G0C",
+        measurementId: "G-EZV53X4G0C"
     }
 
     if (!firebaseConfig.apiKey) {
@@ -38,11 +37,9 @@ export default defineNuxtPlugin(() => {
     }
 
     let app: FirebaseApp | undefined
-
     let velorisApp: FirebaseApp | undefined
-    /** Global veloris auth connection */
-    let velorisAuth: Auth | undefined
-    // let auth: Auth | undefined
+
+    let auth: Auth | undefined
 
     let db: Firestore | undefined
     let storage: FirebaseStorage | undefined
@@ -50,11 +47,9 @@ export default defineNuxtPlugin(() => {
     try {
         // Initialize Firebase app
         app = initializeApp(firebaseConfig)
-
         velorisApp = initializeApp(velorisFirebaseConfig, "velorisApp")
-        velorisAuth = getAuth(velorisApp)
 
-        // auth = getAuth(app)
+        auth = getAuth(velorisApp)
         db = getFirestore(app)
         storage = getStorage(app)
 
@@ -66,5 +61,5 @@ export default defineNuxtPlugin(() => {
     // Provide the Firebase services to the Nuxt app context
     useNuxtApp().provide("db", db)
     useNuxtApp().provide("storage", storage)
-    useNuxtApp().provide("auth", velorisAuth)
+    useNuxtApp().provide("auth", auth)
 })

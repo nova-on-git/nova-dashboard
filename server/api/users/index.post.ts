@@ -3,27 +3,29 @@ import { doc, getDoc, setDoc } from "firebase/firestore"
 
 export default eventHandler(async (event) => {
     const db = event.context.velorisDb
-    const { uid, email, siteAccess } = await readBody<UserProfile>(event)
+    const { uid, email, domain } = await readBody<{ uid: string; email: string, domain: string}>(event)
 
-    if (!uid) {
-        console.error("User id not found")
-    }
-
+    if (!uid || !email || !domain) throw createError({ statusCode: 400})
+    
     const docRef = doc(db, "users", uid)
 
-    const userProfile = {
+    const data = {
         email: email,
-        siteAccess: siteAccess,
+        siteAccess: [
+            { domain: domain, role: "user"}
+        ]
     }
 
+    
     try {
         const docSnap = await getDoc(docRef)
 
         if (!docSnap.exists()) {
-            await setDoc(docRef, userProfile)
-            console.log("User successfully added!")
+            await setDoc(docRef, data)
         }
+
     } catch (error) {
         console.error("Error adding document: ", error)
+        throw createError({ statusCode: 500, statusMessage: `Error adding document: ${error}` })
     }
 })

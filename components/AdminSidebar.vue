@@ -5,20 +5,21 @@
             <h2>Veloris Designs</h2>
         </cflex>
 
-        <cflex class="admin-nav-links" v-if="$velorisConfig">
+        <cflex class="admin-nav-links">
             <div v-for="(section, sectionKey) in $velorisConfig.sections" :style="{ order: section?.order }">
-                <div v-for="page of section?.pages">
-                    <anchor @click="" :to="page.url" class="page row" v-if="$velorisConfig.sectionSwitches[sectionKey]">
-                        <!-- v-if="$velorisConfig.sectionSwitches[sectionKey]" -->
-                        <Icon :icon="page.icon" color="white" width="20px" />
-                        {{ page.name }}
-                    </anchor>
+                <div v-for="page of section?.pages" key="key">
+					<div v-if="$velorisConfig.sectionSwitches[sectionKey] === true">
+						<anchor @click="" :to="page.url" class="page row" >
+							<Icon :icon="page.icon" color="white" width="20px" />
+							{{ page.name }}
+						</anchor>
 
-                    <cflex class="subpages">
-                        <anchor @click="" :to="subpage.url" class="page subpage subpage-link" v-for="subpage in page.subpages">
-                            {{ subpage.name }}
-                        </anchor>
-                    </cflex>
+						<cflex class="subpages">
+							<anchor @click="" :to="subpage.url" class="page subpage subpage-link" v-for="subpage in page.subpages">
+								{{ subpage.name }}
+							</anchor>
+						</cflex>
+					</div>
                 </div>
             </div>
         </cflex>
@@ -34,7 +35,10 @@
 
 <script setup lang="ts">
 import { Icon } from "@iconify/vue"
+import { useVelorisConfig } from "~~/composables/useGlobals"
+
 const $velorisConfig = useVelorisConfig()
+
 </script>
 
 <style lang="sass" scoped>

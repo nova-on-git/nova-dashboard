@@ -1,5 +1,9 @@
 <template>
-    <main></main>
+    <main>
+
+        // Todo: Make new letter editor, creator, manager
+
+    </main>
 </template>
 
 <script setup lang="ts">

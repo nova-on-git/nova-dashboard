@@ -1,6 +1,7 @@
 import { defineStore } from "pinia"
 import axios from "axios"
 import { collection, onSnapshot } from "firebase/firestore"
+import { useDb } from "~~/composables/useGlobals"
 
 export const useOrderStore = defineStore("orders", {
     state: () => ({
@@ -61,8 +62,7 @@ export const useOrderStore = defineStore("orders", {
         async init() {
             if (!import.meta.client) return
 
-            const nuxtApp = useNuxtApp()
-            const $db = nuxtApp.$db as any
+            const $db = useDb()
 
             const cachedOrders = localStorage.getItem("orders")
 
@@ -77,7 +77,6 @@ export const useOrderStore = defineStore("orders", {
             onSnapshot(
                 colRef,
                 (snapshot) => {
-                    console.log("Snapshot received:", snapshot)
                     const orders: OrderObj[] = []
                     snapshot.forEach((doc) => {
                         orders.push({ id: doc.id, ...doc.data() } as OrderObj)

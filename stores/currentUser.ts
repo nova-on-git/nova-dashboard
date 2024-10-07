@@ -2,6 +2,7 @@ import { defineStore } from "pinia"
 import { onAuthStateChanged, signOut as firebaseSignOut } from "firebase/auth"
 import type { Auth, User } from "firebase/auth"
 import axios from "axios"
+import { useAuth } from "~~/composables/useGlobals"
 
 interface UserObj {
     uid: string
@@ -81,33 +82,30 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
         },
 
         async init() {
-            const nuxtApp = useNuxtApp()
-            const $auth = nuxtApp.$auth as Auth
+            const $auth = useAuth()
             this.currentUser = await this.getCache()
             onAuthStateChanged($auth, async (user: User | null) => {
                 this.isLoadings = true
                 console.debug("[Veloris] Auth state change detected.")
 
                 if (user) {
-                    let profile = await this.readProfile(user.uid)
+                    let role = await this.readRole(user.uid)
 
                     this.currentUser = {
                         uid: user.uid,
                         email: user.email || "",
                         displayName: user.displayName || undefined,
-                        siteAccess: profile.siteAccess || [],
+                        role: role || "user"
                     }
 
                     await this.createUserProfile()
-                    profile = await this.readProfile(user.uid)
-                    this.currentUser.siteAccess = profile.siteAccess
+                    this.currentUser.role = await this.readRole(user.uid) || "user"
                 }
                 await this.cache()
                 this.isLoadings = false
             })
         },
 
-        /**  This is separate to the firestore auth purely for other user data */
         async createUserProfile() {
             this.isLoadings = true
 
@@ -115,7 +113,8 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
                 await axios.post(`/api/users`, {
                     uid: this.currentUser.uid,
                     email: this.currentUser.email,
-                    siteAccess: [{ domain: window.location.hostname, role: "user" }],
+                    domain: window.location.hostname,
+
                 })
             } catch (error) {
                 console.error("Failed to create user profile:", error)
@@ -124,16 +123,17 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
             }
         },
 
-        async readProfile(uid: string) {
-            const response = await axios.get(`/api/users/role`, {
+        async readRole(uid: string) {
+            const { data } = await useFetch(`/api/users/role`, {
                 params: { uid: uid },
             })
-            return response.data
+
+			console.log(data.value)
+            return data.value
         },
 
         async logout() {
-            const nuxtApp = useNuxtApp()
-            const $auth = nuxtApp.$auth as Auth
+            const $auth = useAuth()
             try {
                 await firebaseSignOut($auth)
                 this.clearUser()

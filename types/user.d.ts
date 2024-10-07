@@ -1,10 +1,16 @@
 export {}
 
 declare global {
+    type UserRole =  "user" | "admin" | "dev"
+    interface SiteAccess {
+        domain: string,
+        role: UserRole
+    }
+
     interface UserObj {
-        name?: string
+        displayName?: string
         email: string
-        role: "user" | "admin" | "dev"
+        siteAccess: SiteAccess[]
     }
 
     interface UserProfile {
