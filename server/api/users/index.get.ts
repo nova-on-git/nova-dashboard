@@ -2,7 +2,7 @@ import { collection, getDocs } from "firebase/firestore"
 import { eventHandler } from "h3"
 
 export default eventHandler(async (event) => {
-    const db = event.context.db
+    const db = event.context.velorisDb
 
     const itemsColRef = collection(db, "users")
     const docSnap = await getDocs(itemsColRef)

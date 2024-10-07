@@ -2,7 +2,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     if (import.meta.server) return
 
     const user = await $CurrentUser.asyncGet()
-
+    
     if (!user) {
         console.log("User not found")
     }

@@ -2,6 +2,7 @@ import axios from "axios"
 import { collection, doc, onSnapshot, setDoc } from "firebase/firestore"
 import { getDownloadURL, ref, uploadString } from "firebase/storage"
 import { defineStore } from "pinia"
+import { useDb } from "~~/composables/useGlobals"
 
 export const useBlogStore = defineStore("blogs", {
     state: () => ({
@@ -58,8 +59,7 @@ export const useBlogStore = defineStore("blogs", {
             if (!import.meta.client) return
             this.loading = true
 
-            const nuxtApp = useNuxtApp()
-            const $db = nuxtApp.$db as any
+            const $db = useDb()
 
             await this.read()
             this.loading = false
@@ -94,8 +94,7 @@ export const useBlogStore = defineStore("blogs", {
 
         /** If the document exists, it will update; if it doesn't, it will create a new one*/
         async update(blog: Blog) {
-            const nuxtApp = useNuxtApp()
-            const $db = nuxtApp.$db as any
+            const $db = useDb()
 
             let docRef
             if (!blog.id) {

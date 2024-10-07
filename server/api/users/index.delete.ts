@@ -2,7 +2,7 @@ import { collection, query, where, getDocs, doc, deleteDoc } from "firebase/fire
 import { eventHandler } from "h3"
 
 export default eventHandler(async (event) => {
-    const db = event.context.db
+    const db = event.context.velorisDb
 
     const params = event.context.params || {}
     const email = params.email as string
