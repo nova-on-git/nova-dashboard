@@ -5,7 +5,7 @@ nuxt.d.ts
 .output
 .data
 .env
-pnpm-lock.yaml
+
 framework
 dist
 .DS_Store
