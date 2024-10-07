@@ -1,18 +1,17 @@
-node_modules
-*.log
+# node_modules
+# *.log
 
-nuxt.d.ts
-.output
-.data
-.env
+# nuxt.d.ts
+# .output
+# .data
+# .env
 
-framework
-dist
-.DS_Store
+# framework
+# dist
+# .DS_Store
 
-pnpm-lock.yaml
-# Local History
-.history
+# # Local History
+# .history
 
-# VSCode
-.vscode/
+# # VSCode
+# .vscode/
