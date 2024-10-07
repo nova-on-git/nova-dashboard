@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { mkdirSync } from 'node:fs';
 import { parentPort, threadId } from 'node:worker_threads';
-import { defineEventHandler, handleCacheHeaders, splitCookiesString, isEvent, createEvent, fetchWithEvent, getRequestHeader, eventHandler, setHeaders, sendRedirect, proxyRequest, createError, setResponseHeader, send, getResponseStatus, setResponseStatus, setResponseHeaders, getRequestHeaders, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getRouterParam, getQuery as getQuery$1, readBody, readRawBody, getResponseStatusText } from 'file:///home/cody/git/veloris-dashboard/node_modules/.pnpm/h3@1.12.0/node_modules/h3/dist/index.mjs';
+import { defineEventHandler, handleCacheHeaders, splitCookiesString, isEvent, createEvent, fetchWithEvent, getRequestHeader, eventHandler, setHeaders, sendRedirect, proxyRequest, createError, setResponseHeader, send, getResponseStatus, setResponseStatus, setResponseHeaders, getRequestHeaders, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getRouterParam, getQuery as getQuery$1, readBody, readRawBody, getResponseStatusText } from 'file:///home/cody/git/veloris-dashboard/node_modules/.pnpm/h3@1.13.0/node_modules/h3/dist/index.mjs';
 import { BetaAnalyticsDataClient } from 'file:///home/cody/git/veloris-dashboard/node_modules/.pnpm/@google-analytics+data@4.8.0/node_modules/@google-analytics/data/build/src/index.js';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -660,7 +660,7 @@ const devReducers = {
   URL: (data) => data instanceof URL ? data.toString() : void 0
 };
 const asyncContext = getContext("nuxt-dev", { asyncContext: true, AsyncLocalStorage });
-const _Ddu86YjYdG = (nitroApp) => {
+const _GpO5PIPIMj = (nitroApp) => {
   const handler = nitroApp.h3App.handler;
   nitroApp.h3App.handler = (event) => {
     return asyncContext.callAsync({ logs: [], event }, () => handler(event));
@@ -731,7 +731,7 @@ function onConsoleLog(callback) {
 
 const plugins = [
   _YmSTe9tZXV,
-_Ddu86YjYdG
+_GpO5PIPIMj
 ];
 
 const scheduledTasks = false;
@@ -870,6 +870,7 @@ const _lazy_zvZN36 = () => Promise.resolve().then(function () { return status_pu
 const _lazy_Lv2pTL = () => Promise.resolve().then(function () { return index_post$d; });
 const _lazy_VRSINA = () => Promise.resolve().then(function () { return index_get$7; });
 const _lazy_iiRnyg = () => Promise.resolve().then(function () { return index_post$b; });
+const _lazy_CeXODP = () => Promise.resolve().then(function () { return read_put$1; });
 const _lazy_FedzLG = () => Promise.resolve().then(function () { return _orderId__delete$1; });
 const _lazy_vtXg3D = () => Promise.resolve().then(function () { return index_post$9; });
 const _lazy_C4T1sE = () => Promise.resolve().then(function () { return resolveOrder_put$1; });
@@ -893,7 +894,7 @@ const _lazy_SrZz99 = () => Promise.resolve().then(function () { return index_get
 const _lazy_YipZNb = () => Promise.resolve().then(function () { return index_post$1; });
 const _lazy_fVbBTG = () => Promise.resolve().then(function () { return role_get$1; });
 const _lazy_2LlX5i = () => Promise.resolve().then(function () { return role_put$1; });
-const _lazy_97SgOc = () => Promise.resolve().then(function () { return renderer$1; });
+const _lazy_mBaNUb = () => Promise.resolve().then(function () { return renderer$1; });
 
 const handlers = [
   { route: '/api/analytics', handler: _lazy_ls95NO, lazy: true, middleware: false, method: "post" },
@@ -904,6 +905,7 @@ const handlers = [
   { route: '/api/galleries', handler: _lazy_Lv2pTL, lazy: true, middleware: false, method: "post" },
   { route: '/api/notifications', handler: _lazy_VRSINA, lazy: true, middleware: false, method: "get" },
   { route: '/api/notifications', handler: _lazy_iiRnyg, lazy: true, middleware: false, method: "post" },
+  { route: '/api/notifications/read', handler: _lazy_CeXODP, lazy: true, middleware: false, method: "put" },
   { route: '/api/orders/incomplete/:orderId', handler: _lazy_FedzLG, lazy: true, middleware: false, method: "delete" },
   { route: '/api/orders/incomplete', handler: _lazy_vtXg3D, lazy: true, middleware: false, method: "post" },
   { route: '/api/orders/incomplete/resolve-order', handler: _lazy_C4T1sE, lazy: true, middleware: false, method: "put" },
@@ -927,9 +929,9 @@ const handlers = [
   { route: '/api/users', handler: _lazy_YipZNb, lazy: true, middleware: false, method: "post" },
   { route: '/api/users/role', handler: _lazy_fVbBTG, lazy: true, middleware: false, method: "get" },
   { route: '/api/users/role', handler: _lazy_2LlX5i, lazy: true, middleware: false, method: "put" },
-  { route: '/__nuxt_error', handler: _lazy_97SgOc, lazy: true, middleware: false, method: undefined },
-  { route: '/_fonts/**', handler: _lazy_97SgOc, lazy: true, middleware: false, method: undefined },
-  { route: '/**', handler: _lazy_97SgOc, lazy: true, middleware: false, method: undefined }
+  { route: '/__nuxt_error', handler: _lazy_mBaNUb, lazy: true, middleware: false, method: undefined },
+  { route: '/_fonts/**', handler: _lazy_mBaNUb, lazy: true, middleware: false, method: undefined },
+  { route: '/**', handler: _lazy_mBaNUb, lazy: true, middleware: false, method: undefined }
 ];
 
 function createNitroApp() {
@@ -1254,10 +1256,12 @@ const index_get$6 = eventHandler(async (event) => {
   const db = event.context.db;
   const colRef = collection(db, "notifications");
   const snapShot = await getDocs(colRef);
-  const notifications = snapShot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data()
-  }));
+  const notifications = snapShot.docs.map(
+    (doc) => ({
+      id: doc.id,
+      ...doc.data()
+    })
+  );
   return notifications;
 });
 
@@ -1269,21 +1273,80 @@ const index_get$7 = /*#__PURE__*/Object.freeze({
 const index_post$a = defineEventHandler(async (event) => {
   const db = event.context.db;
   const { notification } = await readBody(event);
-  if (!notification) {
-    console.error("No notification found!");
+  if (!notification)
+    throw createError({ statusCode: 400 });
+  const style = getStyle(notification);
+  notification.timestamp = (/* @__PURE__ */ new Date()).toISOString();
+  notification.read = false;
+  notification.style = style;
+  if (!notification.action) {
+    notification.action = {
+      type: "none"
+    };
   }
   const colRef = collection(db, "notifications");
   try {
     await addDoc(colRef, notification);
     console.log("Notification document added successfully");
   } catch (error) {
-    console.error("Error adding notification document", error);
+    throw createError({
+      statusCode: 500
+    });
   }
 });
+function getStyle(notification) {
+  let style = {
+    icon: "",
+    backgroundColor: ""
+  };
+  switch (notification.type) {
+    case "store":
+      style["icon"] = "ic:baseline-store";
+      break;
+    case "order":
+      style["icon"] = "material-symbols:quick-reorder-outline";
+      break;
+    case "blog":
+      style["icon"] = "material-symbols:edit-outline";
+      break;
+  }
+  switch (notification.mode) {
+    case "danger":
+      style["backgroundColor"] = "#F7A1A1";
+      break;
+    case "success":
+      style["backgroundColor"] = "#A7C7E7";
+      break;
+    case "info":
+      style["backgroundColor"] = "#F7A1A1";
+      break;
+    case "warning":
+      style["backgroundColor"] = "#FEE4A1";
+      break;
+  }
+  return style;
+}
 
 const index_post$b = /*#__PURE__*/Object.freeze({
   __proto__: null,
   default: index_post$a
+});
+
+const read_put = eventHandler(async (event) => {
+  const db = event.context.db;
+  const { id, read } = await readBody(event);
+  const colRef = collection(db, "notifications");
+  const docRef = doc(colRef, id);
+  try {
+    await updateDoc(docRef, { read });
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+const read_put$1 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: read_put
 });
 
 const _orderId__delete = eventHandler(async (event) => {
@@ -1313,7 +1376,6 @@ const index_post$8 = eventHandler(async (event) => {
   const colRef = collection(db, "incomplete-orders");
   try {
     const docRef = await addDoc(colRef, body);
-    console.log("order created and awaiting payment");
     return docRef.id;
   } catch (error) {
     console.error("Error adding document: ", error);
@@ -1326,32 +1388,39 @@ const index_post$9 = /*#__PURE__*/Object.freeze({
 });
 
 const resolveOrder_put = eventHandler(async (event) => {
+  const origin = event.node.req.headers["origin"];
   const db = event.context.db;
   const body = await readBody(event);
   const { orderId } = body;
   if (!orderId || typeof orderId !== "string") {
-    console.error("Invalid orderId:", orderId);
-    return { error: "Invalid orderId" };
+    throw createError({ statusCode: 500, statusMessage: "orderId is not found or is not typeof string." });
   }
   const docRef = doc(db, "incomplete-orders", orderId);
   let orderData;
-  try {
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      orderData = docSnap.data();
-    } else {
-      console.log("No such document!");
-      return null;
-    }
-  } catch (error) {
-    console.error("Error getting document:", error);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    orderData = docSnap.data();
+  } else {
+    throw createError({ statusCode: 500, statusMessage: "Incomplete order document not found." });
   }
   const colRef = collection(db, "orders");
   try {
     await addDoc(colRef, orderData);
     await deleteDoc(docRef);
+    const notification = {
+      type: "order",
+      mode: "success",
+      title: "You have received an order!",
+      message: "",
+      action: {
+        type: "link",
+        url: `${origin}/admin/store/orders/${orderId}`
+      }
+    };
+    await axios.post(`${origin}/api/notifications`, { notification });
   } catch (error) {
-    console.error("Error adding document: ", error);
+    console.log(error);
+    throw createError({ statusCode: 500, statusMessage: "Error adding order document:" });
   }
 });
 
@@ -1693,7 +1762,7 @@ const stripe = new Stripe(process.env.STRIPE_WEBHOOK_SECRET, {
 const webhook_post = eventHandler(async (event) => {
   const sig = event.node.req.headers["stripe-signature"];
   const body = await readRawBody(event);
-  event.node.req.headers["origin"];
+  const origin = event.node.req.headers["origin"];
   let stripeEvent;
   if (!sig || !body) {
     console.error("Missing signature or body");
@@ -1715,8 +1784,9 @@ const webhook_post = eventHandler(async (event) => {
         return { error: "Missing or invalid orderId in metadata" };
       }
       try {
-        await axios.put(`http://localhost:3000/api/orders/incomplete/resolve-order`, {
-          orderId
+        await useFetch(`${origin}/api/orders/incomplete/resolve-order`, {
+          method: "PUT",
+          body: { orderId }
         });
       } catch (error) {
         console.error("Error resolving order", error);
@@ -1737,7 +1807,7 @@ const webhook_post$1 = /*#__PURE__*/Object.freeze({
 });
 
 const index_delete = eventHandler(async (event) => {
-  const db = event.context.db;
+  const db = event.context.velorisDb;
   const params = event.context.params || {};
   const email = params.email;
   if (!email) {
@@ -1778,7 +1848,7 @@ const index_delete$1 = /*#__PURE__*/Object.freeze({
 });
 
 const index_get = eventHandler(async (event) => {
-  const db = event.context.db;
+  const db = event.context.velorisDb;
   const itemsColRef = collection(db, "users");
   const docSnap = await getDocs(itemsColRef);
   const users = docSnap.docs.map((doc) => {
@@ -1796,20 +1866,25 @@ const index_get$1 = /*#__PURE__*/Object.freeze({
 });
 
 const index_post = eventHandler(async (event) => {
-  const db = event.context.db;
-  const { uid, email } = await readBody(event);
-  if (!uid) {
-    console.error("User id not found");
-  }
+  const db = event.context.velorisDb;
+  const { uid, email, domain } = await readBody(event);
+  if (!uid || !email || !domain)
+    throw createError({ statusCode: 400 });
   const docRef = doc(db, "users", uid);
+  const data = {
+    email,
+    siteAccess: [
+      { domain, role: "user" }
+    ]
+  };
   try {
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) {
-      await setDoc(docRef, { role: "user", email });
-      console.log("User successfully added!");
+      await setDoc(docRef, data);
     }
   } catch (error) {
     console.error("Error adding document: ", error);
+    throw createError({ statusCode: 500, statusMessage: `Error adding document: ${error}` });
   }
 });
 
@@ -1819,27 +1894,31 @@ const index_post$1 = /*#__PURE__*/Object.freeze({
 });
 
 const role_get = eventHandler(async (event) => {
-  const db = event.context.db;
+  const db = event.context.velorisDb;
   const query = getQuery$1(event);
   const uid = query.uid;
+  const domain = event.node.req.headers.host;
+  const hostname = domain == null ? void 0 : domain.split(":")[0];
   if (!uid) {
     console.error("Document ID not provided");
-    return { error: "Document ID is required" };
+    throw createError({ statusCode: 400, statusMessage: "uid required" });
   }
   try {
     const docRef = doc(db, "users", uid);
     const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return {
-        id: docSnap.id,
-        ...docSnap.data()
-      };
-    } else {
-      return { error: "Document not found" };
+    if (!docSnap.exists()) {
+      throw createError({ statusCode: 404, statusMessage: "Document not found" });
     }
+    const userObj = docSnap.data();
+    if (!userObj.siteAccess)
+      return "user";
+    const roleEntry = userObj.siteAccess.find((site) => site.domain === hostname);
+    if (!roleEntry)
+      return "user";
+    return roleEntry.role;
   } catch (error) {
     console.error("Error fetching document: ", error);
-    return { error: "Error fetching document" };
+    throw createError({ statusCode: 500, statusMessage: `${error}` });
   }
 });
 
@@ -1856,7 +1935,7 @@ const role_put = eventHandler(async (event) => {
       message: "Email and newRole are required"
     };
   }
-  const db = event.context.db;
+  const db = event.context.velorisDb;
   const usersColRef = collection(db, "users");
   const q = query(usersColRef, where("email", "==", email));
   const querySnapshot = await getDocs(q);

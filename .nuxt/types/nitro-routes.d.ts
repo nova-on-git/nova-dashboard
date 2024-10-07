@@ -23,6 +23,9 @@ declare module 'nitropack' {
       'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/notifications/index.get').default>>>>
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/notifications/index.post').default>>>>
     }
+    '/api/notifications/read': {
+      'put': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/notifications/read.put').default>>>>
+    }
     '/api/orders/incomplete/:orderId': {
       'delete': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/orders/incomplete/[orderId].delete').default>>>>
     }
@@ -77,7 +80,7 @@ declare module 'nitropack' {
       'put': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/users/role.put').default>>>>
     }
     '/__nuxt_error': {
-      'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.11.1_jiti@2.1.1__ioredis@5.4.1__dq55nainbwk37mri3madxvycta/node_modules/nuxt/dist/core/runtime/nitro/renderer').default>>>>
+      'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/core/runtime/nitro/renderer').default>>>>
     }
   }
 }
