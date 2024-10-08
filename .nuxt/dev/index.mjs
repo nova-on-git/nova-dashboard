@@ -895,10 +895,10 @@ const _lazy_yhw6HX = () => Promise.resolve().then(function () { return index_get
 const _lazy_GqHgaN = () => Promise.resolve().then(function () { return index_put$1; });
 const _lazy_ZWIosR = () => Promise.resolve().then(function () { return index_post$3; });
 const _lazy_Hqb5k0 = () => Promise.resolve().then(function () { return webhook_post$1; });
+const _lazy_RBsrrS = () => Promise.resolve().then(function () { return access_get$1; });
 const _lazy_PZUUtO = () => Promise.resolve().then(function () { return index_delete$1; });
 const _lazy_SrZz99 = () => Promise.resolve().then(function () { return index_get$1; });
 const _lazy_YipZNb = () => Promise.resolve().then(function () { return index_post$1; });
-const _lazy_fVbBTG = () => Promise.resolve().then(function () { return role_get$1; });
 const _lazy_2LlX5i = () => Promise.resolve().then(function () { return role_put$1; });
 const _lazy_mBaNUb = () => Promise.resolve().then(function () { return renderer$1; });
 
@@ -930,10 +930,10 @@ const handlers = [
   { route: '/api/store', handler: _lazy_GqHgaN, lazy: true, middleware: false, method: "put" },
   { route: '/api/stripe', handler: _lazy_ZWIosR, lazy: true, middleware: false, method: "post" },
   { route: '/api/stripe/webhook', handler: _lazy_Hqb5k0, lazy: true, middleware: false, method: "post" },
+  { route: '/api/users/access', handler: _lazy_RBsrrS, lazy: true, middleware: false, method: "get" },
   { route: '/api/users', handler: _lazy_PZUUtO, lazy: true, middleware: false, method: "delete" },
   { route: '/api/users', handler: _lazy_SrZz99, lazy: true, middleware: false, method: "get" },
   { route: '/api/users', handler: _lazy_YipZNb, lazy: true, middleware: false, method: "post" },
-  { route: '/api/users/role', handler: _lazy_fVbBTG, lazy: true, middleware: false, method: "get" },
   { route: '/api/users/role', handler: _lazy_2LlX5i, lazy: true, middleware: false, method: "put" },
   { route: '/__nuxt_error', handler: _lazy_mBaNUb, lazy: true, middleware: false, method: undefined },
   { route: '/_fonts/**', handler: _lazy_mBaNUb, lazy: true, middleware: false, method: undefined },
@@ -1812,6 +1812,35 @@ const webhook_post$1 = /*#__PURE__*/Object.freeze({
   default: webhook_post
 });
 
+const access_get = eventHandler(async (event) => {
+  const db = event.context.velorisDb;
+  const query = getQuery$1(event);
+  const uid = query.uid;
+  const domain = event.node.req.headers.host;
+  domain == null ? void 0 : domain.split(":")[0];
+  if (!uid) {
+    console.error("Document ID not provided");
+    throw createError({ statusCode: 400, statusMessage: "uid required" });
+  }
+  try {
+    const docRef = doc(db, "users", uid);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) {
+      throw createError({ statusCode: 404, statusMessage: "Document not found" });
+    }
+    const userObj = docSnap.data();
+    return userObj.siteAccess;
+  } catch (error) {
+    console.error("Error fetching document: ", error);
+    throw createError({ statusCode: 500, statusMessage: `${error}` });
+  }
+});
+
+const access_get$1 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: access_get
+});
+
 const index_delete = eventHandler(async (event) => {
   const db = event.context.velorisDb;
   const params = event.context.params || {};
@@ -1897,40 +1926,6 @@ const index_post = eventHandler(async (event) => {
 const index_post$1 = /*#__PURE__*/Object.freeze({
   __proto__: null,
   default: index_post
-});
-
-const role_get = eventHandler(async (event) => {
-  const db = event.context.velorisDb;
-  const query = getQuery$1(event);
-  const uid = query.uid;
-  const domain = event.node.req.headers.host;
-  const hostname = domain == null ? void 0 : domain.split(":")[0];
-  if (!uid) {
-    console.error("Document ID not provided");
-    throw createError({ statusCode: 400, statusMessage: "uid required" });
-  }
-  try {
-    const docRef = doc(db, "users", uid);
-    const docSnap = await getDoc(docRef);
-    if (!docSnap.exists()) {
-      throw createError({ statusCode: 404, statusMessage: "Document not found" });
-    }
-    const userObj = docSnap.data();
-    if (!userObj.siteAccess)
-      return "user";
-    const roleEntry = userObj.siteAccess.find((site) => site.domain === hostname);
-    if (!roleEntry)
-      return "user";
-    return roleEntry.role;
-  } catch (error) {
-    console.error("Error fetching document: ", error);
-    throw createError({ statusCode: 500, statusMessage: `${error}` });
-  }
-});
-
-const role_get$1 = /*#__PURE__*/Object.freeze({
-  __proto__: null,
-  default: role_get
 });
 
 const role_put = eventHandler(async (event) => {

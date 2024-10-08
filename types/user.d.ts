@@ -7,11 +7,10 @@ declare global {
         role: UserRole
     }
 
-    interface UserObj {
+    interface UserProfile {
         uid: string
         displayName?: string
         email: string
-        siteAccess?: SiteAccess[]
-        role?: UserRole
+        siteAccess: SiteAccess[]
     }
 }

@@ -70,13 +70,15 @@ declare module 'nitropack' {
     '/api/stripe/webhook': {
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/stripe/webhook.post').default>>>>
     }
+    '/api/users/access': {
+      'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/users/access.get').default>>>>
+    }
     '/api/users': {
       'delete': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/users/index.delete').default>>>>
       'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/users/index.get').default>>>>
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/users/index.post').default>>>>
     }
     '/api/users/role': {
-      'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/users/role.get').default>>>>
       'put': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/users/role.put').default>>>>
     }
     '/__nuxt_error': {

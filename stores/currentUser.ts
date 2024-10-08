@@ -2,12 +2,11 @@ import { defineStore } from "pinia"
 import { onAuthStateChanged, signOut as firebaseSignOut } from "firebase/auth"
 import type { Auth, User } from "firebase/auth"
 import axios from "axios"
-import { useAuth } from "~~/composables/useGlobals"
 
 
 export const useCurrentUserStore = defineStore("currentUserStore", {
     state: () => ({
-        currentUser: {} as UserObj,
+        currentUser: {} as UserProfile,
         isLoadings: false,
     }),
 
@@ -48,13 +47,11 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
             const domain = window.location.hostname
 
             if (state.currentUser && state.currentUser.siteAccess) {
-                const siteAccessEntry = state.currentUser.siteAccess.find((site) => site.domain === domain)
+                const siteRole = state.currentUser.siteAccess.find((site) => site.domain === domain)
 
-                return siteAccessEntry ? siteAccessEntry.role : "No role"
+                if(!siteRole ) return
+                return siteRole.role
             }
-
-            // Default to "No role" if user or siteAccess is not available
-            return "No role"
         },
 
         isLoading(state) {
@@ -83,18 +80,19 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
                 console.debug("[Veloris] Auth state change detected.")
 
                 if (user) {
-                    let role = await this.readRole(user.uid)
-
+                    let siteAccess = await this.readRole(user.uid)
+                    console.log(siteAccess)
                     this.currentUser = {
                         uid: user.uid,
                         email: user.email || "",
                         displayName: user.displayName || undefined,
-                        role: role || "user"
+                        siteAccess: siteAccess || []
                     }
 
                     await this.createUserProfile()
-                    this.currentUser.role = await this.readRole(user.uid) || "user"
+                    this.currentUser.siteAccess = await this.readRole(user.uid) 
                 }
+
                 await this.cache()
                 this.isLoadings = false
             })
@@ -117,13 +115,12 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
             }
         },
 
-        async readRole(uid: string) {
-            const { data } = await useFetch(`/api/users/role`, {
+        async readRole(uid: UserProfile["uid"]): Promise<UserProfile["siteAccess"]> {
+            const { data } = await useFetch<UserProfile["siteAccess"]>(`/api/users/access`, {
                 params: { uid: uid },
             })
 
-			console.log(data.value)
-            return data.value
+            return data.value || []
         },
 
         async logout() {
@@ -152,13 +149,13 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
                     return JSON.parse(cachedUser)
                 } catch (error) {
                     console.error("Failed to parse cached user data:", error)
-                    return {} as UserObj
+                    return {} as UserProfile
                 }
             }
         },
 
         clearUser() {
-            this.currentUser = {} as UserObj
+            this.currentUser = {} as UserProfile
             this.removeCache()
         },
 
