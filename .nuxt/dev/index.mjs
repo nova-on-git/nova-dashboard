@@ -84,11 +84,17 @@ const appConfig0 = defineAppConfig({
   }
 });
 
+const appConfig1 = defineAppConfig({
+  myLayer: {
+    name: "Hello from Nuxt layer"
+  }
+});
+
 const inlineAppConfig = {
   "nuxt": {}
 };
 
-const appConfig = defuFn(appConfig0, inlineAppConfig);
+const appConfig = defuFn(appConfig0, appConfig1, inlineAppConfig);
 
 const _inlineRuntimeConfig = {
   "app": {
@@ -1884,7 +1890,7 @@ const index_post = eventHandler(async (event) => {
     }
   } catch (error) {
     console.error("Error adding document: ", error);
-    throw createError({ statusCode: 500, statusMessage: `Error adding document: ${error}` });
+    throw createError({ statusCode: 500, statusMessage: `POST: /api/users: ${error}` });
   }
 });
 

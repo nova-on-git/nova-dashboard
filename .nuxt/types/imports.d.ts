@@ -21,9 +21,12 @@ declare global {
   const clearError: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/error')['clearError']
   const clearNuxtData: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/asyncData')['clearNuxtData']
   const clearNuxtState: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/state')['clearNuxtState']
+  const closeMessage: typeof import('../../node_modules/.c12/github_Veloris_Designs_evFEkwfopz/composables/message')['closeMessage']
+  const closeModal: typeof import('../../node_modules/.c12/github_Veloris_Designs_evFEkwfopz/composables/modal')['closeModal']
   const compressImage: typeof import('../../composables/imageProcessing')['compressImage']
   const computed: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['computed']
   const createError: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/error')['createError']
+  const createMessage: typeof import('../../node_modules/.c12/github_Veloris_Designs_evFEkwfopz/composables/message')['createMessage']
   const customRef: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['customRef']
   const defineAppConfig: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/nuxt')['defineAppConfig']
   const defineAsyncComponent: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['defineAsyncComponent']
@@ -92,6 +95,8 @@ declare global {
   const onServerPrefetch: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['onServerPrefetch']
   const onUnmounted: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['onUnmounted']
   const onUpdated: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['onUpdated']
+  const openMessage: typeof import('../../node_modules/.c12/github_Veloris_Designs_evFEkwfopz/composables/message')['openMessage']
+  const openModal: typeof import('../../node_modules/.c12/github_Veloris_Designs_evFEkwfopz/composables/modal')['openModal']
   const prefetchComponents: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/preload')['prefetchComponents']
   const preloadComponents: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/preload')['preloadComponents']
   const preloadPayload: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/payload')['preloadPayload']
@@ -128,6 +133,8 @@ declare global {
   const toRef: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['toRef']
   const toRefs: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['toRefs']
   const toValue: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['toValue']
+  const toggleMessage: typeof import('../../node_modules/.c12/github_Veloris_Designs_evFEkwfopz/composables/message')['toggleMessage']
+  const toggleModal: typeof import('../../node_modules/.c12/github_Veloris_Designs_evFEkwfopz/composables/modal')['toggleModal']
   const triggerRef: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['triggerRef']
   const tryUseNuxtApp: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/nuxt')['tryUseNuxtApp']
   const unref: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['unref']
@@ -136,7 +143,7 @@ declare global {
   const useAppConfig: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/config')['useAppConfig']
   const useAsyncData: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/asyncData')['useAsyncData']
   const useAttrs: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['useAttrs']
-  const useAuth: typeof import('../../composables/useNuxtApp')['useAuth']
+  const useAuth: typeof import('../../composables/useGlobals')['useAuth']
   const useBasketStore: typeof import('../../stores/basket')['useBasketStore']
   const useBlogStore: typeof import('../../stores/blogs')['useBlogStore']
   const useCookie: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/cookie')['useCookie']
@@ -144,7 +151,7 @@ declare global {
   const useCssVars: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['useCssVars']
   const useCurrentUserStore: typeof import('../../stores/currentUser')['useCurrentUserStore']
   const useDashboardStore: typeof import('../../stores/dashboard')['useDashboardStore']
-  const useDb: typeof import('../../composables/useNuxtApp')['useDb']
+  const useDb: typeof import('../../composables/useGlobals')['useDb']
   const useError: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/error')['useError']
   const useFetch: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/fetch')['useFetch']
   const useGalleryStore: typeof import('../../stores/galleries')['useGalleryStore']
@@ -209,7 +216,7 @@ declare global {
   const useTemplateRef: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['useTemplateRef']
   const useTransitionState: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['useTransitionState']
   const useUserStore: typeof import('../../stores/users')['useUserStore']
-  const useVelorisConfig: typeof import('../../composables/useNuxtApp')['useVelorisConfig']
+  const useVelorisConfig: typeof import('../../composables/useGlobals')['useVelorisConfig']
   const watch: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['watch']
   const watchEffect: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['watchEffect']
   const watchPostEffect: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['watchPostEffect']
@@ -254,9 +261,12 @@ declare module 'vue' {
     readonly clearError: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/error')['clearError']>
     readonly clearNuxtData: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/asyncData')['clearNuxtData']>
     readonly clearNuxtState: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/state')['clearNuxtState']>
+    readonly closeMessage: UnwrapRef<typeof import('../../node_modules/.c12/github_Veloris_Designs_evFEkwfopz/composables/message')['closeMessage']>
+    readonly closeModal: UnwrapRef<typeof import('../../node_modules/.c12/github_Veloris_Designs_evFEkwfopz/composables/modal')['closeModal']>
     readonly compressImage: UnwrapRef<typeof import('../../composables/imageProcessing')['compressImage']>
     readonly computed: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['computed']>
     readonly createError: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/error')['createError']>
+    readonly createMessage: UnwrapRef<typeof import('../../node_modules/.c12/github_Veloris_Designs_evFEkwfopz/composables/message')['createMessage']>
     readonly customRef: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['customRef']>
     readonly defineAppConfig: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/nuxt')['defineAppConfig']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['defineAsyncComponent']>
@@ -325,6 +335,8 @@ declare module 'vue' {
     readonly onServerPrefetch: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['onServerPrefetch']>
     readonly onUnmounted: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['onUpdated']>
+    readonly openMessage: UnwrapRef<typeof import('../../node_modules/.c12/github_Veloris_Designs_evFEkwfopz/composables/message')['openMessage']>
+    readonly openModal: UnwrapRef<typeof import('../../node_modules/.c12/github_Veloris_Designs_evFEkwfopz/composables/modal')['openModal']>
     readonly prefetchComponents: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/preload')['prefetchComponents']>
     readonly preloadComponents: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/preload')['preloadComponents']>
     readonly preloadPayload: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/payload')['preloadPayload']>
@@ -361,6 +373,8 @@ declare module 'vue' {
     readonly toRef: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['toRef']>
     readonly toRefs: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['toRefs']>
     readonly toValue: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['toValue']>
+    readonly toggleMessage: UnwrapRef<typeof import('../../node_modules/.c12/github_Veloris_Designs_evFEkwfopz/composables/message')['toggleMessage']>
+    readonly toggleModal: UnwrapRef<typeof import('../../node_modules/.c12/github_Veloris_Designs_evFEkwfopz/composables/modal')['toggleModal']>
     readonly triggerRef: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['triggerRef']>
     readonly tryUseNuxtApp: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/nuxt')['tryUseNuxtApp']>
     readonly unref: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['unref']>
@@ -369,7 +383,7 @@ declare module 'vue' {
     readonly useAppConfig: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/config')['useAppConfig']>
     readonly useAsyncData: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/asyncData')['useAsyncData']>
     readonly useAttrs: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['useAttrs']>
-    readonly useAuth: UnwrapRef<typeof import('../../composables/useNuxtApp')['useAuth']>
+    readonly useAuth: UnwrapRef<typeof import('../../composables/useGlobals')['useAuth']>
     readonly useBasketStore: UnwrapRef<typeof import('../../stores/basket')['useBasketStore']>
     readonly useBlogStore: UnwrapRef<typeof import('../../stores/blogs')['useBlogStore']>
     readonly useCookie: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/cookie')['useCookie']>
@@ -377,7 +391,7 @@ declare module 'vue' {
     readonly useCssVars: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['useCssVars']>
     readonly useCurrentUserStore: UnwrapRef<typeof import('../../stores/currentUser')['useCurrentUserStore']>
     readonly useDashboardStore: UnwrapRef<typeof import('../../stores/dashboard')['useDashboardStore']>
-    readonly useDb: UnwrapRef<typeof import('../../composables/useNuxtApp')['useDb']>
+    readonly useDb: UnwrapRef<typeof import('../../composables/useGlobals')['useDb']>
     readonly useError: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/error')['useError']>
     readonly useFetch: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/fetch')['useFetch']>
     readonly useGalleryStore: UnwrapRef<typeof import('../../stores/galleries')['useGalleryStore']>
@@ -442,7 +456,7 @@ declare module 'vue' {
     readonly useTemplateRef: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['useTemplateRef']>
     readonly useTransitionState: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['useTransitionState']>
     readonly useUserStore: UnwrapRef<typeof import('../../stores/users')['useUserStore']>
-    readonly useVelorisConfig: UnwrapRef<typeof import('../../composables/useNuxtApp')['useVelorisConfig']>
+    readonly useVelorisConfig: UnwrapRef<typeof import('../../composables/useGlobals')['useVelorisConfig']>
     readonly watch: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['watchPostEffect']>

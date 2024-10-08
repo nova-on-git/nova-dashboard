@@ -26,6 +26,6 @@ export default eventHandler(async (event) => {
 
     } catch (error) {
         console.error("Error adding document: ", error)
-        throw createError({ statusCode: 500, statusMessage: `Error adding document: ${error}` })
+        throw createError({ statusCode: 500, statusMessage: `POST: /api/users: ${error}` })
     }
 })

@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
     devtools: { enabled: true },
 
-    // extends: ["../nova/"],
+    extends: [["github:Veloris-Designs/nova#v1.1.8", { install: true }]],
 
     modules: ["@nuxt/fonts", "@pinia/nuxt", "nuxt-build-cache"],
 

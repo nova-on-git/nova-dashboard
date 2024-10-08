@@ -39,7 +39,7 @@
         "../../node_modules/.pnpm/defu@6.1.4/node_modules/defu"
       ],
       "h3": [
-        "../../node_modules/.pnpm/h3@1.12.0/node_modules/h3"
+        "../../node_modules/.pnpm/h3@1.13.0/node_modules/h3"
       ],
       "consola": [
         "../../node_modules/.pnpm/consola@3.2.3/node_modules/consola"
@@ -72,10 +72,10 @@
         "../../node_modules/.pnpm/@nuxt+schema@3.13.2_rollup@4.24.0/node_modules/@nuxt/schema"
       ],
       "nuxt": [
-        "../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.11.1_jiti@2.1.1__ioredis@5.4.1__dq55nainbwk37mri3madxvycta/node_modules/nuxt"
+        "../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt"
       ],
       "#internal/nuxt/paths": [
-        "../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.11.1_jiti@2.1.1__ioredis@5.4.1__dq55nainbwk37mri3madxvycta/node_modules/nuxt/dist/core/runtime/nitro/paths"
+        "../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/core/runtime/nitro/paths"
       ],
       "~": [
         "./.."
@@ -116,7 +116,7 @@
   "exclude": [
     "../node_modules",
     "../../node_modules",
-    "../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.11.1_jiti@2.1.1__ioredis@5.4.1__dq55nainbwk37mri3madxvycta/node_modules/nuxt/node_modules",
+    "../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/node_modules",
     "../dist"
   ]
 }

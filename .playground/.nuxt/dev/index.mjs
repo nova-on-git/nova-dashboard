@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { mkdirSync } from 'node:fs';
 import { parentPort, threadId } from 'node:worker_threads';
-import { defineEventHandler, handleCacheHeaders, splitCookiesString, isEvent, createEvent, fetchWithEvent, getRequestHeader, eventHandler, setHeaders, sendRedirect, proxyRequest, createError, setResponseHeader, send, getResponseStatus, setResponseStatus, setResponseHeaders, getRequestHeaders, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getRouterParam, getQuery as getQuery$1, readBody, getResponseStatusText } from 'file:///home/cody/git/veloris-dashboard/node_modules/.pnpm/h3@1.12.0/node_modules/h3/dist/index.mjs';
+import { defineEventHandler, handleCacheHeaders, splitCookiesString, isEvent, createEvent, fetchWithEvent, getRequestHeader, eventHandler, setHeaders, sendRedirect, proxyRequest, createError, setResponseHeader, send, getResponseStatus, setResponseStatus, setResponseHeaders, getRequestHeaders, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getRouterParam, getQuery as getQuery$1, readBody, getResponseStatusText } from 'file:///home/cody/git/veloris-dashboard/node_modules/.pnpm/h3@1.13.0/node_modules/h3/dist/index.mjs';
 import { getRequestDependencies, getPreloadLinks, getPrefetchLinks, createRenderer } from 'file:///home/cody/git/veloris-dashboard/node_modules/.pnpm/vue-bundle-renderer@2.1.1/node_modules/vue-bundle-renderer/dist/runtime.mjs';
 import { stringify, uneval } from 'file:///home/cody/git/veloris-dashboard/node_modules/.pnpm/devalue@5.1.1/node_modules/devalue/index.js';
 import destr from 'file:///home/cody/git/veloris-dashboard/node_modules/.pnpm/destr@2.0.3/node_modules/destr/dist/index.mjs';
@@ -638,7 +638,7 @@ const devReducers = {
   URL: (data) => data instanceof URL ? data.toString() : void 0
 };
 const asyncContext = getContext("nuxt-dev", { asyncContext: true, AsyncLocalStorage });
-const _Ddu86YjYdG = (nitroApp) => {
+const _GpO5PIPIMj = (nitroApp) => {
   const handler = nitroApp.h3App.handler;
   nitroApp.h3App.handler = (event) => {
     return asyncContext.callAsync({ logs: [], event }, () => handler(event));
@@ -709,7 +709,7 @@ function onConsoleLog(callback) {
 
 const plugins = [
   _YmSTe9tZXV,
-_Ddu86YjYdG
+_GpO5PIPIMj
 ];
 
 const scheduledTasks = false;
@@ -840,11 +840,11 @@ const errorHandler = (async function errorhandler(error, event) {
   return send(event, html);
 });
 
-const _lazy_97SgOc = () => Promise.resolve().then(function () { return renderer$1; });
+const _lazy_mBaNUb = () => Promise.resolve().then(function () { return renderer$1; });
 
 const handlers = [
-  { route: '/__nuxt_error', handler: _lazy_97SgOc, lazy: true, middleware: false, method: undefined },
-  { route: '/**', handler: _lazy_97SgOc, lazy: true, middleware: false, method: undefined }
+  { route: '/__nuxt_error', handler: _lazy_mBaNUb, lazy: true, middleware: false, method: undefined },
+  { route: '/**', handler: _lazy_mBaNUb, lazy: true, middleware: false, method: undefined }
 ];
 
 function createNitroApp() {

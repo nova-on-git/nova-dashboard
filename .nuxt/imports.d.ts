@@ -34,8 +34,10 @@ export { compressImage, saveFileToStorage, resizeImage, processImage } from '../
 export { formatDate, getStatusIcon } from '../composables/ordersUtils';
 export { initStores, $Notifications, $CurrentUser, $Orders, $Products, $Users, $Basket, $Dashboard, $Analytics, $Blogs, $Payment, NotificationStore, BlogStore, CurrentUserStore, OrderStore, ProductStore, AnalyticsStore, UserStore, BasketStore, DashboardStore, PaymentStore } from '../composables/pinia';
 export { stripeCheckout } from '../composables/stripe';
-export { useVelorisConfig, useDb, useAuth } from '../composables/useNuxtApp';
+export { useVelorisConfig, useAuth, useDb } from '../composables/useGlobals';
 export { getRandomNumber } from '../composables/utils';
+export { toggleMessage, createMessage, openMessage, closeMessage } from '../node_modules/.c12/github_Veloris_Designs_evFEkwfopz/composables/message';
+export { openModal, closeModal, toggleModal } from '../node_modules/.c12/github_Veloris_Designs_evFEkwfopz/composables/modal';
 export { useAnalyticsStore, lineChartOptions, horizontalBarChartOptions, barChartOptions, doughnutChartOptions } from '../stores/analytics';
 export { useBasketStore } from '../stores/basket';
 export { useBlogStore } from '../stores/blogs';

@@ -4,8 +4,9 @@
 import type { Defu } from 'defu'
 
 import type { default as appConfig0 } from "../../app.config";
+import type { default as appConfig1 } from "../../node_modules/.c12/github_Veloris_Designs_evFEkwfopz/app.config";
 
-type UserAppConfig = Defu<{}, [typeof appConfig0]>
+type UserAppConfig = Defu<{}, [typeof appConfig0, typeof appConfig1]>
 
 declare module 'nitropack' {
   interface AppConfig extends UserAppConfig {}
