@@ -27,7 +27,6 @@
 </template>
 
 <script setup>
-console.log("hellooooo")
 import { onClickOutside } from "@vueuse/core"
 
 const sidebar = ref(null)

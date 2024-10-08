@@ -1816,8 +1816,6 @@ const access_get = eventHandler(async (event) => {
   const db = event.context.velorisDb;
   const query = getQuery$1(event);
   const uid = query.uid;
-  const domain = event.node.req.headers.host;
-  domain == null ? void 0 : domain.split(":")[0];
   if (!uid) {
     console.error("Document ID not provided");
     throw createError({ statusCode: 400, statusMessage: "uid required" });
@@ -1829,7 +1827,7 @@ const access_get = eventHandler(async (event) => {
       throw createError({ statusCode: 404, statusMessage: "Document not found" });
     }
     const userObj = docSnap.data();
-    return userObj.siteAccess;
+    return userObj.siteAccess || [];
   } catch (error) {
     console.error("Error fetching document: ", error);
     throw createError({ statusCode: 500, statusMessage: `${error}` });

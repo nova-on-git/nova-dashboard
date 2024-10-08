@@ -54,6 +54,21 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
             }
         },
 
+        isAdmin(state): boolean {
+            const domain = window.location.hostname
+
+            if (!state.currentUser || !state.currentUser.siteAccess) return false
+
+                const siteRole = state.currentUser.siteAccess.find((site) => site.domain === domain)
+
+            if(!siteRole?.role) return false
+
+            if (siteRole.role === "user") return false
+
+            return true
+            
+        },
+
         isLoading(state) {
             return state.isLoadings
         },
@@ -66,7 +81,7 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
     actions: {
         async asyncGet() {
             while (this.isLoading) {
-                await new Promise((resolve) => setTimeout(resolve, 50))
+                await new Promise((resolve) => setTimeout(resolve, 5))
             }
             this.cache()
             return this.currentUser
@@ -80,8 +95,7 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
                 console.debug("[Veloris] Auth state change detected.")
 
                 if (user) {
-                    let siteAccess = await this.readRole(user.uid)
-                    console.log(siteAccess)
+                    let siteAccess = await this.readAccess(user.uid)
                     this.currentUser = {
                         uid: user.uid,
                         email: user.email || "",
@@ -90,7 +104,7 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
                     }
 
                     await this.createUserProfile()
-                    this.currentUser.siteAccess = await this.readRole(user.uid) 
+                    this.currentUser.siteAccess = await this.readAccess(user.uid) 
                 }
 
                 await this.cache()
@@ -100,22 +114,22 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
 
         async createUserProfile() {
             this.isLoadings = true
-
-            try {
-                await axios.post(`/api/users`, {
+    
+            await useFetch(`/api/users`, {
+                method: "POST",
+                body : {
                     uid: this.currentUser.uid,
                     email: this.currentUser.email,
                     domain: window.location.hostname,
+                }
+            })
 
-                })
-            } catch (error) {
-                console.error("Failed to create user profile:", error)
-            } finally {
-                this.isLoadings = false
-            }
+            this.isLoadings = false
+            
         },
 
-        async readRole(uid: UserProfile["uid"]): Promise<UserProfile["siteAccess"]> {
+        
+        async readAccess(uid: UserProfile["uid"]): Promise<UserProfile["siteAccess"]> {
             const { data } = await useFetch<UserProfile["siteAccess"]>(`/api/users/access`, {
                 params: { uid: uid },
             })

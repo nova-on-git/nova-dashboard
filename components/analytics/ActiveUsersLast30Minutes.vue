@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue"
 import { Chart, registerables } from "chart.js"
-import { barChartOptions } from "~/stores/analytics"
+import { barChartOptions } from "../../stores/analytics"
 
 // Register all necessary components
 Chart.register(...registerables)
@@ -85,7 +85,6 @@ onMounted(() => {
 })
 
 async function renderGraph() {
-    console.log("rendering graph")
     const rows = formattedRows($Analytics.getReport("activeUsersLast30Min"))
     if (!rows || rows.length === 0) return
 

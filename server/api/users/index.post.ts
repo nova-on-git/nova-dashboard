@@ -3,7 +3,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore"
 
 export default eventHandler(async (event) => {
     const db = event.context.velorisDb
-    const { uid, email, domain } = await readBody<{ uid: string; email: string, domain: string}>(event)
+    const { uid, email, domain } = await readBody<{ uid: UserProfile["uid"], email: UserProfile["email"], domain: string}>(event)
 
     if (!uid || !email || !domain) throw createError({ statusCode: 400})
     

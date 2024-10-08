@@ -1,6 +1,6 @@
 <template>
     <main>
-        <form class="nova-form" @submit.prevent="handleEmailSignUp">
+        <form class="nova-form" @submit.prevent="handleSignUp('email')">
             
             <lheader>
                 <h5>Sign Up</h5>
@@ -35,11 +35,9 @@
             </div>
 
             <rflex class="sign-in-options">
-                <chip @click="handleGoogleSignIn">
+                <chip @click="handleSignUp('google')">
                     <Icon icon='logos:google' height='25' />
                 </chip>
-                <!-- <chip @click="signInWithFacebook">Facebook</chip> -->
-                <!-- <chip @click="signInWithTwitter">Twitter</chip> -->
             </rflex>
 
             <p class="no-account-p">Already have an account? <nuxt-link to="/auth/login">Sign In</nuxt-link></p>
@@ -57,34 +55,27 @@ const loading = ref(false)
 const errorMessage = ref('')
 const successMessage = ref('')
 
-async function handleEmailSignUp() {
+async function handleSignUp(provider: Provider) {
+    if (provider === "email") loading.value = true
+    const error = await signUp(provider, email.value, password.value)
     
-    loading.value = true
-    let response = await signUp(email.value, password.value);
-    if (response.success) {
+    if (error) {
+        successMessage.value = ""
+        errorMessage.value = error
+
+    } else {
         localStorage.setItem('verifyEmail', email.value)
         navigateTo('/auth/verify-email')
-    } else {
-        successMessage.value = ''
-        errorMessage.value = response.message
-    }
-
+    } 
+        
     loading.value = false
 }
+
+
+
 definePageMeta({
     layout: 'veloris-auth'
 })
-
-const handleGoogleSignIn = async () => {
-    
-    const response = await signInWithGoogle();
-
-    if (response.success) {
-        navigateTo('/admin')
-    } else {
-        errorMessage.value = response.message
-    }
-};
 
 </script>
 

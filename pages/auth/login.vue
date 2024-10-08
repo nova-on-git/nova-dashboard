@@ -1,6 +1,6 @@
 <template>
     <main>
-        <form class="nova-form" @submit.prevent="handleEmailSignIn">
+        <form class="nova-form" @submit.prevent="handleSignIn('email')">
             <lheader>
                 <h5>Sign In</h5>
                 <p>Log in to your account to continue</p>
@@ -16,7 +16,7 @@
                 <input class="nova-input" type="password" name="password" v-model="password" />
             </cflex>
 
-            <nuxt-link to="/auth/forgot-password" class="forgot-password-link">Forgot Password?</nuxt-link>
+            <anchor to="/auth/forgot-password" class="forgot-password-link">Forgot Password?</anchor>
 
             <p v-if="errorMessage" class="error-message">
                 {{ errorMessage }}
@@ -31,7 +31,7 @@
             </div>
 
             <rflex class="sign-in-options">
-                <chip @click="handleGoogleSignIn">
+                <chip @click="handleSignIn('google')">
                     <Icon icon="logos:google" height="25" />
                 </chip>
             </rflex>
@@ -52,30 +52,16 @@ const loading = ref(false)
 const email = ref("")
 const password = ref("")
 const errorMessage = ref("")
-// const $CurrentUser = use$CurrentUser()
 
-const handleEmailSignIn = async () => {
-    loading.value = true
-    let response = await signIn(email.value, password.value)
-
-    if (response.success) {
-        navigateTo("/admin")
-    } else {
-        errorMessage.value = response.message
-    }
-
+async function handleSignIn(provider: Provider) {
+    if (provider === "email") loading.value = true
+    errorMessage.value = await signIn(provider, email.value, password.value)
     loading.value = false
 }
 
-const handleGoogleSignIn = async () => {
-    const response = await signInWithGoogle()
 
-    if (response.success) {
-        navigateTo("/admin")
-    } else {
-        errorMessage.value = response.message
-    }
-}
+
+
 </script>
 
 <style lang="sass" scoped>
