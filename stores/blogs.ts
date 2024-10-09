@@ -2,7 +2,6 @@ import axios from "axios"
 import { collection, doc, onSnapshot, setDoc } from "firebase/firestore"
 import { getDownloadURL, ref, uploadString } from "firebase/storage"
 import { defineStore } from "pinia"
-import { useDb } from "~~/composables/useGlobals"
 
 export const useBlogStore = defineStore("blogs", {
     state: () => ({
@@ -117,8 +116,8 @@ export const useBlogStore = defineStore("blogs", {
         },
 
         async read() {
-            const response = await axios.get(`/api/blogs`)
-            this.blogs = response.data as Blog[]
+            const { data } = await useFetch(`/api/blogs`)
+            this.blogs = data.value as Blog[]
         },
 
         async delete(id: Blog["id"]) {

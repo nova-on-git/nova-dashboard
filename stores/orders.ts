@@ -1,11 +1,10 @@
 import { defineStore } from "pinia"
 import axios from "axios"
 import { collection, onSnapshot } from "firebase/firestore"
-import { useDb } from "~~/composables/useGlobals"
 
 export const useOrderStore = defineStore("orders", {
     state: () => ({
-        orders: [] as OrderObj[],
+        orders: [] as Order[],
     }),
 
     getters: {
@@ -51,7 +50,7 @@ export const useOrderStore = defineStore("orders", {
         },
 
         getOrderById: (state) => {
-            return (id: string): OrderObj | null => {
+            return (id: string): Order | null => {
                 const order = state.orders.find((order) => order.id === id)
                 return order || null
             }
@@ -77,9 +76,9 @@ export const useOrderStore = defineStore("orders", {
             onSnapshot(
                 colRef,
                 (snapshot) => {
-                    const orders: OrderObj[] = []
+                    const orders: Order[] = []
                     snapshot.forEach((doc) => {
-                        orders.push({ id: doc.id, ...doc.data() } as OrderObj)
+                        orders.push({ id: doc.id, ...doc.data() } as Order)
                     })
                     this.orders = orders
                 },
@@ -89,38 +88,10 @@ export const useOrderStore = defineStore("orders", {
             )
         },
 
-        async create(orderObj: OrderWithoutId) {
-            if (!import.meta.client) return
-            let itemIds = []
-            const category = "default"
-
-            for (const item of orderObj.items) {
-                itemIds.push(item.id)
-            }
-
-            try {
-                // Updates stock count of order
-                // for (const id of itemIds) {
-                //     await axios.put(
-                //         `${window.location.origin}/api/store/categories/${category}/products/update/${id}`
-                //     )
-                // }
-
-                const { data } = await useFetch(`${window.location.origin}/api/orders/incomplete`, {
-                    method: "POST",
-                    body: { orderObj },
-                })
-
-                return data.value
-            } catch (error) {
-                console.log(error)
-            }
-        },
-
         async read() {
             try {
-                const response = await axios.get(`/api/orders`)
-                this.orders = response.data
+                const { data } = await useFetch(`/api/orders`)
+                this.orders = data.value as Order[]
 
                 localStorage.setItem("orders", JSON.stringify(this.orders))
 
@@ -131,7 +102,7 @@ export const useOrderStore = defineStore("orders", {
             }
         },
 
-        async updateStatus(id: string, newStatus: OrderObj["status"]) {
+        async updateStatus(id: string, newStatus: Order["status"]) {
             const orderIndex = this.orders.findIndex((order) => order.id === id)
             if (orderIndex === -1) {
                 console.error("Order not found")
@@ -161,7 +132,7 @@ export const useOrderStore = defineStore("orders", {
         },
     },
 })
-export const testOrderObject: Omit<OrderObj, "id"> = {
+export const testOrderObject: Omit<Order, "id"> = {
     currency: "gbp",
     items: [
         {

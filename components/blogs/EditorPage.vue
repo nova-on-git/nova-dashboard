@@ -442,13 +442,18 @@ aside
 
             &:hover
                 background: rgba(0, 0, 0, 0.05)
-
+    
     .input, .field
+        border: none
         margin-left: 3px
         padding-inline: 10px
         margin-bottom: 20px
         border: 1px solid rgba(0, 0, 0, 0.1)
 
+
+:deep(.field)
+    input
+        border: none
 .blog-title
     position: relative
     top: 20px
@@ -458,6 +463,7 @@ input, textarea, .input, .field
     padding-block: 10px
 
     margin: 0
+    border: none 
     background: rgba(0, 0, 0, 0.05)
     background: rgba(255, 255, 255, 0.7)
 
