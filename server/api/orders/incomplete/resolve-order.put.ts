@@ -5,8 +5,7 @@ import axios from "axios"
 export default eventHandler(async (event) => {
     const origin = event.node.req.headers["origin"]
     const db = event.context.db
-    const body = await readBody(event)
-    const { orderId } = body
+    const { orderId } = await readBody(event)
 
     if (!orderId || typeof orderId !== "string") {
         throw createError({ statusCode: 500, statusMessage: "orderId is not found or is not typeof string." })

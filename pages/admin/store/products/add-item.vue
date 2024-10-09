@@ -47,8 +47,8 @@ const links = [
     { name: "store", url: "/admin/store" },
     { name: "add item", url: "" },
 ]
-const nuxtApp = useNuxtApp()
-const $storage = nuxtApp.$storage as FirebaseStorage
+
+const $storage = useStorage()
 
 // const $Products = use$Products()
 const savingChanges = ref(false)

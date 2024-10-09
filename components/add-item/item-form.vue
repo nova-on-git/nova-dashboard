@@ -88,7 +88,8 @@
 
 <script setup lang="ts">
 import { Icon } from "@iconify/vue"
-import { useVelorisConfig } from "~/composables/useVelorisConfig"
+const $velorisConfig = useVelorisConfig()
+
 const props = defineProps<{
     modelValue: Product | {}
 }>()
@@ -101,7 +102,6 @@ const formData = ref<Record<string, any>>(
     }
 )
 
-const $velorisConfig = useVelorisConfig()
 
 const emit = defineEmits<{
     (event: "update:modelValue", value: ProductImage[]): void
