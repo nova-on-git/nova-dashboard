@@ -1,8 +1,13 @@
 <template>
     <div class="top-bar">
-        <button @click="$Dashboard.toggleNav()" class="menu-button">
-            <Icon icon="heroicons:bars-3-bottom-left-20-solid" width="20" />
-        </button>
+        
+        <rflex class="left-content">
+            <div class="logo-container">
+                VelorisDesigns
+            </div>
+
+            <search  placeholder="Search anything..." class="search"/>
+        </rflex>
 
         <ClientOnly>
             <div class="right-content">
@@ -46,10 +51,16 @@ import { Icon } from "@iconify/vue"
     justify-content: space-between
     align-items: center
     padding: 0 1rem
-    height: 60px
-    background-color: #ffffff
+    height: $dashboard-topbar-height
+    background-color: black
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
+    color: white
 
+:deep(.search)
+    background: #222
+
+    input
+        color: white
 
 .menu-button,
 .icon-button
@@ -65,7 +76,9 @@ import { Icon } from "@iconify/vue"
 .icon-button:hover
     background-color: rgba(0, 0, 0, 0.05)
 
-
+.left-content
+    .logo-container
+        width: 250px
 .right-content
     display: flex
     align-items: center
