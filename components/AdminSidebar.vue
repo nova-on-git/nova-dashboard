@@ -1,32 +1,30 @@
 <template>
     <div class="admin-nav">
-        <cflex class="top-row row">
-            <h1 class="logo">VS</h1>
-            <h2>Veloris Designs</h2>
-        </cflex>
-
         <cflex class="admin-nav-links">
-            <div v-for="(section, sectionKey) in $velorisConfig.sections" :style="{ order: section?.order }">
-                <div v-for="page of section?.pages" key="key">
-					<div v-if="$velorisConfig.sectionSwitches[sectionKey] === true">
-						<anchor @click="" :to="page.url" class="page row" >
-							<Icon :icon="page.icon" color="white" width="20px" />
-							{{ page.name }}
-						</anchor>
-
-						<cflex class="subpages">
-							<anchor @click="" :to="subpage.url" class="page subpage subpage-link" v-for="subpage in page.subpages">
-								{{ subpage.name }}
+			<div v-for="(subHeaders, subHeaderKey) in $velorisConfig.sections.subheaders" class="link-group">
+				<div class="link-group-header">{{ subHeaderKey }}</div>
+				<div v-for="(section, sectionKey) in subHeaders" :style="{ order: section?.order }">
+					<div v-for="page of section?.pages" key="key">
+						<div v-if="$velorisConfig.sectionSwitches[sectionKey] === true">
+							<anchor @click="" :to="page.url" class="page row" >
+								<Icon :icon="page.icon" color="white" width="25px" />
+								{{ page.name }}
 							</anchor>
-						</cflex>
+
+							<cflex class="subpages">
+								<anchor @click="" :to="subpage.url" class="page subpage subpage-link" v-for="subpage in page.subpages">
+									{{ subpage.name }}
+								</anchor>
+							</cflex>
+						</div>
 					</div>
-                </div>
-            </div>
+				</div>
+			</div>
         </cflex>
 
         <cflex class="bottom-links">
             <anchor to="/" class="link-container row">
-                <Icon icon="material-symbols:arrow-left-alt" width="20px" color="white" />
+                <Icon icon="pepicons-pop:leave" width="25px" color="white" style="transform: scaleX(-1)" />
                 Back to Site
             </anchor>
         </cflex>
@@ -35,63 +33,44 @@
 
 <script setup lang="ts">
 import { Icon } from "@iconify/vue"
-import { useVelorisConfig } from "~~/composables/useGlobals"
-
 const $velorisConfig = useVelorisConfig()
 
 </script>
 
 <style lang="sass" scoped>
+.link-group-header
+	color: #666
+	font-weight: bold
+	text-transform: uppercase
+	font-size: 0.7rem
+	margin-inline: 20px
+	margin-bottom: 10px
+	
+.link-group
+	margin-bottom: 50px
+
 .router-link-active
 	background: rgba(255, 255, 255, 0.1)
 
 .admin-nav
 	position: relative
-	background: rgba(0, 0, 0, 1)
+	background: #121212
 	display: flex
 	flex-direction: column
-	width: 240px
-	padding: 20px 0
+	width: 250px
+	padding: 25px 0
 	gap: 25px
-	height: 100%
-
+	height: $dashboard-content-height 
+	
 	.anchor
-		padding: 8px 0px
+		padding: 12px 0px
 		color: white
-		font-size: 0.9rem
+		font-size: 1rem
 		text-transform: capitalize
 		font-weight: 400
 
 	.row
-		padding-inline: 20px
-
-	.top-row
-		align-items: center
-		border-bottom: 2px solid #50545c
-		padding-bottom: 20px
-
-		h1
-			font-family: "Montserrat", sans-serif
-			color: white
-			font-weight: 100
-			line-height: 1
-			margin-top: 5px
-
-		h2
-			font-weight: 400
-			text-align: center
-			font-size: 0.8rem
-			opacity: 1
-			font-family: "Montserrat", sans-serif
-			color: white
-
-	.user-row
-		color: white
-			padding-right: 20px
-
-		.email
-			font-size: 0.9rem
-			color: rgba(255, 255, 255, 0.6)
+		padding-inline: 25px
 
 	.admin-nav-links
 		margin-top: 10px
