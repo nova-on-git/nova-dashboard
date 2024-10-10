@@ -1,36 +1,46 @@
 <template>
     <div class="top-bar">
-        
         <rflex class="left-content">
-            <div class="logo-container">
-                VelorisDesigns
-            </div>
+            <div class="logo-container">VelorisDesigns</div>
 
-            <search  placeholder="Search anything..." class="search"/>
+            <search placeholder="Search anything..." class="search" />
         </rflex>
 
         <ClientOnly>
             <div class="right-content">
                 <div class="user-details">
                     <div class="user-info">
-                        <div class="user-name">{{ $CurrentUser.displayName }}</div>
+                        <div class="user-name">
+                            {{ $CurrentUser.displayName }}
+                        </div>
                         <div class="user-email">{{ $CurrentUser.email }}</div>
                     </div>
                     <btn class="icon-button user-button">
                         <Icon icon="iconamoon:profile" width="25" />
 
                         <drop class="user-dropdown">
-                            <button class="sign-out-btn" @click="$CurrentUser.logout()">Sign Out</button>
+                            <button
+                                class="sign-out-btn"
+                                @click="$CurrentUser.logout()"
+                            >
+                                Sign Out
+                            </button>
                         </drop>
                     </btn>
                 </div>
 
                 <btn class="icon-button notification">
-                    <div v-if="$Notifications.unreadLength > 0" class="notification-badge">
+                    <div
+                        v-if="$Notifications.unreadLength > 0"
+                        class="notification-badge"
+                    >
                         {{ $Notifications.unreadLength }}
                     </div>
 
-                    <Icon icon="material-symbols:notifications-active-outline" width="25" />
+                    <Icon
+                        icon="material-symbols:notifications-active-outline"
+                        width="25"
+                    />
 
                     <drop class="notification-dropdown">
                         <NotificationDropdown />
@@ -42,7 +52,7 @@
 </template>
 
 <script setup>
-import { Icon } from "@iconify/vue"
+import { Icon } from "@iconify/vue";
 </script>
 
 <style scoped lang="sass">

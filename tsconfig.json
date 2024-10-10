@@ -16,5 +16,10 @@
             "~/*": ["./*"]
         }
     },
-    "include": ["types/**/*.ts", "types/**/*.d.ts", "src/**/*.ts", "src/**/*.d.ts"]
+    "include": [
+        "types/**/*.ts",
+        "types/**/*.d.ts",
+        "src/**/*.ts",
+        "src/**/*.d.ts"
+    ]
 }

@@ -3,7 +3,11 @@
         <mpage v-if="order">
             <cflex>
                 <mheader>
-                    <Icon icon="teenyicons:tick-circle-outline" width="60" color="lightgreen" />
+                    <Icon
+                        icon="teenyicons:tick-circle-outline"
+                        width="60"
+                        color="lightgreen"
+                    />
                     <div>
                         <h4>Thank you</h4>
                         <h4>Your order has been received.</h4>
@@ -60,7 +64,9 @@
                             </rflex>
                             <cflex class="product-details">
                                 <div>£{{ item.price }}</div>
-                                <div>{{ item.height }} x {{ item.width }} cm</div>
+                                <div>
+                                    {{ item.height }} x {{ item.width }} cm
+                                </div>
                             </cflex>
                         </div>
                     </cflex>
@@ -82,14 +88,14 @@
 </template>
 
 <script setup>
-import { Icon } from "@iconify/vue"
+import { Icon } from "@iconify/vue";
 // const $Orders = use$Orders()
-const order = ref()
+const order = ref();
 onMounted(() => {
-    order.value = JSON.parse(localStorage.getItem("orderObj"))
-    console.log(order.value)
-    $Orders.create(order.value)
-})
+    order.value = JSON.parse(localStorage.getItem("orderObj"));
+    console.log(order.value);
+    $Orders.create(order.value);
+});
 </script>
 
 <style lang="sass" scoped>

@@ -1,19 +1,19 @@
-import { collection, getDocs } from "firebase/firestore"
+import { collection, getDocs } from "firebase/firestore";
 
 export default eventHandler(async (event): Promise<AppNotification[]> => {
-    const db = event.context.db
+    const db = event.context.db;
 
-    const colRef = collection(db, "notifications")
+    const colRef = collection(db, "notifications");
 
-    const snapShot = await getDocs(colRef)
+    const snapShot = await getDocs(colRef);
 
     const notifications = snapShot.docs.map(
         (doc) =>
             ({
                 id: doc.id,
                 ...doc.data(),
-            }) as AppNotification
-    )
+            }) as AppNotification,
+    );
 
-    return notifications
-})
+    return notifications;
+});

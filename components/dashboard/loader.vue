@@ -3,7 +3,11 @@
         <mflex class="dashboard-loader">
             <div class="background" />
             <h2>Veloris Technology</h2>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150" class="svg-icon">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 300 150"
+                class="svg-icon"
+            >
                 <path
                     fill="none"
                     stroke="#000000"

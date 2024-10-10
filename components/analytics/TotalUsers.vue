@@ -5,28 +5,33 @@
             <tooltip>
                 <h4>New and Total Users</h4>
 
-                The chart that displays <strong> New Users</strong> and <strong></strong> counts is
-                a key component in Veloris' Analytics, providing insights into user acquisition and
-                overall traffic over selected timeframes. Here’s a breakdown of its components and
-                how to interpret the data:
+                The chart that displays <strong> New Users</strong> and
+                <strong></strong> counts is a key component in Veloris'
+                Analytics, providing insights into user acquisition and overall
+                traffic over selected timeframes. Here’s a breakdown of its
+                components and how to interpret the data:
 
                 <ul>
                     <li>
-                        <strong>New Users:</strong> This metric represents the number of users who
-                        visited your website for the first time during the selected timeframe. New
-                        users are valuable for assessing your site's ability to attract fresh
-                        visitors.
+                        <strong>New Users:</strong> This metric represents the
+                        number of users who visited your website for the first
+                        time during the selected timeframe. New users are
+                        valuable for assessing your site's ability to attract
+                        fresh visitors.
                     </li>
                     <li>
-                        <strong>Total Users:</strong> This includes both new users and returning
-                        users. Total users give you a broader picture of your website's traffic and
-                        how many unique individuals are engaging with your content overall.
+                        <strong>Total Users:</strong> This includes both new
+                        users and returning users. Total users give you a
+                        broader picture of your website's traffic and how many
+                        unique individuals are engaging with your content
+                        overall.
                     </li>
                     <li>
-                        <strong>Timeframe Selection Buttons:</strong> These buttons allow you to
-                        filter the data by different periods (e.g., last 7 days, last 30 days, last
-                        month). This feature enables you to analyze trends over various lengths of
-                        time.
+                        <strong>Timeframe Selection Buttons:</strong> These
+                        buttons allow you to filter the data by different
+                        periods (e.g., last 7 days, last 30 days, last month).
+                        This feature enables you to analyze trends over various
+                        lengths of time.
                     </li>
                 </ul>
             </tooltip>
@@ -35,7 +40,12 @@
             <ClientOnly>
                 <div class="metric">
                     <h1>
-                        {{ $Analytics.getFormattedSum(selectedUserType, selectedTimeframe) }}
+                        {{
+                            $Analytics.getFormattedSum(
+                                selectedUserType,
+                                selectedTimeframe,
+                            )
+                        }}
                     </h1>
                     <label>{{ metricTag }}</label>
                 </div>
@@ -88,13 +98,13 @@
 </template>
 
 <script setup lang="ts">
-import { Icon } from "@iconify/vue"
-const selectedUserType = ref<"totalNewUsers" | "totalUsers">("totalNewUsers")
+import { Icon } from "@iconify/vue";
+const selectedUserType = ref<"totalNewUsers" | "totalUsers">("totalNewUsers");
 const metricTag = computed(() => {
-    if (selectedUserType.value === "totalNewUsers") return "New Users"
-    if (selectedUserType.value === "totalUsers") return "Total Users"
-})
-const selectedTimeframe = ref(31)
+    if (selectedUserType.value === "totalNewUsers") return "New Users";
+    if (selectedUserType.value === "totalUsers") return "Total Users";
+});
+const selectedTimeframe = ref(31);
 </script>
 
 <style lang="sass" scoped>

@@ -3,7 +3,6 @@ import { initializeApp } from "firebase/app"
 import { getAuth } from "firebase/auth"
 import { getFirestore } from "firebase/firestore"
 import { getStorage } from "firebase/storage"
-// import { defineNuxtPlugin, useNuxtApp } from "#app"
 
 import type { FirebaseApp } from "firebase/app"
 import type { Auth } from "firebase/auth"
@@ -29,7 +28,7 @@ export default defineNuxtPlugin(() => {
         storageBucket: "veloris-91865.appspot.com",
         messagingSenderId: "849032631896",
         appId: "1:849032631896:web:ea11e7e0769e7f5de05c2d",
-        measurementId: "G-EZV53X4G0C"
+        measurementId: "G-EZV53X4G0C",
     }
 
     if (!firebaseConfig.apiKey) {
@@ -42,16 +41,21 @@ export default defineNuxtPlugin(() => {
     let auth: Auth | undefined
 
     let db: Firestore | undefined
+    let velorisDb: Firestore | undefined
+
     let storage: FirebaseStorage | undefined
+    let velorisStorage: FirebaseStorage | undefined
 
     try {
-        // Initialize Firebase app
+        // Initialize Firebase apps
         app = initializeApp(firebaseConfig)
-        velorisApp = initializeApp(velorisFirebaseConfig, "velorisApp")
-
-        auth = getAuth(velorisApp)
         db = getFirestore(app)
         storage = getStorage(app)
+
+        velorisApp = initializeApp(velorisFirebaseConfig, "velorisApp")
+        auth = getAuth(velorisApp)
+        velorisDb = getFirestore(velorisApp)
+        velorisStorage = getFirestore(velorisApp)
 
         console.log("Firebase client app, auth, db, and storage initialized.")
     } catch (error) {
@@ -61,5 +65,8 @@ export default defineNuxtPlugin(() => {
     // Provide the Firebase services to the Nuxt app context
     useNuxtApp().provide("db", db)
     useNuxtApp().provide("storage", storage)
-    useNuxtApp().provide("auth", auth)
+
+    useNuxtApp().provide("auth", velorisDb)
+    useNuxtApp().provide("velorisStorage", velorisStorage)
+    useNuxtApp().provide("velorisDb", velorisDb)
 })

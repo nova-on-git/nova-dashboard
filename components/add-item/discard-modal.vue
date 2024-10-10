@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-const modalRef = ref<HTMLDivElement | null>(null)
+const modalRef = ref<HTMLDivElement | null>(null);
 </script>
 
 <style lang="sass" scoped></style>

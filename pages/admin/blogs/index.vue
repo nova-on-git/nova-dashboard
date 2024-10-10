@@ -7,7 +7,10 @@
 
             <rflex class="filter-blogs-row">
                 <rflex class="left">
-                    <btn @click="selectedFilter = 'all'" :class="{ active: selectedFilter === 'all' }" class="filter-blogs-button"
+                    <btn
+                        @click="selectedFilter = 'all'"
+                        :class="{ active: selectedFilter === 'all' }"
+                        class="filter-blogs-button"
                         >All Blogs
                     </btn>
 
@@ -18,23 +21,36 @@
                         >Published
                     </btn>
 
-                    <btn @click="selectedFilter = 'hidden'" :class="{ active: selectedFilter === 'hidden' }" class="filter-blogs-button"
+                    <btn
+                        @click="selectedFilter = 'hidden'"
+                        :class="{ active: selectedFilter === 'hidden' }"
+                        class="filter-blogs-button"
                         >Hidden</btn
                     >
-                    <btn @click="selectedFilter = 'draft'" :class="{ active: selectedFilter === 'draft' }" class="filter-blogs-button"
+                    <btn
+                        @click="selectedFilter = 'draft'"
+                        :class="{ active: selectedFilter === 'draft' }"
+                        class="filter-blogs-button"
                         >Draft</btn
                     >
                 </rflex>
 
                 <rflex class="right">
-                    <search placeholder="Search for anything..." v-model="searchQuery" />
+                    <search
+                        placeholder="Search for anything..."
+                        v-model="searchQuery"
+                    />
                 </rflex>
             </rflex>
 
             <div class="cards">
                 <anchor to="/admin/blogs/write-blog" class="add-blog card">
                     <mflex class="content">
-                        <Icon icon="material-symbols:add-circle-outline" width="50" color="rgba(0, 0, 0, 0.4)" />
+                        <Icon
+                            icon="material-symbols:add-circle-outline"
+                            width="50"
+                            color="rgba(0, 0, 0, 0.4)"
+                        />
                     </mflex>
                 </anchor>
 
@@ -55,7 +71,11 @@
                             {{ blog.status }}
                         </rflex>
                     </anchor>
-                    <btn type="button" class="delete-btn" @click.stop="$Blogs.delete(blog.id)">
+                    <btn
+                        type="button"
+                        class="delete-btn"
+                        @click.stop="$Blogs.delete(blog.id)"
+                    >
                         <Icon icon="material-symbols:close" width="15" />
                     </btn>
                 </div>
@@ -65,35 +85,36 @@
 </template>
 
 <script setup lang="ts">
-import { Icon } from "@iconify/vue"
-const selectedFilter = ref<Blog["status"] | "all">("all")
-const searchQuery = ref("")
+import { Icon } from "@iconify/vue";
+const selectedFilter = ref<Blog["status"] | "all">("all");
+const searchQuery = ref("");
 
 onMounted(async () => {
-    await $Blogs.read()
-})
+    await $Blogs.read();
+});
 
 const blogs = computed(() => {
-    if (searchQuery.value === "") return $Blogs.filterByStatus(selectedFilter.value)
+    if (searchQuery.value === "")
+        return $Blogs.filterByStatus(selectedFilter.value);
 
-    return $Blogs.search(searchQuery.value)
-})
+    return $Blogs.search(searchQuery.value);
+});
 
 function getIcon(status: Blog["status"]) {
     switch (status) {
         case "published":
-            return "material-symbols:globe"
+            return "material-symbols:globe";
         case "draft":
-            return "material-symbols:edit-outline-rounded"
+            return "material-symbols:edit-outline-rounded";
         case "hidden":
-            return "formkit:hidden"
+            return "formkit:hidden";
     }
 }
 
 definePageMeta({
     layout: "dashboard",
     middleware: "admin-auth",
-})
+});
 </script>
 
 <style lang="sass" scoped>

@@ -1,44 +1,49 @@
 <template>
     <main>
         <form @submit.prevent="handleEmailSignUp">
-            
             <lheader>
                 <h5>Confirm email address</h5>
             </lheader>
-            
+
             <rflex class="green-box">
-                <Icon icon='icon-park-outline:inbox-success' width='50' />
-                <p>A confirmation email was sent to <strong>{{ verifyEmail }}</strong></p>
+                <Icon icon="icon-park-outline:inbox-success" width="50" />
+                <p>
+                    A confirmation email was sent to
+                    <strong>{{ verifyEmail }}</strong>
+                </p>
             </rflex>
 
-            <p>Before proceeding, we must verify the authenticity of your inbox.</p>
             <p>
-                Check the mailbox! After receiving the email, click on the link provided to confirm the email address.
+                Before proceeding, we must verify the authenticity of your
+                inbox.
             </p>
-         
+            <p>
+                Check the mailbox! After receiving the email, click on the link
+                provided to confirm the email address.
+            </p>
 
-
-            <p class="no-account-p">Back to <nuxt-link to="/auth/login">Sign In</nuxt-link> page.</p>
-
+            <p class="no-account-p">
+                Back to <nuxt-link to="/auth/login">Sign In</nuxt-link> page.
+            </p>
         </form>
-    </main> 
+    </main>
 </template>
 
 <script setup>
-import { Icon } from '@iconify/vue' 
+import { Icon } from "@iconify/vue";
 
-const verifyEmail = ref('')
+const verifyEmail = ref("");
 
 onMounted(() => {
-    verifyEmail.value = localStorage.getItem('verifyEmail')
-})
+    verifyEmail.value = localStorage.getItem("verifyEmail");
+});
 
 definePageMeta({
-    layout: 'veloris-auth'
-})
+    layout: "veloris-auth",
+});
 </script>
 
-<style lang='sass' scoped>
+<style lang="sass" scoped>
 
 main
     height: 100%
@@ -46,8 +51,8 @@ main
     align-items: center
     justify-content: center
     background: $admin-background
-    
-form 
+
+form
     display: flex
     flex-direction: column
 
@@ -65,7 +70,7 @@ form
         margin-bottom: 5px
         font-weight: 500
 
-    
+
     a
         text-decoration: underline
         color: black

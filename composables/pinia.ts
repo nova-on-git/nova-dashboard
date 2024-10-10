@@ -9,7 +9,9 @@ let $Blogs: BlogStore
 let $Payment: PaymentStore
 let $Analytics: AnalyticsStore
 let $Projects: ProjectStore
+let $Chatroom: ChatroomStore
 
+import { useChatroomStore } from "../stores/chatroom"
 import { useNotificationStore } from "../stores/notifications"
 import { useCurrentUserStore } from "../stores/currentUser"
 import { useOrderStore } from "../stores/orders"
@@ -22,6 +24,7 @@ import { useAnalyticsStore } from "../stores/analytics"
 import { usePaymentStore } from "../stores/payment"
 import { useProjectStore } from "../stores/projects"
 
+export type ChatroomStore = ReturnType<typeof useChatroomStore>
 export type ProjectStore = ReturnType<typeof useProjectStore>
 export type NotificationStore = ReturnType<typeof useNotificationStore>
 export type BlogStore = ReturnType<typeof useBlogStore>
@@ -35,7 +38,6 @@ export type DashboardStore = ReturnType<typeof useDashboardStore>
 export type PaymentStore = ReturnType<typeof usePaymentStore>
 
 export async function initStores() {
-
     $Notifications = useNotificationStore()
     $Notifications.init()
 
@@ -61,7 +63,23 @@ export async function initStores() {
     $Projects = useProjectStore()
     $Projects.init()
 
+    $Chatroom = useChatroomStore()
+    $Chatroom.init()
+
     console.debug("[Veloris] Pinia stores initialized")
 }
 
-export { $Notifications, $CurrentUser, $Orders, $Products, $Users, $Basket, $Dashboard, $Analytics, $Blogs, $Payment, $Projects }
+export {
+    $Notifications,
+    $CurrentUser,
+    $Orders,
+    $Products,
+    $Users,
+    $Basket,
+    $Dashboard,
+    $Analytics,
+    $Blogs,
+    $Payment,
+    $Projects,
+    $Chatroom,
+}

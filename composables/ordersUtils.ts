@@ -1,9 +1,9 @@
 export function formatDate(timestamp: Date) {
-    const date = new Date(timestamp)
+    const date = new Date(timestamp);
 
     if (isNaN(date.getTime())) {
-        console.error("Invalid date object")
-        return ""
+        console.error("Invalid date object");
+        return "";
     }
 
     // Customize the options as needed
@@ -15,29 +15,29 @@ export function formatDate(timestamp: Date) {
         minute: "2-digit",
         second: "2-digit",
         hour12: true, // Set to true for 12-hour format
-    }
+    };
 
-    return date.toLocaleString(undefined, options)
+    return date.toLocaleString(undefined, options);
 }
 
 export function getStatusIcon(orderStatus: OrderStatus) {
     switch (orderStatus) {
         case "pending":
-            return "material-symbols:av-timer"
+            return "material-symbols:av-timer";
 
         case "accepted":
-            return "hugeicons:tick-01"
+            return "hugeicons:tick-01";
 
         case "shipped":
-            return "material-symbols:local-shipping-outline"
+            return "material-symbols:local-shipping-outline";
 
         case "delivered":
-            return "material-symbols:home-work-outline"
+            return "material-symbols:home-work-outline";
 
         case "cancelled":
-            return "material-symbols:cancel-outline"
+            return "material-symbols:cancel-outline";
 
         default:
-            return ""
+            return "";
     }
 }

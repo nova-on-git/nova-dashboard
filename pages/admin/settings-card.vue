@@ -12,8 +12,8 @@
 const props = defineProps({
     title: {
         type: String,
-        required: true
-    }
+        required: true,
+    },
 });
 </script>
 
@@ -29,7 +29,9 @@ const props = defineProps({
     max-width: 300px;
     margin: 16px;
 
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
 
     &:hover {
         transform: translateY(-5px);

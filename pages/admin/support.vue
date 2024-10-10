@@ -6,7 +6,7 @@
 definePageMeta({
     layout: "dashboard",
     middleware: "admin-auth",
-})
+});
 </script>
 
 <style lang="sass" scoped></style>

@@ -5,9 +5,12 @@
             <tooltip>
                 <h4>Average Session Duration</h4>
 
-                The <strong>Average Session Duration</strong> chart measures the average amount of time users spend on your website during a
-                single session. A session is defined as a period of user interaction with your site, which can include multiple page views,
-                events, or interactions until the user leaves or becomes inactive.
+                The <strong>Average Session Duration</strong> chart measures the
+                average amount of time users spend on your website during a
+                single session. A session is defined as a period of user
+                interaction with your site, which can include multiple page
+                views, events, or interactions until the user leaves or becomes
+                inactive.
             </tooltip>
         </btn>
         <canvas ref="chart" height="200"></canvas>
@@ -15,51 +18,55 @@
 </template>
 
 <script setup lang="ts">
-import { Icon } from "@iconify/vue"
-import { Chart, registerables } from "chart.js"
-import { lineChartOptions } from "~/stores/analytics"
+import { Icon } from "@iconify/vue";
+import { Chart, registerables } from "chart.js";
+import { lineChartOptions } from "~/stores/analytics";
 
 // Register all necessary components
-Chart.register(...registerables)
+Chart.register(...registerables);
 
-let myChart: Chart | null = null
-const chart = ref<HTMLCanvasElement | null>(null)
+let myChart: Chart | null = null;
+const chart = ref<HTMLCanvasElement | null>(null);
 
 watch(
     () => $Analytics.getReport("averageSessionDuration"),
     (newData) => {
         if (newData) {
-            renderGraph()
+            renderGraph();
         }
-    }
-)
+    },
+);
 
 onMounted(() => {
-    renderGraph()
-})
+    renderGraph();
+});
 
 async function renderGraph() {
-    const data = $Analytics.getReport("averageSessionDuration")
-    if (!data || Object.keys(data).length === 0) return
+    const data = $Analytics.getReport("averageSessionDuration");
+    if (!data || Object.keys(data).length === 0) return;
 
-    const xLabels = data.rows.map((row) => $Analytics.getFormattedDate(row.dimensionValues[0].value))
-    const xValues = data.rows.map((row) => Number(row.metricValues[0].value) / 60)
+    const xLabels = data.rows.map((row) =>
+        $Analytics.getFormattedDate(row.dimensionValues[0].value),
+    );
+    const xValues = data.rows.map(
+        (row) => Number(row.metricValues[0].value) / 60,
+    );
 
     // Combine labels and user data into an array of objects
     const combinedData = xLabels.map((xLabel, index) => ({
         xLabel,
         xValue: xValues[index],
-    }))
+    }));
 
     // combinedData.sort((a, b) => a.xLabel.localeCompare(b.xLabel))
 
-    const sortedXLabels = combinedData.map((item) => item.xLabel)
-    const sortedXValues = combinedData.map((item) => item.xValue)
+    const sortedXLabels = combinedData.map((item) => item.xLabel);
+    const sortedXValues = combinedData.map((item) => item.xValue);
 
-    const ctx = chart.value?.getContext("2d")
+    const ctx = chart.value?.getContext("2d");
     if (ctx) {
         if (myChart) {
-            myChart.destroy()
+            myChart.destroy();
         }
 
         myChart = new Chart(ctx, {
@@ -125,7 +132,7 @@ async function renderGraph() {
                     },
                 },
             },
-        })
+        });
     }
 }
 </script>

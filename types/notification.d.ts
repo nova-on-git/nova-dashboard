@@ -1,34 +1,38 @@
-export {}
+export {};
 
 declare global {
     interface AppNotification {
-        id: string
-        title: string
-        type: "store" | "order" | "blog"
-        mode: "success" | "info" | "warning" | "danger"
-        message: string
-        read: boolean
+        id: string;
+        title: string;
+        type: "store" | "order" | "blog";
+        mode: "success" | "info" | "warning" | "danger";
+        message: string;
+        read: boolean;
         style: {
-            icon: string
-            backgroundColor: string
-        }
+            icon: string;
+            backgroundColor: string;
+        };
         action: {
-            type: "link" | "none"
-            url?: string
-        }
-        timestamp: string
+            type: "link" | "none";
+            url?: string;
+        };
+        timestamp: string;
     }
 
-    interface CreateNotification extends Omit<AppNotification, "read" | "id" | "style" | "action" | "timestamp"> {
-        read?: boolean
+    interface CreateNotification
+        extends Omit<
+            AppNotification,
+            "read" | "id" | "style" | "action" | "timestamp"
+        > {
+        read?: boolean;
         action?: {
-            type?: "link" | "none"
-            url?: string
-        }
+            type?: "link" | "none";
+            url?: string;
+        };
         style?: {
-            icon: string
-            backgroundColor: string
-        }
-        timestamp?: string
+            icon: string;
+            backgroundColor: string;
+        };
+        timestamp?: string;
     }
 }

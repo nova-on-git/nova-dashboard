@@ -23,12 +23,12 @@
 const links = [
     { name: "admin", url: "/admin" },
     { name: "orders", url: "" },
-]
+];
 
 definePageMeta({
     layout: "dashboard",
     middleware: "admin-auth",
-})
+});
 </script>
 
 <style lang="sass" scoped>

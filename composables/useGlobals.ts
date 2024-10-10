@@ -4,7 +4,7 @@ import type { FirebaseStorage } from "firebase/storage"
 
 export function useVelorisConfig(): VelorisConfig {
     const nuxtApp = useNuxtApp()
-    const $velorisConfig = nuxtApp.$velorisConfig 
+    const $velorisConfig = nuxtApp.$velorisConfig
     return $velorisConfig as VelorisConfig
 }
 
@@ -18,8 +18,16 @@ export function useDb(): Firestore {
     return nuxtApp.$db as Firestore
 }
 
+export function useVelorisDb(): Firestore {
+    const nuxtApp = useNuxtApp()
+    return nuxtApp.$velorisDb as Firestore
+}
+
 export function useStorage(): FirebaseStorage {
     const nuxtApp = useNuxtApp()
     return nuxtApp.$storage as FirebaseStorage
 }
-
+export function useVelorisStorage(): FirebaseStorage {
+    const nuxtApp = useNuxtApp()
+    return nuxtApp.$velorisStorage as FirebaseStorage
+}

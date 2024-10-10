@@ -3,14 +3,29 @@
         <modal id="categoryToggle" ref="categoryToggle">
             <div class="modalBody">
                 <h4 class="text-blue-500">Add a category</h4>
-                <input class="rounded-input text-blue-50" type="text" v-model="addCategoryInput" />
+                <input
+                    class="rounded-input text-blue-50"
+                    type="text"
+                    v-model="addCategoryInput"
+                />
 
                 <rflex class="buttonsContainer">
-                    <btn class="darkgrey-button" @click="$Products.createCategory(addCategoryInput), $Products.read(true)"
+                    <btn
+                        class="darkgrey-button"
+                        @click="
+                            $Products.createCategory(addCategoryInput),
+                                $Products.read(true)
+                        "
                         >Add Category</btn
                     >
-                    <btn class="red-button text-blue-500" @click="categoryToggle.close()">
-                        <Icon icon="material-symbols:close-rounded" width="25" />
+                    <btn
+                        class="red-button text-blue-500"
+                        @click="categoryToggle.close()"
+                    >
+                        <Icon
+                            icon="material-symbols:close-rounded"
+                            width="25"
+                        />
                         Cancel
                     </btn>
                 </rflex>
@@ -21,15 +36,23 @@
             <cflex class="discard-modal admin-box">
                 <rflex class="modal-top-row">
                     <h6>Are you sure?</h6>
-                    <btn @click="modalRef.close(), (itemToDelete = '')"><Icon icon="material-symbols:close-rounded" width="25" /></btn>
+                    <btn @click="modalRef.close(), (itemToDelete = '')"
+                        ><Icon icon="material-symbols:close-rounded" width="25"
+                    /></btn>
                 </rflex>
 
                 <rflex class="buttons-row">
-                    <btn class="darkgrey-button" @click="modalRef.close(), (itemToDelete = '')">
+                    <btn
+                        class="darkgrey-button"
+                        @click="modalRef.close(), (itemToDelete = '')"
+                    >
                         KEEP MY PRODUCT
                         <Icon icon="icon-park-outline:ad-product" width="20" />
                     </btn>
-                    <btn class="red-button" @click="deleteItem(itemToDelete), modalRef.close()">
+                    <btn
+                        class="red-button"
+                        @click="deleteItem(itemToDelete), modalRef.close()"
+                    >
                         DELETE
                         <Icon icon="ri:delete-bin-5-line" width="20" />
                     </btn>
@@ -54,21 +77,37 @@
 
                 <rflex class="search-filter">
                     <div class="filter-container">
-                        <label for="filter"><strong>Filter Status:</strong></label>
-                        <select id="filter" v-model="selectedFilter" @change="applyFilter">
+                        <label for="filter"
+                            ><strong>Filter Status:</strong></label
+                        >
+                        <select
+                            id="filter"
+                            v-model="selectedFilter"
+                            @change="applyFilter"
+                        >
                             <option value="all">all</option>
                             <option value="available">available</option>
                             <option value="sold">sold</option>
                             <option value="hidden">hidden</option>
                         </select>
                     </div>
-                    <input type="search" v-model="searchQuery" placeholder="Search products..." />
+                    <input
+                        type="search"
+                        v-model="searchQuery"
+                        placeholder="Search products..."
+                    />
                 </rflex>
             </cflex>
             <form @submit.prevent="addCategory">
-                <rflex class="categories-bar admin-box" v-if="velorisConfig.categories">
+                <rflex
+                    class="categories-bar admin-box"
+                    v-if="velorisConfig.categories"
+                >
                     <rflex class="tabs">
-                        <tab :class="{ active: activeCategory === 'all' }" class="tab" @click="changeActiveCategory('all')"
+                        <tab
+                            :class="{ active: activeCategory === 'all' }"
+                            class="tab"
+                            @click="changeActiveCategory('all')"
                             >All Categories</tab
                         >
 
@@ -84,7 +123,9 @@
                     </rflex>
 
                     <rflex>
-                        <btn modal="categoryToggle" class="text-red-500">Add a category</btn>
+                        <btn modal="categoryToggle" class="text-red-500"
+                            >Add a category</btn
+                        >
                     </rflex>
                 </rflex>
             </form>
@@ -92,7 +133,12 @@
             <Suspense>
                 <template #default>
                     <rflex class="items" v-if="!isLoading">
-                        <StoreProductCard :product="item" v-for="item in filteredProducts" :key="item.id"> </StoreProductCard>
+                        <StoreProductCard
+                            :product="item"
+                            v-for="item in filteredProducts"
+                            :key="item.id"
+                        >
+                        </StoreProductCard>
                     </rflex>
                 </template>
 
@@ -107,81 +153,89 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue"
-import { Icon } from "@iconify/vue"
+import { ref, computed, onMounted } from "vue";
+import { Icon } from "@iconify/vue";
 // import { use$Products } from "~/stores/products"
-import velorisConfig from "~/veloris.config.ts"
+import velorisConfig from "~/veloris.config.ts";
 
 const links = [
     // Add your breadcrumb links here
-]
+];
 
-const categoryToggle = ref(null)
-const addCategoryInput = ref("")
+const categoryToggle = ref(null);
+const addCategoryInput = ref("");
 // const $Products = use$Products()
-const activeCategory = ref("all")
-const modalRef = ref(null)
-const itemToDelete = ref("")
-const selectedFilter = ref("all")
-const searchQuery = ref("")
-const products = ref([])
-const categories = ref([])
+const activeCategory = ref("all");
+const modalRef = ref(null);
+const itemToDelete = ref("");
+const selectedFilter = ref("all");
+const searchQuery = ref("");
+const products = ref([]);
+const categories = ref([]);
 
 const filteredProducts = computed(() => {
     let filtered =
-        activeCategory.value === "all" ? products.value : products.value.filter((product) => product.category === activeCategory.value)
+        activeCategory.value === "all"
+            ? products.value
+            : products.value.filter(
+                  (product) => product.category === activeCategory.value,
+              );
 
     if (selectedFilter.value !== "all") {
-        filtered = filtered.filter((product) => product.visibility === selectedFilter.value)
+        filtered = filtered.filter(
+            (product) => product.visibility === selectedFilter.value,
+        );
     }
 
     if (searchQuery.value) {
-        const query = searchQuery.value.toLowerCase()
+        const query = searchQuery.value.toLowerCase();
         filtered = filtered.filter(
-            (product) => product.name.toLowerCase().includes(query) || product.description.toLowerCase().includes(query)
-        )
+            (product) =>
+                product.name.toLowerCase().includes(query) ||
+                product.description.toLowerCase().includes(query),
+        );
     }
 
-    return filtered
-})
+    return filtered;
+});
 
 function changeActiveCategory(category) {
-    activeCategory.value = category
+    activeCategory.value = category;
 }
 
-const isLoading = ref(true)
+const isLoading = ref(true);
 onMounted(async () => {
-    await $Products.read(true)
-    products.value = $Products.get
-    categories.value = $Products.getCategories
+    await $Products.read(true);
+    products.value = $Products.get;
+    categories.value = $Products.getCategories;
 
-    let flattenedArr = []
+    let flattenedArr = [];
 
     for (const category in products.value) {
         if (Array.isArray(products.value[category])) {
-            flattenedArr = flattenedArr.concat(products.value[category])
+            flattenedArr = flattenedArr.concat(products.value[category]);
         }
     }
 
-    products.value = flattenedArr
-    isLoading.value = false
-})
+    products.value = flattenedArr;
+    isLoading.value = false;
+});
 
 async function deleteItem(itemToDelete) {
-    await $Products.delete(itemToDelete)
-    await $Products.read(true)
-    products.value = $Products.get
+    await $Products.delete(itemToDelete);
+    await $Products.read(true);
+    products.value = $Products.get;
 }
 
 function applyFilter() {
     // This function can be implemented if additional logic is needed
-    console.log("Filter applied:", selectedFilter.value)
+    console.log("Filter applied:", selectedFilter.value);
 }
 
 definePageMeta({
     layout: "dashboard",
     middleware: "admin-auth",
-})
+});
 </script>
 
 <style lang="sass" scoped>

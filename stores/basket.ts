@@ -1,4 +1,4 @@
-import { defineStore } from "pinia"
+import { defineStore } from "pinia";
 
 export const useBasketStore = defineStore("basket", {
     state: () => ({
@@ -7,59 +7,59 @@ export const useBasketStore = defineStore("basket", {
 
     getters: {
         get(state) {
-            return state.basket
+            return state.basket;
         },
 
         getBasketTotal(state) {
-            let total = 0
+            let total = 0;
             for (const item of state.basket) {
-                total += Number(item.price)
+                total += Number(item.price);
             }
 
             // Return total in pence //
-            return total * 100
+            return total * 100;
         },
 
         inBasket: (state) => (id) => {
-            return state.basket.some((item) => item.id === id)
+            return state.basket.some((item) => item.id === id);
         },
     },
 
     actions: {
         async read() {
-            this.unCache()
+            this.unCache();
         },
 
         async add(itemObj) {
             if (!this.basket.includes(itemObj)) {
-                this.basket.push(itemObj)
+                this.basket.push(itemObj);
             }
 
-            this.cache()
+            this.cache();
         },
 
         async remove(itemObj) {
             this.basket = this.basket.filter((item) => {
-                item != itemObj
-            })
-            this.cache()
+                item != itemObj;
+            });
+            this.cache();
         },
 
         async removeById(itemId) {
             this.basket = this.basket.splice(
                 this.basket.findIndex((item) => item.id === itemId),
-                1
-            )
-            this.cache()
+                1,
+            );
+            this.cache();
         },
 
         async cache() {
-            localStorage.setItem("$Basket", JSON.stringify(this.basket))
+            localStorage.setItem("$Basket", JSON.stringify(this.basket));
         },
 
         async unCache() {
-            const basketCache = localStorage.getItem("$Basket")
-            if (basketCache) this.basket = JSON.parse(basketCache)
+            const basketCache = localStorage.getItem("$Basket");
+            if (basketCache) this.basket = JSON.parse(basketCache);
         },
     },
-})
+});

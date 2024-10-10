@@ -5,10 +5,10 @@
 </template>
 
 <script setup lang="ts">
-const blog = ref({})
+const blog = ref({});
 
 definePageMeta({
     layout: "dashboard",
     auth: "admin-auth",
-})
+});
 </script>

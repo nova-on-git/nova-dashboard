@@ -1,40 +1,37 @@
-
-
 <script setup>
-import { onClickOutside } from "@vueuse/core"
+import { onClickOutside } from "@vueuse/core";
 
-const sidebar = ref(null)
-const router = useRouter()
+const sidebar = ref(null);
+const router = useRouter();
 
 onClickOutside(sidebar, (event) => {
-    if (window.innerWidth < 1400) $Dashboard.closeNav()
-})
+    if (window.innerWidth < 1400) $Dashboard.closeNav();
+});
 
 function checkWindowSize() {
     if (window.innerWidth < 1400) {
-        $Dashboard.closeNav()
+        $Dashboard.closeNav();
     } else {
-        $Dashboard.openNav()
+        $Dashboard.openNav();
     }
 }
 
 onMounted(() => {
-    checkWindowSize()
-    window.addEventListener("resize", checkWindowSize)
+    checkWindowSize();
+    window.addEventListener("resize", checkWindowSize);
 
     router.beforeEach(() => {
         if (window.innerWidth < 1400) {
-            $Dashboard.closeNav()
+            $Dashboard.closeNav();
         }
-    })
-})
+    });
+});
 
 onUnmounted(() => {
-    window.removeEventListener("resize", checkWindowSize)
-})
+    window.removeEventListener("resize", checkWindowSize);
+});
 </script>
 <template>
-
     <cflex>
         <AdminTopbar />
 
@@ -53,14 +50,13 @@ onUnmounted(() => {
             <DashboardLoader v-if="$Dashboard.loading" />
         </Transition>
     </cflex>
-
 </template>
 
 <style scoped lang="sass">
 
-.content 
+.content
     align-items: stretch
-    
+
 
 
 

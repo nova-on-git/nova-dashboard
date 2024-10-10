@@ -3,41 +3,41 @@
 </template>
 
 <script setup lang="ts">
-const mousePos = ref([0, 0])
+const mousePos = ref([0, 0]);
 function handleMouseMove(event) {
-    let mouseX = event.clientX
-    let mouseY = event.clientY
+    let mouseX = event.clientX;
+    let mouseY = event.clientY;
 
-    mousePos.value = [mouseX, mouseY]
+    mousePos.value = [mouseX, mouseY];
 }
 
 function handleClick(event) {
-    const asteroid = document.createElement("div")
-    asteroid.classList.add("asteroid")
-    asteroid.innerText = "hello"
+    const asteroid = document.createElement("div");
+    asteroid.classList.add("asteroid");
+    asteroid.innerText = "hello";
 
-    const context = document.getElementById("ctx")
+    const context = document.getElementById("ctx");
 
     if (context) {
-        const rect = context.getBoundingClientRect()
+        const rect = context.getBoundingClientRect();
 
-        const x = event.clientX - rect.left
-        const y = event.clientY - rect.top
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
 
-        asteroid.style.left = `${x - asteroid.offsetWidth / 2}px`
-        asteroid.style.top = `${y - asteroid.offsetHeight / 2}px`
+        asteroid.style.left = `${x - asteroid.offsetWidth / 2}px`;
+        asteroid.style.top = `${y - asteroid.offsetHeight / 2}px`;
 
-        asteroid.style.position = "absolute"
+        asteroid.style.position = "absolute";
 
         // Append the asteroid to the container
-        context.appendChild(asteroid)
+        context.appendChild(asteroid);
     }
 }
 
 onMounted(() => {
-    document.addEventListener("mousedown", handleClick)
-    document.addEventListener("mousemove", handleMouseMove)
-})
+    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("mousemove", handleMouseMove);
+});
 </script>
 
 <style lang="sass">

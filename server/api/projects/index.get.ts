@@ -1,15 +1,15 @@
-import { collection, doc, getDocs } from "firebase/firestore"
+import { collection, doc, getDocs } from "firebase/firestore";
 
 export default eventHandler(async (event) => {
-    const db = event.context.velorisDb
-    
-    const colRef = collection(db, "projects")
-    const snapshot = await getDocs(colRef)
+    const db = event.context.velorisDb;
 
-   const projectsArray = snapshot.docs.map(doc => ({
+    const colRef = collection(db, "projects");
+    const snapshot = await getDocs(colRef);
+
+    const projectsArray = snapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data() 
-   })) 
+        ...doc.data(),
+    }));
 
-   return projectsArray || []
-})
+    return projectsArray || [];
+});

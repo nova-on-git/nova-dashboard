@@ -28,17 +28,17 @@ interface UserObj {
     role: string;
 }
 
-const users = ref<UserObj[]>([])
+const users = ref<UserObj[]>([]);
 
 onMounted(async () => {
-    await $Users.read()
-    users.value = $Users.get
-})
+    await $Users.read();
+    users.value = $Users.get;
+});
 
 definePageMeta({
     layout: "dashboard",
     middleware: "admin-auth",
-})
+});
 </script>
 
 <style lang="sass" scoped>

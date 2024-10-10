@@ -4,7 +4,9 @@
             <div>© 2024 Veloris</div>
         </rflex>
         <div>|</div>
-        <anchor to="https://velorisdesigns.com" target="_blank">Veloris Designs</anchor>
+        <anchor to="https://velorisdesigns.com" target="_blank"
+            >Veloris Designs</anchor
+        >
         <rflex></rflex>
     </rflex>
 </template>

@@ -1,6 +1,6 @@
-import { defineStore } from "pinia"
-import axios from "axios"
-import { collection, onSnapshot } from "firebase/firestore"
+import { defineStore } from "pinia";
+import axios from "axios";
+import { collection, onSnapshot } from "firebase/firestore";
 
 export const useOrderStore = defineStore("orders", {
     state: () => ({
@@ -9,129 +9,138 @@ export const useOrderStore = defineStore("orders", {
 
     getters: {
         get(state) {
-            return state.orders
+            return state.orders;
         },
 
         search: (state) => (searchQuery: string) => {
             if (!searchQuery) {
-                return state.orders
+                return state.orders;
             }
 
-            const lowerCaseQuery = searchQuery.toLowerCase()
+            const lowerCaseQuery = searchQuery.toLowerCase();
 
             return state.orders.filter((order) => {
                 const matchesOrder = Object.values(order).some((value) => {
                     if (typeof value === "string") {
-                        return value.toLowerCase().includes(lowerCaseQuery)
+                        return value.toLowerCase().includes(lowerCaseQuery);
                     }
                     if (Array.isArray(value)) {
                         return value.some((item) => {
                             return Object.values(item).some((itemValue) => {
-                                return String(itemValue).toLowerCase().includes(lowerCaseQuery)
-                            })
-                        })
+                                return String(itemValue)
+                                    .toLowerCase()
+                                    .includes(lowerCaseQuery);
+                            });
+                        });
                     }
 
                     if (typeof value === "object" && value !== null) {
                         return Object.values(value).some((objValue) => {
-                            return String(objValue).toLowerCase().includes(lowerCaseQuery)
-                        })
+                            return String(objValue)
+                                .toLowerCase()
+                                .includes(lowerCaseQuery);
+                        });
                     }
-                    return false
-                })
+                    return false;
+                });
 
-                return matchesOrder // Return true if there's a match
-            })
+                return matchesOrder; // Return true if there's a match
+            });
         },
 
         filterByStatus: (state) => (status: OrderStatusFilter) => {
-            if (status === "all") return state.orders
-            return state.orders.filter((order) => order.status === status)
+            if (status === "all") return state.orders;
+            return state.orders.filter((order) => order.status === status);
         },
 
         getOrderById: (state) => {
             return (id: string): Order | null => {
-                const order = state.orders.find((order) => order.id === id)
-                return order || null
-            }
+                const order = state.orders.find((order) => order.id === id);
+                return order || null;
+            };
         },
     },
 
     actions: {
         async init() {
-            if (!import.meta.client) return
+            if (!import.meta.client) return;
 
-            const $db = useDb()
+            const $db = useDb();
 
-            const cachedOrders = localStorage.getItem("orders")
+            const cachedOrders = localStorage.getItem("orders");
 
             if (cachedOrders) {
-                this.orders = JSON.parse(cachedOrders)
+                this.orders = JSON.parse(cachedOrders);
             }
 
-            await this.read()
+            await this.read();
 
-            const colRef = collection($db, "orders")
+            const colRef = collection($db, "orders");
 
             onSnapshot(
                 colRef,
                 (snapshot) => {
-                    const orders: Order[] = []
+                    const orders: Order[] = [];
                     snapshot.forEach((doc) => {
-                        orders.push({ id: doc.id, ...doc.data() } as Order)
-                    })
-                    this.orders = orders
+                        orders.push({ id: doc.id, ...doc.data() } as Order);
+                    });
+                    this.orders = orders;
                 },
                 (error) => {
-                    console.error("Error getting notifications: ", error)
-                }
-            )
+                    console.error("Error getting notifications: ", error);
+                },
+            );
         },
 
         async read() {
             try {
-                const { data } = await useFetch(`/api/orders`)
-                this.orders = data.value as Order[]
+                const { data } = await useFetch(`/api/orders`);
+                this.orders = data.value as Order[];
 
-                localStorage.setItem("orders", JSON.stringify(this.orders))
+                localStorage.setItem("orders", JSON.stringify(this.orders));
 
-                return this.orders
+                return this.orders;
             } catch (error) {
-                console.error(error)
-                return []
+                console.error(error);
+                return [];
             }
         },
 
         async updateStatus(id: string, newStatus: Order["status"]) {
-            const orderIndex = this.orders.findIndex((order) => order.id === id)
+            const orderIndex = this.orders.findIndex(
+                (order) => order.id === id,
+            );
             if (orderIndex === -1) {
-                console.error("Order not found")
-                return
+                console.error("Order not found");
+                return;
             }
 
-            const originalOrder = { ...this.orders[orderIndex] }
-            this.orders[orderIndex] = { ...this.orders[orderIndex], status: newStatus }
+            const originalOrder = { ...this.orders[orderIndex] };
+            this.orders[orderIndex] = {
+                ...this.orders[orderIndex],
+                status: newStatus,
+            };
 
             try {
                 await axios.put(`${window.location.origin}/api/orders`, {
                     id: id,
                     newStatus: newStatus,
-                })
+                });
             } catch (error) {
-                console.error("Error updating status:", error)
-                this.orders[orderIndex] = originalOrder
+                console.error("Error updating status:", error);
+                this.orders[orderIndex] = originalOrder;
             }
         },
 
         async createDummy() {
-            const id = await this.create(testOrderObject)
+            const id = await this.create(testOrderObject);
             await useFetch("/api/orders/incomplete/resolve-order", {
                 method: "PUT",
                 body: { orderId: id },
-            })
+            });
         },
     },
-})
+});
 export const testOrderObject: Omit<Order, "id"> = {
     currency: "gbp",
     items: [
@@ -240,4 +249,4 @@ export const testOrderObject: Omit<Order, "id"> = {
         county: "county",
     },
     notes: "These are the order notes",
-}
+};

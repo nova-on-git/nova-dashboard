@@ -4,7 +4,9 @@
             <cflex class="discard-modal admin-box">
                 <rflex class="modal-top-row">
                     <h6>Are you sure?</h6>
-                    <btn @click="modalRef.close()"><Icon icon="material-symbols:close-rounded" width="25" /></btn>
+                    <btn @click="modalRef.close()"
+                        ><Icon icon="material-symbols:close-rounded" width="25"
+                    /></btn>
                 </rflex>
 
                 <rflex>
@@ -34,9 +36,16 @@
                             DISCARD
                             <Icon icon="ri:delete-bin-5-line" width="20" />
                         </btn>
-                        <btn type="submit" class="darkgrey-button" :loading="savingChanges">
+                        <btn
+                            type="submit"
+                            class="darkgrey-button"
+                            :loading="savingChanges"
+                        >
                             SAVE CHANGES
-                            <Icon icon="material-symbols:storefront-outline-rounded" width="20" />
+                            <Icon
+                                icon="material-symbols:storefront-outline-rounded"
+                                width="20"
+                            />
                             <loader color="white" width="20px" />
                         </btn>
                     </rflex>
@@ -52,41 +61,41 @@
 </template>
 
 <script setup>
-import { Icon } from "@iconify/vue"
-const route = useRoute()
+import { Icon } from "@iconify/vue";
+const route = useRoute();
 // const $Products = use$Products()
-const savedChanges = ref(false)
-const savingChanges = ref(false)
-const images = ref([])
-const modalRef = ref(null)
-const formData = ref({})
+const savedChanges = ref(false);
+const savingChanges = ref(false);
+const images = ref([]);
+const modalRef = ref(null);
+const formData = ref({});
 
 onMounted(async () => {
-    await $Products.read()
-    const productId = route.params.id
-    formData.value = $Products.getProductById(productId)
-    initImages()
+    await $Products.read();
+    const productId = route.params.id;
+    formData.value = $Products.getProductById(productId);
+    initImages();
     setTimeout(() => {
-        watchFormData()
-    }, 100)
-})
+        watchFormData();
+    }, 100);
+});
 
 function watchFormData() {
     watch(
         formData,
         () => {
-            savedChanges.value = false
+            savedChanges.value = false;
         },
-        { deep: true }
-    )
+        { deep: true },
+    );
 
     watch(
         images,
         () => {
-            savedChanges.value = false
+            savedChanges.value = false;
         },
-        { deep: true }
-    )
+        { deep: true },
+    );
 }
 
 function initImages() {
@@ -96,52 +105,52 @@ function initImages() {
             localUrl: "",
             preview: formData.value.images[index].preview,
             fullSize: formData.value.images[index].fullSize,
-        }
+        };
 
-        images.value.push(imageObj)
+        images.value.push(imageObj);
     }
 }
 
 async function updateItem() {
-    savingChanges.value = true
+    savingChanges.value = true;
 
-    let newImages = []
+    let newImages = [];
     // Get images if needed.
     for (const imageObj of formData.value["images"]) {
-        console.log("doing", imageObj)
+        console.log("doing", imageObj);
         let imageObject = {
             preview: "",
             fullSize: "",
-        }
+        };
 
         if (imageObj.preview) {
-            imageObject["preview"] = imageObj.preview
+            imageObject["preview"] = imageObj.preview;
         } else {
-            const previewUrl = await saveFileToStorage(imageObj.file, true)
-            imageObject["preview"] = previewUrl
+            const previewUrl = await saveFileToStorage(imageObj.file, true);
+            imageObject["preview"] = previewUrl;
         }
 
         if (imageObj.fullSize) {
-            imageObject["fullSize"] = imageObj["fullSize"]
+            imageObject["fullSize"] = imageObj["fullSize"];
         } else {
-            const fullSizeUrl = await saveFileToStorage(imageObj.file, false)
-            imageObject["fullSize"] = fullSizeUrl
+            const fullSizeUrl = await saveFileToStorage(imageObj.file, false);
+            imageObject["fullSize"] = fullSizeUrl;
         }
-        newImages.push(imageObject)
+        newImages.push(imageObject);
     }
-    formData.value["images"] = newImages
+    formData.value["images"] = newImages;
 
-    await $Products.update("default", formData.value)
-    await $Products.read(true)
-    savedChanges.value = true
-    savingChanges.value = false
-    navigateTo("/admin")
+    await $Products.update("default", formData.value);
+    await $Products.read(true);
+    savedChanges.value = true;
+    savingChanges.value = false;
+    navigateTo("/admin");
 }
 
 definePageMeta({
     layout: "dashboard",
     middleware: "admin-auth",
-})
+});
 </script>
 
 <style lang="sass" scoped>

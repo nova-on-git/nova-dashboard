@@ -8,15 +8,27 @@
 
             <cflex>
                 <label for="email">Email Address</label>
-                <input class="nova-input" type="text" name="email" v-model="email" />
+                <input
+                    class="nova-input"
+                    type="text"
+                    name="email"
+                    v-model="email"
+                />
             </cflex>
 
             <cflex>
                 <label for="password">Password</label>
-                <input class="nova-input" type="password" name="password" v-model="password" />
+                <input
+                    class="nova-input"
+                    type="password"
+                    name="password"
+                    v-model="password"
+                />
             </cflex>
 
-            <anchor to="/auth/forgot-password" class="forgot-password-link">Forgot Password?</anchor>
+            <anchor to="/auth/forgot-password" class="forgot-password-link"
+                >Forgot Password?</anchor
+            >
 
             <p v-if="errorMessage" class="error-message">
                 {{ errorMessage }}
@@ -36,7 +48,10 @@
                 </chip>
             </rflex>
 
-            <p class="no-account-p">Don't have an account? <nuxt-link to="/auth/register">Sign Up</nuxt-link></p>
+            <p class="no-account-p">
+                Don't have an account?
+                <nuxt-link to="/auth/register">Sign Up</nuxt-link>
+            </p>
         </form>
     </main>
 </template>
@@ -44,24 +59,20 @@
 <script setup lang="ts">
 definePageMeta({
     layout: "veloris-auth",
-})
+});
 
-import { Icon } from "@iconify/vue"
+import { Icon } from "@iconify/vue";
 
-const loading = ref(false)
-const email = ref("")
-const password = ref("")
-const errorMessage = ref("")
+const loading = ref(false);
+const email = ref("");
+const password = ref("");
+const errorMessage = ref("");
 
 async function handleSignIn(provider: Provider) {
-    if (provider === "email") loading.value = true
-    errorMessage.value = await signIn(provider, email.value, password.value)
-    loading.value = false
+    if (provider === "email") loading.value = true;
+    errorMessage.value = await signIn(provider, email.value, password.value);
+    loading.value = false;
 }
-
-
-
-
 </script>
 
 <style lang="sass" scoped>

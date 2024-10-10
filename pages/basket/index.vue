@@ -3,7 +3,11 @@
         <mpage>
             <rflex class="content-container">
                 <cflex class="basket-items" v-if="basket">
-                    <anchor class="item" :to="`/store/${item.id}`" v-for="item in basket">
+                    <anchor
+                        class="item"
+                        :to="`/store/${item.id}`"
+                        v-for="item in basket"
+                    >
                         <rflex class="left-container">
                             <div class="image-container">
                                 <img :src="item.images[0].preview" />
@@ -15,7 +19,10 @@
                                 <p>{{ item.description }}</p>
                             </div>
                             <rflex>
-                                <div><strong>Size:</strong> {{ item.height }}cm x {{ item.width }}cm</div>
+                                <div>
+                                    <strong>Size:</strong> {{ item.height }}cm x
+                                    {{ item.width }}cm
+                                </div>
                                 <div>
                                     <strong>£{{ item.price }}</strong>
                                 </div>
@@ -23,7 +30,9 @@
                         </cflex>
                     </anchor>
 
-                    <h6 v-if="basket.length == 0"><strong>Items in your basket will show up here.</strong></h6>
+                    <h6 v-if="basket.length == 0">
+                        <strong>Items in your basket will show up here.</strong>
+                    </h6>
                     <rflex class="total-row" v-if="basket.length != 0">
                         <div><strong>Subtotal</strong></div>
                         <div>
@@ -38,42 +47,84 @@
 
                         <cflex class="input-container">
                             <label for="name">Full Name</label>
-                            <input v-model="addressData.name" class="nova-input" type="text" name="name" required />
+                            <input
+                                v-model="addressData.name"
+                                class="nova-input"
+                                type="text"
+                                name="name"
+                                required
+                            />
                         </cflex>
 
                         <cflex class="input-container">
                             <label for="postcode">Postcode</label>
-                            <input v-model="addressData.postcode" class="nova-input" type="text" name="postcode" />
+                            <input
+                                v-model="addressData.postcode"
+                                class="nova-input"
+                                type="text"
+                                name="postcode"
+                            />
                         </cflex>
 
                         <cflex class="input-container">
                             <label for="street-name">Street Name</label>
-                            <input v-model="addressData.street" class="nova-input" type="text" name="street-name" />
+                            <input
+                                v-model="addressData.street"
+                                class="nova-input"
+                                type="text"
+                                name="street-name"
+                            />
                         </cflex>
 
                         <cflex class="input-container">
                             <label for="city">City</label>
-                            <input v-model="addressData.city" class="nova-input" type="text" name="city" />
+                            <input
+                                v-model="addressData.city"
+                                class="nova-input"
+                                type="text"
+                                name="city"
+                            />
                         </cflex>
 
                         <cflex class="input-container">
                             <label for="city">County/ Province</label>
-                            <input v-model="addressData.county" class="nova-input" type="text" name="county" />
+                            <input
+                                v-model="addressData.county"
+                                class="nova-input"
+                                type="text"
+                                name="county"
+                            />
                         </cflex>
 
                         <cflex class="input-container">
                             <label for="city">Country</label>
-                            <input v-model="addressData.country" class="nova-input" type="text" name="Country" />
+                            <input
+                                v-model="addressData.country"
+                                class="nova-input"
+                                type="text"
+                                name="Country"
+                            />
                         </cflex>
 
                         <cflex class="input-container">
                             <label for="number">Contact Number</label>
-                            <input v-model="addressData.contactNumber" class="nova-input" type="text" name="number" />
+                            <input
+                                v-model="addressData.contactNumber"
+                                class="nova-input"
+                                type="text"
+                                name="number"
+                            />
                         </cflex>
 
                         <cflex class="input-container">
                             <label for="notes">Delivery Notes</label>
-                            <textarea v-model="notes" class="nova-input" rows="5" type="text" name="notes" />
+                            <textarea
+                                v-model="notes"
+                                class="nova-input"
+                                rows="5"
+                                type="text"
+                                name="notes"
+                            />
                         </cflex>
                     </div>
 
@@ -96,7 +147,9 @@
                         </rflex>
                     </cflex>
 
-                    <btn class="darkgrey-button checkout-button" type="submit">Checkout</btn>
+                    <btn class="darkgrey-button checkout-button" type="submit"
+                        >Checkout</btn
+                    >
                 </form>
             </rflex>
         </mpage>
@@ -106,12 +159,12 @@
 <script setup lang="ts">
 // const $Basket = use$Basket()
 
-const basket = ref()
-const basketSubTotal = ref<number>(0)
-const deliveryPrice = ref<number>(2000)
-const basketTotal = ref<number>(0)
+const basket = ref();
+const basketSubTotal = ref<number>(0);
+const deliveryPrice = ref<number>(2000);
+const basketTotal = ref<number>(0);
 
-const notes = ref("")
+const notes = ref("");
 const addressData = ref<Address>({
     name: "Random Name Johnson",
     postcode: "RGB6YZ",
@@ -119,17 +172,18 @@ const addressData = ref<Address>({
     street: "Milk Street",
     country: "England",
     county: "Buckinghamshire",
-})
+});
 
 onMounted(async () => {
-    $Basket.read()
-    basket.value = $Basket.get
-    basketSubTotal.value = $Basket.getBasketTotal
-    basketTotal.value = Number(basketSubTotal.value) + Number(deliveryPrice.value)
-})
+    $Basket.read();
+    basket.value = $Basket.get;
+    basketSubTotal.value = $Basket.getBasketTotal;
+    basketTotal.value =
+        Number(basketSubTotal.value) + Number(deliveryPrice.value);
+});
 
 async function startCheckout() {
-    await stripeCheckout(100000, "testitem", {})
+    await stripeCheckout(100000, "testitem", {});
 }
 </script>
 

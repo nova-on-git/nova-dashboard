@@ -4,9 +4,11 @@
             <Icon icon="mi:circle-information" color="grey" width="15" />
             <tooltip>
                 <h4>Users By Date</h4>
-                The <strong>Users by Date</strong> chart is a line graph that tracks the number of users who visited your website over a
-                specified period. This chart helps you visualize traffic trends over time, enabling you to identify patterns in user
-                behavior and assess the overall performance of your website.
+                The <strong>Users by Date</strong> chart is a line graph that
+                tracks the number of users who visited your website over a
+                specified period. This chart helps you visualize traffic trends
+                over time, enabling you to identify patterns in user behavior
+                and assess the overall performance of your website.
             </tooltip>
         </btn>
 
@@ -15,44 +17,46 @@
 </template>
 
 <script setup lang="ts">
-import { Icon } from "@iconify/vue"
-import { Chart, registerables } from "chart.js"
-import { lineChartOptions } from "~/stores/analytics"
+import { Icon } from "@iconify/vue";
+import { Chart, registerables } from "chart.js";
+import { lineChartOptions } from "~/stores/analytics";
 
-Chart.register(...registerables)
+Chart.register(...registerables);
 
-const recentUsers = ref<HTMLCanvasElement | null>(null)
+const recentUsers = ref<HTMLCanvasElement | null>(null);
 
 onMounted(() => {
-    renderGraph()
-})
+    renderGraph();
+});
 
 watch(
     () => $Analytics.getReport("usersByDate"),
     (newData) => {
         if (newData) {
-            renderGraph()
+            renderGraph();
         }
-    }
-)
+    },
+);
 
 async function renderGraph() {
-    const data = $Analytics.getReport("usersByDate")
+    const data = $Analytics.getReport("usersByDate");
 
-    if (!data || Object.keys(data).length === 0) return
+    if (!data || Object.keys(data).length === 0) return;
 
-    const xLabels = data.rows.map((row) => $Analytics.getFormattedDate(row.dimensionValues[0].value))
-    const xValues = data.rows.map((row) => Number(row.metricValues[0].value))
+    const xLabels = data.rows.map((row) =>
+        $Analytics.getFormattedDate(row.dimensionValues[0].value),
+    );
+    const xValues = data.rows.map((row) => Number(row.metricValues[0].value));
 
     const combinedData = xLabels.map((xLabel, index) => ({
         xLabel,
         xValue: xValues[index],
-    }))
+    }));
 
-    const sortedXLabels = combinedData.map((item) => item.xLabel)
-    const sortedXValues = combinedData.map((item) => item.xValue)
+    const sortedXLabels = combinedData.map((item) => item.xLabel);
+    const sortedXValues = combinedData.map((item) => item.xValue);
 
-    const ctx = recentUsers.value?.getContext("2d")
+    const ctx = recentUsers.value?.getContext("2d");
     if (ctx) {
         const myChart = new Chart(ctx, {
             type: "line",
@@ -112,7 +116,7 @@ async function renderGraph() {
                     },
                 },
             },
-        })
+        });
     }
 }
 </script>

@@ -17,20 +17,57 @@
 
             We will need to add settings for our rates, payment plans and so on.
 
+
+            #Requirements
+
+            1. CRUD client projects.
+            2. Use chatroom with client.
+            3. Make project quote and send contract.
+            4. Ask for client to book meeting (through embeded calender).
+            5. Automatic notifications.
         </pre>
+
+        <cflex>
+            <h5>Projects</h5>
+
+            <anchor v-for="project in $Projects.get" :to="`/admin/clients/${project.id}`">{{
+                project.name
+            }}</anchor>
+        </cflex>
+
+        <btn preset="dark" @click="openModal('createProject')">Create Project</btn>
+
+        <modal id="createProject">
+            <form @submit.prevent="$Projects.create(projectDetails)">
+                <label for="Name">Project Name:</label>
+                <input type="text" name="name" v-model="projectDetails.name" />
+
+                <label for="Name">Emails:</label>
+                <input type="text" name="emails" v-model="projectDetails.emails" />
+
+                <label for="Name">Status:</label>
+                <input type="text" name="status" v-model="projectDetails.status" />
+
+                <!-- TODO: make this send an email to everyone in the email list. -->
+                <btn type="submit">Create Project</btn>
+            </form>
+        </modal>
+
         <btn @click="$Projects.createDummy()">Create dummy project</btn>
+        <btn to="/admin/clients/chatroom">Chatroom</btn>
     </main>
 </template>
 
 <script setup lang="ts">
-
+const projectDetails = ref({
+    name: "",
+    emails: [""],
+    status: "onboarding",
+})
 definePageMeta({
     layout: "dashboard",
-    middleware: "admin-auth"
+    middleware: "admin-auth",
 })
-
 </script>
 
-<style lang='sass' scoped>
-
-</style>
+<style lang="sass" scoped></style>

@@ -1,15 +1,7 @@
 <template>
-    <main>
-
-        Track order here.
-
-    </main>
+    <main>Track order here.</main>
 </template>
 
-<script setup>
+<script setup></script>
 
-</script>
-
-<style lang='sass' scoped>
-
-</style>
+<style lang="sass" scoped></style>

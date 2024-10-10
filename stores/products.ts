@@ -1,5 +1,5 @@
-import { defineStore } from "pinia"
-import axios from "axios"
+import { defineStore } from "pinia";
+import axios from "axios";
 
 export const useProductStore = defineStore("products", {
     state: () => ({
@@ -8,96 +8,111 @@ export const useProductStore = defineStore("products", {
 
     getters: {
         get: (state) => {
-            return state.products
+            return state.products;
         },
 
         getCategories: (state) => {
-            let categories = []
+            let categories = [];
 
             for (const key in state.products) {
-                categories.push(key)
+                categories.push(key);
             }
 
-            return categories
+            return categories;
         },
 
         getProductsByCategory: (state) => (category: string) => {
             if (category === "all") {
-                return Object.values(state.products).flat()
+                return Object.values(state.products).flat();
             }
-            return state.products[category] || []
+            return state.products[category] || [];
         },
 
         getProductById: (state) => (id: string) => {
             for (const category in state.products) {
-                const foundProduct = state.products[category].find((product) => product.id === id)
+                const foundProduct = state.products[category].find(
+                    (product) => product.id === id,
+                );
                 if (foundProduct) {
-                    return foundProduct
+                    return foundProduct;
                 }
             }
-            return undefined
+            return undefined;
         },
     },
 
     actions: {
         async create(category: string, itemObj: Product) {
             try {
-                await axios.post(`/api/store/categories/${category}/products`, itemObj)
+                await axios.post(
+                    `/api/store/categories/${category}/products`,
+                    itemObj,
+                );
             } catch (error) {
-                console.error(error)
+                console.error(error);
             }
         },
 
         async read(forceRefresh = true) {
             if (!forceRefresh) {
-                const cachedProducts = localStorage.getItem("products")
+                const cachedProducts = localStorage.getItem("products");
                 if (cachedProducts) {
-                    console.info("Fetching orders from cache")
-                    this.products = JSON.parse(cachedProducts)
-                    return this.products
+                    console.info("Fetching orders from cache");
+                    this.products = JSON.parse(cachedProducts);
+                    return this.products;
                 }
             }
 
-            console.info("Fetching orders from DB")
+            console.info("Fetching orders from DB");
 
             try {
-                const response = await axios.get("/api/store")
-                this.products = response.data
+                const response = await axios.get("/api/store");
+                this.products = response.data;
 
                 if (process.client) {
-                    localStorage.setItem("products", JSON.stringify(this.products))
+                    localStorage.setItem(
+                        "products",
+                        JSON.stringify(this.products),
+                    );
                 }
 
-                return this.products
+                return this.products;
             } catch (error) {
-                console.error(error)
-                return []
+                console.error(error);
+                return [];
             }
         },
 
         async update(category: string, itemObj: Product) {
             try {
-                await axios.put(`${window.location.origin}/api/store/categories/${category}/products`, itemObj)
+                await axios.put(
+                    `${window.location.origin}/api/store/categories/${category}/products`,
+                    itemObj,
+                );
             } catch (error) {
-                console.error(error)
+                console.error(error);
             }
         },
 
         async delete(itemId: string) {
-            console.log("deleting", itemId)
+            console.log("deleting", itemId);
             try {
-                await axios.delete(`${window.location.origin}/api/store/${itemId}`)
+                await axios.delete(
+                    `${window.location.origin}/api/store/${itemId}`,
+                );
             } catch (error) {
-                console.error("Failed to delete item: ", error)
+                console.error("Failed to delete item: ", error);
             }
         },
 
         async createCategory(category: string) {
             try {
-                await axios.post(`${window.location.origin}/api/store/categories/${category}`)
+                await axios.post(
+                    `${window.location.origin}/api/store/categories/${category}`,
+                );
             } catch (error) {
-                console.error(error)
+                console.error(error);
             }
         },
     },
-})
+});

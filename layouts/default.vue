@@ -1,11 +1,7 @@
 <template>
-    
     <slot />
-    
 </template>
 
-<script setup>
-</script>
+<script setup></script>
 
-<style lang='sass' scoped>
-</style>
+<style lang="sass" scoped></style>

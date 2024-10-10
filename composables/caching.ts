@@ -1,23 +1,23 @@
 /** A caching api that handles data stringification  */
 export function cache(cacheName: string, item: any) {
     if (typeof item === "string") {
-        localStorage.setItem(cacheName, item)
+        localStorage.setItem(cacheName, item);
     } else {
-        const itemString = JSON.stringify(item)
-        localStorage.setItem(cacheName, itemString)
+        const itemString = JSON.stringify(item);
+        localStorage.setItem(cacheName, itemString);
     }
 }
 
 /** Returns a parsed item from cache */
 export function getCache(cacheName: string) {
-    const cacheString = localStorage.getItem(cacheName)
+    const cacheString = localStorage.getItem(cacheName);
 
-    if (!cacheString) return
+    if (!cacheString) return;
 
     try {
-        const cache = JSON.parse(cacheString)
-        return cache
+        const cache = JSON.parse(cacheString);
+        return cache;
     } catch (error) {
-        return null
+        return null;
     }
 }

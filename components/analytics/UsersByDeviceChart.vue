@@ -5,9 +5,10 @@
             <tooltip>
                 <h4>Users By Device</h4>
 
-                The <strong> Users By Device </strong> chart provides insights into how users access
-                your website based on the device they are using. This chart breaks down the data
-                into categories like desktop, mobile, and tablet, allowing you to understand how
+                The <strong> Users By Device </strong> chart provides insights
+                into how users access your website based on the device they are
+                using. This chart breaks down the data into categories like
+                desktop, mobile, and tablet, allowing you to understand how
                 different devices contribute to user traffic.
             </tooltip>
         </btn>
@@ -16,54 +17,54 @@
 </template>
 
 <script setup lang="ts">
-import { Icon } from "@iconify/vue"
-import { Chart, registerables } from "chart.js"
+import { Icon } from "@iconify/vue";
+import { Chart, registerables } from "chart.js";
 
 // Register all necessary components
-Chart.register(...registerables)
+Chart.register(...registerables);
 
-let myChart: Chart | null = null
-const usersByDevice = ref<HTMLCanvasElement | null>(null)
+let myChart: Chart | null = null;
+const usersByDevice = ref<HTMLCanvasElement | null>(null);
 
 watch(
     () => $Analytics.getReport("usersByDevice"),
     (newData) => {
         if (newData) {
-            renderGraph()
+            renderGraph();
         }
-    }
-)
+    },
+);
 
 onMounted(() => {
-    renderGraph()
-})
+    renderGraph();
+});
 
 async function renderGraph() {
-    const data = $Analytics.getReport("usersByDevice")
+    const data = $Analytics.getReport("usersByDevice");
 
-    if (!data || Object.keys(data).length === 0) return
+    if (!data || Object.keys(data).length === 0) return;
 
-    const labels = data.rows.map((row) => row.dimensionValues[0].value) // Update this line as needed
-    const userData = data.rows.map((row) => Number(row.metricValues[0].value))
+    const labels = data.rows.map((row) => row.dimensionValues[0].value); // Update this line as needed
+    const userData = data.rows.map((row) => Number(row.metricValues[0].value));
 
     // Combine labels and user data into an array of objects
     const combinedData = labels.map((label, index) => ({
         label,
         users: userData[index],
-    }))
+    }));
 
     // Sort combined data by label
-    combinedData.sort((a, b) => a.label.localeCompare(b.label))
+    combinedData.sort((a, b) => a.label.localeCompare(b.label));
 
     // Extract sorted labels and user data
-    const sortedLabels = combinedData.map((item) => item.label)
-    const sortedUserData = combinedData.map((item) => item.users)
+    const sortedLabels = combinedData.map((item) => item.label);
+    const sortedUserData = combinedData.map((item) => item.users);
 
-    const ctx = usersByDevice.value?.getContext("2d")
+    const ctx = usersByDevice.value?.getContext("2d");
     if (ctx) {
         // Destroy the previous chart if it exists
         if (myChart) {
-            myChart.destroy()
+            myChart.destroy();
         }
 
         myChart = new Chart(ctx, {
@@ -108,7 +109,7 @@ async function renderGraph() {
                     padding: 15,
                 },
             },
-        })
+        });
     }
 }
 </script>

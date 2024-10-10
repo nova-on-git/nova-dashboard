@@ -1,15 +1,7 @@
 <template>
-    <div>
-
-        
-
-    </div>
+    <div></div>
 </template>
 
-<script setup>
+<script setup></script>
 
-</script>
-
-<style lang='sass' scoped>
-
-</style>
+<style lang="sass" scoped></style>

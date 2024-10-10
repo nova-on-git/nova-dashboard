@@ -5,9 +5,11 @@
             <tooltip>
                 <h4>Bounce Rate</h4>
 
-                <strong> Bounce Rate </strong>in Google Analytics refers to the percentage of single-page sessions, where users visit a page
-                on your website and leave without interacting with any other pages or taking any further actions (such as clicking on a
-                link, filling out a form, or making a purchase).
+                <strong> Bounce Rate </strong>in Google Analytics refers to the
+                percentage of single-page sessions, where users visit a page on
+                your website and leave without interacting with any other pages
+                or taking any further actions (such as clicking on a link,
+                filling out a form, or making a purchase).
             </tooltip>
         </btn>
         <canvas ref="recentUsers" height="500"></canvas>
@@ -15,45 +17,49 @@
 </template>
 
 <script setup lang="ts">
-import { Icon } from "@iconify/vue"
-import { Chart, registerables } from "chart.js"
-import { lineChartOptions } from "~/stores/analytics"
-Chart.register(...registerables)
+import { Icon } from "@iconify/vue";
+import { Chart, registerables } from "chart.js";
+import { lineChartOptions } from "~/stores/analytics";
+Chart.register(...registerables);
 
-const recentUsers = ref<HTMLCanvasElement | null>(null)
+const recentUsers = ref<HTMLCanvasElement | null>(null);
 
 onMounted(() => {
-    renderGraph()
-})
+    renderGraph();
+});
 
 watch(
     () => $Analytics.getReport("bounceRateByDate"),
     (newData) => {
         if (newData) {
-            renderGraph()
+            renderGraph();
         }
-    }
-)
+    },
+);
 
 async function renderGraph() {
-    const data = $Analytics.getReport("bounceRateByDate")
+    const data = $Analytics.getReport("bounceRateByDate");
 
-    if (!data || Object.keys(data).length === 0) return
+    if (!data || Object.keys(data).length === 0) return;
 
-    const xLabels = data.rows.map((row) => $Analytics.getFormattedDate(row.dimensionValues[0].value))
-    const xValues = data.rows.map((row) => Number(row.metricValues[0].value * 100)) // convert decimal (0-1) to percentage
+    const xLabels = data.rows.map((row) =>
+        $Analytics.getFormattedDate(row.dimensionValues[0].value),
+    );
+    const xValues = data.rows.map((row) =>
+        Number(row.metricValues[0].value * 100),
+    ); // convert decimal (0-1) to percentage
 
     const combinedData = xLabels.map((xLabel, index) => ({
         xLabel,
         xValue: xValues[index],
-    }))
+    }));
 
-    const newData = combinedData.slice(-14)
+    const newData = combinedData.slice(-14);
 
-    const sortedXLabels = newData.map((item) => item.xLabel)
-    const sortedXValues = newData.map((item) => item.xValue)
+    const sortedXLabels = newData.map((item) => item.xLabel);
+    const sortedXValues = newData.map((item) => item.xValue);
 
-    const ctx = recentUsers.value?.getContext("2d")
+    const ctx = recentUsers.value?.getContext("2d");
     if (ctx) {
         const myChart = new Chart(ctx, {
             type: "line",
@@ -114,7 +120,7 @@ async function renderGraph() {
                     },
                 },
             },
-        })
+        });
     }
 }
 </script>

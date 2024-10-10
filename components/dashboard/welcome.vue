@@ -2,7 +2,9 @@
     <rflex class="welcome-back">
         <h6>Welcome back,</h6>
         <ClientOnly>
-            <h6 v-if="$CurrentUser.displayName">{{ $CurrentUser.displayName }}!</h6>
+            <h6 v-if="$CurrentUser.displayName">
+                {{ $CurrentUser.displayName }}!
+            </h6>
             <h6 v-else>{{ $CurrentUser.email }}!</h6>
         </ClientOnly>
         <slot></slot>

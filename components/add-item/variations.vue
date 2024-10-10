@@ -13,33 +13,58 @@
             v-model="currentVariationInput"
             placeholder="Add variations for easier searching..."
         />
-        <Icon @click="addVariation(currentVariationInput), clearInput()" class="icon" icon="material-symbols:add" width="25" />
+        <Icon
+            @click="addVariation(currentVariationInput), clearInput()"
+            class="icon"
+            icon="material-symbols:add"
+            width="25"
+        />
     </cflex>
 
     <chips v-if="variationToggle">
-        <chip v-for="variation in variations" :key="variation" @click="selectVariation(variation)">
+        <chip
+            v-for="variation in variations"
+            :key="variation"
+            @click="selectVariation(variation)"
+        >
             <div>{{ variation }}</div>
-            <Icon class="remove-icon" @click="removeVariation(variation)" icon="material-symbols:close" width="20" />
+            <Icon
+                class="remove-icon"
+                @click="removeVariation(variation)"
+                icon="material-symbols:close"
+                width="20"
+            />
         </chip>
     </chips>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, defineProps, defineEmits } from "vue"
-import { Icon } from "@iconify/vue"
+import { ref, watch, defineProps, defineEmits } from "vue";
+import { Icon } from "@iconify/vue";
 
-const variationToggle = ref(false)
-const variations = ref<string[]>([])
-const currentVariationInput = ref("")
-const selectedVariation = ref("")
+const variationToggle = ref(false);
+const variations = ref<string[]>([]);
+const currentVariationInput = ref("");
+const selectedVariation = ref("");
 
 const props = defineProps<{
-    modelValue: { variationToggle: boolean; variations: string[]; selectedVariation: string }
-}>()
+    modelValue: {
+        variationToggle: boolean;
+        variations: string[];
+        selectedVariation: string;
+    };
+}>();
 
 const emit = defineEmits<{
-    (event: "update:modelValue", value: { variationToggle: boolean; variations: string[]; selectedVariation: string }): void
-}>()
+    (
+        event: "update:modelValue",
+        value: {
+            variationToggle: boolean;
+            variations: string[];
+            selectedVariation: string;
+        },
+    ): void;
+}>();
 
 // Watch for changes in `variationToggle` and `variations` and emit updates
 watch(
@@ -49,27 +74,27 @@ watch(
             variationToggle: variationToggle.value,
             variations: variations.value,
             selectedVariation: selectedVariation.value,
-        })
+        });
     },
-    { deep: true }
-)
+    { deep: true },
+);
 
 function clearInput() {
-    currentVariationInput.value = ""
+    currentVariationInput.value = "";
 }
 
 function addVariation(variation: string) {
-    if (variation.trim() === "") return
+    if (variation.trim() === "") return;
 
-    variations.value.push(variation.trim())
+    variations.value.push(variation.trim());
 }
 
 function removeVariation(variation: string) {
-    variations.value = variations.value.filter((v) => v !== variation)
+    variations.value = variations.value.filter((v) => v !== variation);
 }
 
 function selectVariation(variation: string) {
-    selectedVariation.value = variation
+    selectedVariation.value = variation;
 }
 </script>
 

@@ -1,5 +1,5 @@
-export {}
+export {};
 
 declare global {
-    type Provider = "email" | "google"
+    type Provider = "email" | "google";
 }

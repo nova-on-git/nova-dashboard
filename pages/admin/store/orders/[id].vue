@@ -72,8 +72,16 @@
                         <rflex class="total-row">
                             <div><strong>Total</strong></div>
                             <rflex class="total-right">
-                                <div>Items: {{ order.items.length }}, £{{ order.subTotal / 100 }}</div>
-                                <div>Shipping Paid: £{{ order.shippingCost / 100 }}</div>
+                                <div>
+                                    Items: {{ order.items.length }}, £{{
+                                        order.subTotal / 100
+                                    }}
+                                </div>
+                                <div>
+                                    Shipping Paid: £{{
+                                        order.shippingCost / 100
+                                    }}
+                                </div>
                                 <div>£{{ order.subTotal / 100 }}</div>
                             </rflex>
                         </rflex>
@@ -91,7 +99,9 @@
                         <h5><strong>Shipping</strong></h5>
                         <div class="address-row">
                             <div class="label">Name:</div>
-                            <div class="value">{{ order.shippingAddress.name }}</div>
+                            <div class="value">
+                                {{ order.shippingAddress.name }}
+                            </div>
                         </div>
                         <div class="address-row">
                             <div class="label">Address:</div>
@@ -115,21 +125,21 @@
 </template>
 
 <script setup lang="ts">
-import { Icon } from "@iconify/vue"
-const route = useRoute()
+import { Icon } from "@iconify/vue";
+const route = useRoute();
 const links = [
     { name: "admin", url: "/admin" },
     { name: "orders", url: "/admin/store/orders" },
     { name: `#${route.params.id}`, url: "" },
-]
+];
 const order = computed<OrderObj | null>(() => {
-    return $Orders.getOrderById(route.params.id as string)
-})
+    return $Orders.getOrderById(route.params.id as string);
+});
 
 definePageMeta({
     layout: "dashboard",
     middleware: "admin-auth",
-})
+});
 </script>
 
 <style lang="sass" scoped>

@@ -13,9 +13,16 @@
                             DISCARD
                             <Icon icon="ri:delete-bin-5-line" width="20" />
                         </btn>
-                        <btn :loading="savingChanges" type="submit" class="darkgrey-button">
+                        <btn
+                            :loading="savingChanges"
+                            type="submit"
+                            class="darkgrey-button"
+                        >
                             SAVE CHANGES
-                            <Icon icon="material-symbols:storefront-outline-rounded" width="20" />
+                            <Icon
+                                icon="material-symbols:storefront-outline-rounded"
+                                width="20"
+                            />
                             <loader color="white" width="20px" />
                         </btn>
                     </rflex>
@@ -35,61 +42,61 @@
 </template>
 
 <script setup lang="ts">
-import { Icon } from "@iconify/vue"
-import type { FirebaseStorage } from "firebase/storage"
+import { Icon } from "@iconify/vue";
+import type { FirebaseStorage } from "firebase/storage";
 
-const images = ref<ProductImage[]>([])
-const formData = ref<Product | {}>({})
-const modalRef = ref<HTMLDivElement | null>(null)
+const images = ref<ProductImage[]>([]);
+const formData = ref<Product | {}>({});
+const modalRef = ref<HTMLDivElement | null>(null);
 
 const links = [
     { name: "admin", url: "/admin" },
     { name: "store", url: "/admin/store" },
     { name: "add item", url: "" },
-]
+];
 
-const $storage = useStorage()
+const $storage = useStorage();
 
 // const $Products = use$Products()
-const savingChanges = ref(false)
+const savingChanges = ref(false);
 
 function resetPage() {
     if (modalRef.value) {
-        modalRef.value.close()
-        images.value = []
+        modalRef.value.close();
+        images.value = [];
     }
 }
 
 async function createItem() {
-    if (!formData.value) return
-    savingChanges.value = true
+    if (!formData.value) return;
+    savingChanges.value = true;
 
-    const processedImages = []
+    const processedImages = [];
 
     for (const imageObj of images.value) {
-        const processedImage = await processImage($storage, imageObj)
-        processedImages.push(processedImage)
+        const processedImage = await processImage($storage, imageObj);
+        processedImages.push(processedImage);
     }
 
     const newformData = {
         ...formData.value,
         images: processedImages,
-    }
-    await $Products.create("default", newformData)
-    await $Products.read(true)
+    };
+    await $Products.create("default", newformData);
+    await $Products.read(true);
 
-    savingChanges.value = false
-    navigateTo("/admin")
+    savingChanges.value = false;
+    navigateTo("/admin");
 }
 
 definePageMeta({
     layout: "dashboard",
     middleware: "admin-auth",
-})
+});
 
 onMounted(() => {
-    $Products.read
-})
+    $Products.read;
+});
 </script>
 
 <style lang="sass" scoped>

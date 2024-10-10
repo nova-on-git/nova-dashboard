@@ -1,6 +1,6 @@
-import axios from "axios"
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore"
-import { defineStore } from "pinia"
+import axios from "axios";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { defineStore } from "pinia";
 
 export const useNotificationStore = defineStore("notifications", {
     state: () => ({
@@ -10,70 +10,82 @@ export const useNotificationStore = defineStore("notifications", {
 
     getters: {
         get(state) {
-            return state.notifications
+            return state.notifications;
         },
 
         getUnread(state) {
             if (state.notifications.length != 0) {
-                return state.notifications.filter((notification) => !notification.read)
+                return state.notifications.filter(
+                    (notification) => !notification.read,
+                );
             }
-            return []
+            return [];
         },
 
         getRead(state) {
             if (state.notifications.length) {
-                return state.notifications.filter((notification) => notification.read)
+                return state.notifications.filter(
+                    (notification) => notification.read,
+                );
             }
-            return []
+            return [];
         },
 
         unreadLength(state) {
-            const unread = state.notifications.filter((notification) => !notification.read)
-            return unread.length
+            const unread = state.notifications.filter(
+                (notification) => !notification.read,
+            );
+            return unread.length;
         },
     },
 
     actions: {
         async init() {
-            const $db = useDb()
+            const $db = useDb();
 
-            await this.read()
-            const notificationsQuery = query(collection($db, "notifications"), orderBy("timestamp", "desc"))
+            await this.read();
+            const notificationsQuery = query(
+                collection($db, "notifications"),
+                orderBy("timestamp", "desc"),
+            );
 
             // Set up real-time listener
             onSnapshot(
                 notificationsQuery,
                 (snapshot) => {
-                    const notifications: AppNotification[] = []
+                    const notifications: AppNotification[] = [];
                     snapshot.forEach((doc) => {
-                        notifications.push({ id: doc.id, ...doc.data() } as AppNotification)
-                    })
-                    this.notifications = notifications
+                        notifications.push({
+                            id: doc.id,
+                            ...doc.data(),
+                        } as AppNotification);
+                    });
+                    this.notifications = notifications;
                 },
                 (error) => {
-                    console.error("Error getting notifications: ", error)
-                }
-            )
-            this.storeIsInitialized = true
+                    console.error("Error getting notifications: ", error);
+                },
+            );
+            this.storeIsInitialized = true;
         },
 
         async create(notification: CreateNotification) {
             await useFetch("/api/notifications", {
                 method: "POST",
                 body: { notification },
-            })
+            });
         },
 
         async read() {
-            const { data, error } = await useFetch("/api/notifications")
+            const { data, error } = await useFetch("/api/notifications");
 
             if (error.value) {
-                console.error("Failed to fetch notifications:", error.value)
-                return
+                console.error("Failed to fetch notifications:", error.value);
+                return;
             }
 
             if (data.value) {
-                this.notifications = data.value
+                this.notifications = data.value;
             }
         },
 
@@ -81,20 +93,25 @@ export const useNotificationStore = defineStore("notifications", {
             const { data, error } = await useFetch("/api/notifications/read", {
                 method: "PUT",
                 body: { id, read },
-            })
+            });
 
             if (error.value) {
-                console.error("Failed to change notification read state:", error.value)
+                console.error(
+                    "Failed to change notification read state:",
+                    error.value,
+                );
             }
         },
 
         /** Dev Only - Create a random notification */
         async createDummy() {
-            const randomIndex = Math.floor(Math.random() * exampleNotifications.length)
-            this.create(exampleNotifications[randomIndex])
+            const randomIndex = Math.floor(
+                Math.random() * exampleNotifications.length,
+            );
+            this.create(exampleNotifications[randomIndex]);
         },
     },
-})
+});
 
 export const exampleNotifications: CreateNotification[] = [
     {
@@ -169,4 +186,4 @@ export const exampleNotifications: CreateNotification[] = [
         title: "hello",
         message: "you have a notification",
     },
-]
+];

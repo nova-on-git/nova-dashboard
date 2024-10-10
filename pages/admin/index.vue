@@ -23,11 +23,11 @@
 definePageMeta({
     layout: "dashboard",
     middleware: "admin-auth",
-})
+});
 const url = computed(() => {
-    const domain = window.location.hostname
-    return domain
-})
+    const domain = window.location.hostname;
+    return domain;
+});
 </script>
 
 <style lang="sass" scoped>

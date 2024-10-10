@@ -11,7 +11,10 @@
             class="notification"
             :class="{ read: notification.read }"
         >
-            <mflex class="icon-container" :style="{ backgroundColor: notification.style.backgroundColor }">
+            <mflex
+                class="icon-container"
+                :style="{ backgroundColor: notification.style.backgroundColor }"
+            >
                 <Icon
                     class="icon"
                     :icon="notification.style.icon"
@@ -30,37 +33,38 @@
 </template>
 
 <script setup lang="ts">
-const notificationBox = ref(null)
-import { Icon } from "@iconify/vue"
+const notificationBox = ref(null);
+import { Icon } from "@iconify/vue";
 
 const darkenColor = (hex: string, percentage: number): string => {
     // Remove the hash at the start if it's there
-    hex = hex.replace(/^#/, "")
+    hex = hex.replace(/^#/, "");
 
     // Convert 3-character hex to 6-character hex
     if (hex.length === 3) {
         hex = hex
             .split("")
             .map((char) => char + char)
-            .join("")
+            .join("");
     }
 
     // Convert hex to RGB
-    const r = parseInt(hex.substring(0, 2), 16)
-    const g = parseInt(hex.substring(2, 4), 16)
-    const b = parseInt(hex.substring(4, 6), 16)
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
 
     // Calculate the new color values
-    const darken = (color: number) => Math.max(0, Math.min(255, Math.floor(color * (1 - percentage / 100))))
+    const darken = (color: number) =>
+        Math.max(0, Math.min(255, Math.floor(color * (1 - percentage / 100))));
 
-    const newR = darken(r)
-    const newG = darken(g)
-    const newB = darken(b)
+    const newR = darken(r);
+    const newG = darken(g);
+    const newB = darken(b);
 
     // Convert RGB back to hex
-    const toHex = (c: number) => c.toString(16).padStart(2, "0")
-    return `#${toHex(newR)}${toHex(newG)}${toHex(newB)}`
-}
+    const toHex = (c: number) => c.toString(16).padStart(2, "0");
+    return `#${toHex(newR)}${toHex(newG)}${toHex(newB)}`;
+};
 </script>
 
 <style lang="sass" scoped>

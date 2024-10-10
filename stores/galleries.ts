@@ -1,4 +1,4 @@
-import { defineStore } from "pinia"
+import { defineStore } from "pinia";
 
 export const useGalleryStore = defineStore("galleries", {
     state: () => ({
@@ -7,11 +7,11 @@ export const useGalleryStore = defineStore("galleries", {
 
     getters: {
         get(state) {
-            return state.galleries
+            return state.galleries;
         },
     },
 
     actions: {
         async create() {},
     },
-})
+});

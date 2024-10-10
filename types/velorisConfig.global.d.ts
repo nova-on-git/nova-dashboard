@@ -1,82 +1,81 @@
-export {}
+export {};
 declare global {
     interface ProductFormStructure {
-        quantity: boolean
-        categories: boolean
-        fields: (InputField | RadioField | InlineField)[]
+        quantity: boolean;
+        categories: boolean;
+        fields: (InputField | RadioField | InlineField)[];
     }
     interface ProductStructureBase {
-        name: string
-        order?: number
+        name: string;
+        order?: number;
     }
 
     interface InputField extends ProductStructureBase {
-        type: "input" | "textarea"
+        type: "input" | "textarea";
     }
 
     interface RadioField extends ProductStructureBase {
-        type: "radio" | "selectOne"
-        style?: "inline-box"
-        values: string[]
+        type: "radio" | "selectOne";
+        style?: "inline-box";
+        values: string[];
     }
     interface InlineField extends ProductStructureBase {
-        type: "_inline"
-        fields: InputField[]
+        type: "_inline";
+        fields: InputField[];
     }
 
-    type ProductStructure = InputField | RadioField
+    type ProductStructure = InputField | RadioField;
 
     interface InlineProductStructure {
-        [key: string]: InlineField
-        [key: string]: InlineField
+        [key: string]: InlineField;
+        [key: string]: InlineField;
     }
-
 
     interface VelorisConfig {
         sectionSwitches: {
-            base: boolean
-            store: boolean
-            blogs: boolean
-            blogs: boolean
-            settings: boolean
-            galleries: boolean
-            dev: boolean
-            newsletter: boolean
-            customerSupport: boolean
-        }
+            base: boolean;
+            store: boolean;
+            blogs: boolean;
+            blogs: boolean;
+            settings: boolean;
+            galleries: boolean;
+            dev: boolean;
+            newsletter: boolean;
+            customerSupport: boolean;
+        };
 
-        itemFormStruct: ProductFormStructure
+        itemFormStruct: ProductFormStructure;
         sections?: {
-            base?: Section
-            store?: Section
-            blogs?: Section
-            settings?: Section
-            dev?: Section
-        }
+            base?: Section;
+            store?: Section;
+            blogs?: Section;
+            settings?: Section;
+            dev?: Section;
+        };
     }
 
     interface ItemSettings {
-        quantity: boolean
-        categories?: boolean
+        quantity: boolean;
+        categories?: boolean;
     }
 
     interface Page {
-        name: string
-        url: string
-        icon: string
-        subpages?: SubPage[]
+        name: string;
+        url: string;
+        icon: string;
+        subpages?: SubPage[];
     }
 
     interface SubPage {
-        name: string
-        url: string
+        name: string;
+        url: string;
     }
 
     interface Section {
-        order: number
-        pages: Page[]
+        order: number;
+        pages: Page[];
         settings?: {
-            categories: boolean
-        }
+            categories: boolean;
+        };
     }
 }

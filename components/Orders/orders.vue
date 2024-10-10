@@ -3,7 +3,14 @@
         <div class="filter-orders-row">
             <div class="filter-buttons">
                 <button
-                    v-for="status in ['All', 'Pending', 'Accepted', 'Shipped', 'Delivered', 'Cancelled']"
+                    v-for="status in [
+                        'All',
+                        'Pending',
+                        'Accepted',
+                        'Shipped',
+                        'Delivered',
+                        'Cancelled',
+                    ]"
                     :key="status"
                     @click="selectedFilter = status.toLowerCase()"
                     :class="{ active: selectedFilter === status.toLowerCase() }"
@@ -13,21 +20,33 @@
                 </button>
             </div>
             <div class="search-container">
-                <search v-model="searchQuery" class="search-input" placeholder="Search orders" />
+                <search
+                    v-model="searchQuery"
+                    class="search-input"
+                    placeholder="Search orders"
+                />
             </div>
         </div>
 
         <div class="orders-grid">
             <div class="order-card" v-for="order in orders" :key="order.id">
                 <div class="order-header">
-                    <div class="order-initials" :style="{ backgroundColor: getRandomColor(order.id) }">
+                    <div
+                        class="order-initials"
+                        :style="{ backgroundColor: getRandomColor(order.id) }"
+                    >
                         {{ order.shippingAddress.postcode.slice(0, 3) }}
                     </div>
                     <div class="order-info">
-                        <div class="order-name">{{ order.shippingAddress.name }}</div>
+                        <div class="order-name">
+                            {{ order.shippingAddress.name }}
+                        </div>
                         <div class="order-id">#{{ order.id }}</div>
                     </div>
-                    <div class="order-status" :class="order.status.toLowerCase()">
+                    <div
+                        class="order-status"
+                        :class="order.status.toLowerCase()"
+                    >
                         <Icon :icon="getStatusIcon(order.status)" width="16" />
                         {{ order.status }}
                     </div>
@@ -45,24 +64,37 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item, index) in order.items.slice(0, 4)" :key="index">
+                        <tr
+                            v-for="(item, index) in order.items.slice(0, 4)"
+                            :key="index"
+                        >
                             <td>{{ item.name }}</td>
                             <td>{{ item.quantity }}</td>
                             <td>£{{ (item.price / 100).toFixed(2) }}</td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="more-items" v-if="order.items.length > 4">+ {{ order.items.length - 4 }} more item(s)</div>
+                <div class="more-items" v-if="order.items.length > 4">
+                    + {{ order.items.length - 4 }} more item(s)
+                </div>
                 <div class="order-total">
                     <span>Total:</span>
-                    <span class="total-amount">£{{ (order.subTotal / 100).toFixed(2) }}</span>
+                    <span class="total-amount"
+                        >£{{ (order.subTotal / 100).toFixed(2) }}</span
+                    >
                 </div>
                 <div class="order-actions">
-                    <button class="update-status" @click="openUpdateStatusModal(order)">
+                    <button
+                        class="update-status"
+                        @click="openUpdateStatusModal(order)"
+                    >
                         <Icon icon="mdi:pencil" width="16" />
                         Update Status
                     </button>
-                    <button class="view-details" @click="viewOrderDetails(order.id)">
+                    <button
+                        class="view-details"
+                        @click="viewOrderDetails(order.id)"
+                    >
                         <Icon icon="mdi:eye" width="16" />
                         View Details
                     </button>
@@ -73,16 +105,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue"
-import { Icon } from "@iconify/vue"
+import { ref, computed } from "vue";
+import { Icon } from "@iconify/vue";
 
-const searchQuery = ref("")
-const selectedFilter = ref<OrderStatusFilter>("all")
+const searchQuery = ref("");
+const selectedFilter = ref<OrderStatusFilter>("all");
 
 const orders = computed(() => {
-    if (searchQuery.value === "") return $Orders.filterByStatus(selectedFilter.value)
-    return $Orders.search(searchQuery.value)
-})
+    if (searchQuery.value === "")
+        return $Orders.filterByStatus(selectedFilter.value);
+    return $Orders.search(searchQuery.value);
+});
 
 const formatDate = (timestamp: number) => {
     return new Date(timestamp).toLocaleString("en-US", {
@@ -91,8 +124,8 @@ const formatDate = (timestamp: number) => {
         day: "numeric",
         hour: "2-digit",
         minute: "2-digit",
-    })
-}
+    });
+};
 
 const getStatusIcon = (status: string) => {
     const icons = {
@@ -101,26 +134,36 @@ const getStatusIcon = (status: string) => {
         shipped: "mdi:truck-delivery-outline",
         delivered: "mdi:package-variant-closed-check",
         cancelled: "mdi:close-circle-outline",
-    }
-    return icons[status.toLowerCase()] || "mdi:help-circle-outline"
-}
+    };
+    return icons[status.toLowerCase()] || "mdi:help-circle-outline";
+};
 
 const getRandomColor = (id: string) => {
-    const colors = ["#4285F4", "#34A853", "#FBBC05", "#EA4335", "#46BDC6", "#9334E6", "#0F9D58"]
-    const index = id.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0) % colors.length
-    return colors[index]
-}
+    const colors = [
+        "#4285F4",
+        "#34A853",
+        "#FBBC05",
+        "#EA4335",
+        "#46BDC6",
+        "#9334E6",
+        "#0F9D58",
+    ];
+    const index =
+        id.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0) %
+        colors.length;
+    return colors[index];
+};
 
 const openUpdateStatusModal = (order: any) => {
     // Implement status update modal logic
-    console.log("Open update status modal for order:", order.id)
-}
+    console.log("Open update status modal for order:", order.id);
+};
 
 const viewOrderDetails = (orderId: string) => {
     // Implement navigation to order details page
-    console.log("Navigate to order details:", orderId)
-    navigateTo(`/admin/store/orders/${orderId}`)
-}
+    console.log("Navigate to order details:", orderId);
+    navigateTo(`/admin/store/orders/${orderId}`);
+};
 </script>
 
 <style lang="scss" scoped>

@@ -1,15 +1,13 @@
 <template>
-    <div class='nav'>
-        <Nav-MobileNav class='MobileNav' />
-        <Nav-DesktopNav class='DesktopNav' />
+    <div class="nav">
+        <Nav-MobileNav class="MobileNav" />
+        <Nav-DesktopNav class="DesktopNav" />
     </div>
 </template>
 
-<script setup>
+<script setup></script>
 
-</script>
-
-<style lang='sass' scoped>
+<style lang="sass" scoped>
 .MobileNav
     display: none
 

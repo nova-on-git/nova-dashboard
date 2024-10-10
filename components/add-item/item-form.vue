@@ -10,7 +10,9 @@
             <div class="select-category">
                 <select id="" v-model="formData.category">
                     <option value="" selected>Select a category</option>
-                    <option :value="option" v-for="option in categories">{{ option }}</option>
+                    <option :value="option" v-for="option in categories">
+                        {{ option }}
+                    </option>
                 </select>
                 <div class="or-divider">or</div>
                 <div class="input">
@@ -25,9 +27,15 @@
         </cflex>
 
         <cflex v-for="field in itemFormStruct.fields" class="input-container">
-            <rflex class="inline-inputs" v-if="field.type === '_inline'" :style="{ order: Number(field.order) }">
+            <rflex
+                class="inline-inputs"
+                v-if="field.type === '_inline'"
+                :style="{ order: Number(field.order) }"
+            >
                 <cflex class="input-container" v-for="_field in field.fields">
-                    <label :for="_field.name">{{ formatLabel(_field.name) }}</label>
+                    <label :for="_field.name">{{
+                        formatLabel(_field.name)
+                    }}</label>
                     <input
                         required
                         class="nova-input"
@@ -44,14 +52,28 @@
                 :style="{ order: Number(field.order) }"
                 :class="{ 'inline-boxes': field.style === 'inline-box' }"
             >
-                <label v-if="field.style != 'inline-box'">{{ field.name }}</label>
-                <label v-for="item in field.values" :class="{ selected: formData[field.name] === item }">
-                    <input required type="radio" :value="item" v-model="formData[field.name]" />
+                <label v-if="field.style != 'inline-box'">{{
+                    field.name
+                }}</label>
+                <label
+                    v-for="item in field.values"
+                    :class="{ selected: formData[field.name] === item }"
+                >
+                    <input
+                        required
+                        type="radio"
+                        :value="item"
+                        v-model="formData[field.name]"
+                    />
                     {{ item }}
                 </label>
             </cflex>
 
-            <cflex v-else-if="field.type === 'textarea'" class="input-container" :style="{ order: Number(field.order) }">
+            <cflex
+                v-else-if="field.type === 'textarea'"
+                class="input-container"
+                :style="{ order: Number(field.order) }"
+            >
                 <label :for="field.name">{{ formatLabel(field.name) }}</label>
                 <textarea
                     required
@@ -63,7 +85,11 @@
                 />
             </cflex>
 
-            <cflex v-else class="input-container" :style="{ order: Number(field.order) }">
+            <cflex
+                v-else
+                class="input-container"
+                :style="{ order: Number(field.order) }"
+            >
                 <label :for="field.name">{{ formatLabel(field.name) }}</label>
                 <input
                     class="nova-input"
@@ -81,74 +107,79 @@
 
         <cflex class="input-container">
             <label for="stock">Stock Level</label>
-            <input class="nova-input" type="input" required v-model="formData['stockLevel']" :placeholder="'Enter stock on hand'" />
+            <input
+                class="nova-input"
+                type="input"
+                required
+                v-model="formData['stockLevel']"
+                :placeholder="'Enter stock on hand'"
+            />
         </cflex>
     </cflex>
 </template>
 
 <script setup lang="ts">
-import { Icon } from "@iconify/vue"
-const $velorisConfig = useVelorisConfig()
+import { Icon } from "@iconify/vue";
+const $velorisConfig = useVelorisConfig();
 
 const props = defineProps<{
-    modelValue: Product | {}
-}>()
+    modelValue: Product | {};
+}>();
 
 // const $Products = use$Products()
 const formData = ref<Record<string, any>>(
     props.modelValue || {
         tags: [],
         category: [],
-    }
-)
-
+    },
+);
 
 const emit = defineEmits<{
-    (event: "update:modelValue", value: ProductImage[]): void
-}>()
+    (event: "update:modelValue", value: ProductImage[]): void;
+}>();
 
 watch(
     formData,
     (newValue) => {
-        emit("update:modelValue", newValue)
+        emit("update:modelValue", newValue);
     },
-    { deep: true }
-)
+    { deep: true },
+);
 
-const categories = computed(() => $Products.getCategories)
+const categories = computed(() => $Products.getCategories);
 
-const selectedCategory = ref("")
-const newCategory = ref("")
+const selectedCategory = ref("");
+const newCategory = ref("");
 const getOptions = (value: string) => {
     if (Array.isArray(value)) {
-        return value
+        return value;
     }
-    return []
-}
-const itemFormStruct = $velorisConfig.itemFormStruct
-initProductForm(itemFormStruct)
+    return [];
+};
+const itemFormStruct = $velorisConfig.itemFormStruct;
+initProductForm(itemFormStruct);
 function initProductForm(itemFormStruct: ProductFormStructure) {
     for (const [key, value] of Object.entries(itemFormStruct)) {
         if (key === "_inline") {
             for (const [_key, _value] of Object.entries(value)) {
                 if (Array.isArray(_value)) {
-                    formData.value[_key] = value[0]
+                    formData.value[_key] = value[0];
                 } else {
-                    formData.value[_key] = ""
+                    formData.value[_key] = "";
                 }
             }
         }
 
         if (Array.isArray(value)) {
-            formData.value[key] = value[0]
-        } else if (key === "_inline") continue
+            formData.value[key] = value[0];
+        } else if (key === "_inline") continue;
         else {
-            formData.value[key] = ""
+            formData.value[key] = "";
         }
     }
 }
 
-const formatLabel = (key: string) => key.charAt(0).toUpperCase() + key.slice(1)
+const formatLabel = (key: string) => key.charAt(0).toUpperCase() + key.slice(1);
 </script>
 
 <style lang="sass" scoped>

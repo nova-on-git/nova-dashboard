@@ -10,17 +10,35 @@
 
             <header>
                 <cflex>
-                    <input class="title-input" type="text" placeholder="Add your blog title here..." v-model="blog.title" />
+                    <input
+                        class="title-input"
+                        type="text"
+                        placeholder="Add your blog title here..."
+                        v-model="blog.title"
+                    />
 
                     <rflex>
-                        <div class="author-input-box">by <input class="author-input" type="text" v-model="blog.author" /></div>
+                        <div class="author-input-box">
+                            by
+                            <input
+                                class="author-input"
+                                type="text"
+                                v-model="blog.author"
+                            />
+                        </div>
                         <div>Read: {{ readTime }} minutes</div>
                     </rflex>
                 </cflex>
             </header>
 
             <ClientOnly fallback-tag="div">
-                <QuillEditor class="editor" theme="snow" toolbar="full" v-model:content="blog.html" contentType="html" />
+                <QuillEditor
+                    class="editor"
+                    theme="snow"
+                    toolbar="full"
+                    v-model:content="blog.html"
+                    contentType="html"
+                />
             </ClientOnly>
         </div>
 
@@ -32,7 +50,11 @@
                         :class="{ active: blog.status === 'published' }"
                         :disabled="blog.status === 'published'"
                     >
-                        {{ blog.status !== "published" ? "Publish" : "Published" }}
+                        {{
+                            blog.status !== "published"
+                                ? "Publish"
+                                : "Published"
+                        }}
                     </btn>
 
                     <btn
@@ -55,23 +77,45 @@
             <cflex class="details">
                 <cflex>
                     <label for="blog-title ">Title</label>
-                    <input type="text" class="input" v-model="blog.title" required />
+                    <input
+                        type="text"
+                        class="input"
+                        v-model="blog.title"
+                        required
+                    />
                 </cflex>
 
                 <cflex>
                     <label for="blog-description">Description</label>
-                    <textarea rows="8" class="input" type="text" v-model="blog.description" required />
+                    <textarea
+                        rows="8"
+                        class="input"
+                        type="text"
+                        v-model="blog.description"
+                        required
+                    />
                 </cflex>
 
                 <cflex>
                     <label for="blog-author input">Author</label>
-                    <input type="text" class="input" v-model="blog.author" required />
+                    <input
+                        type="text"
+                        class="input"
+                        v-model="blog.author"
+                        required
+                    />
                 </cflex>
 
                 <cflex>
                     <label for="blog-slug input">Slug</label>
                     <!-- <input type="text" class="input" v-model="blog.slug" required /> -->
-                    <field @keydown.space.prevent="addHyphenToSlug" type="text" :validator="slugValidator" v-model="blog.slug" required>
+                    <field
+                        @keydown.space.prevent="addHyphenToSlug"
+                        type="text"
+                        :validator="slugValidator"
+                        v-model="blog.slug"
+                        required
+                    >
                         <error>The slug must be unique.</error>
                     </field>
                 </cflex>
@@ -89,7 +133,11 @@
                     <label for="blog-tags">Tags</label>
 
                     <rflex class="tags-input input">
-                        <div @click="removeTag(tag)" class="tag" v-for="tag in blog.tags">
+                        <div
+                            @click="removeTag(tag)"
+                            class="tag"
+                            v-for="tag in blog.tags"
+                        >
                             {{ tag }}
                         </div>
                         <input
@@ -112,55 +160,59 @@
 </template>
 
 <script setup lang="ts">
-import { QuillEditor } from "@vueup/vue-quill"
-import "@vueup/vue-quill/dist/vue-quill.snow.css"
-import { onClickOutside } from "@vueuse/core"
+import { QuillEditor } from "@vueup/vue-quill";
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
+import { onClickOutside } from "@vueuse/core";
 
-const tagInputRef = ref<HTMLInputElement | null>(null)
-const asideRef = ref(null)
-const route = useRoute()
-const blogId = route.params.id as string
-const asideActive = ref(false)
-const saving = ref(false)
-const currentTag = ref("")
+const tagInputRef = ref<HTMLInputElement | null>(null);
+const asideRef = ref(null);
+const route = useRoute();
+const blogId = route.params.id as string;
+const asideActive = ref(false);
+const saving = ref(false);
+const currentTag = ref("");
 
 function slugValidator(): boolean {
-    const otherBlogs = $Blogs.get.filter((blogObj) => blogObj.id != blogId)
+    const otherBlogs = $Blogs.get.filter((blogObj) => blogObj.id != blogId);
 
     const slugExists = otherBlogs.some((blogObj) => {
-        return blog.value.slug === blogObj.slug
-    })
+        return blog.value.slug === blogObj.slug;
+    });
 
-    return slugExists
+    return slugExists;
 }
 function addHyphenToSlug() {
     if (!blog.value.slug.endsWith("-")) {
-        blog.value.slug += "-"
+        blog.value.slug += "-";
     }
 }
 function addTag(tag: string) {
-    if (tag.trim() === "") return
+    if (tag.trim() === "") return;
 
-    blog.value.tags?.push(tag)
-    currentTag.value = ""
+    blog.value.tags?.push(tag);
+    currentTag.value = "";
 }
 
 function removeTag(tag: string) {
-    blog.value.tags = blog.value.tags?.filter((i) => i !== tag)
+    blog.value.tags = blog.value.tags?.filter((i) => i !== tag);
 }
 
 async function handleDelete(id: Blog["id"]) {
-    await $Blogs.delete(id)
-    localStorage.removeItem("blogCache")
-    navigateTo("/admin/blogs")
+    await $Blogs.delete(id);
+    localStorage.removeItem("blogCache");
+    navigateTo("/admin/blogs");
 }
 
 function handleStatusButtons(status: Blog["status"]) {
     if (blogCanPublish.value) {
-        $Blogs.updateStatus(blog.value.id, status)
-        blog.value.status = status
+        $Blogs.updateStatus(blog.value.id, status);
+        blog.value.status = status;
     } else {
-        createMessage({ preset: "danger", content: "You cannot publish this blog before filling out the required details." })
+        createMessage({
+            preset: "danger",
+            content:
+                "You cannot publish this blog before filling out the required details.",
+        });
     }
 }
 
@@ -170,8 +222,8 @@ const blogCanPublish = computed(() => {
         blog.value.description.trim() !== "" &&
         blog.value.author.trim() !== "" &&
         blog.value.slug.trim() !== ""
-    )
-})
+    );
+});
 
 const blog = ref<Blog>({
     id: "",
@@ -183,7 +235,7 @@ const blog = ref<Blog>({
     slug: "",
     status: "draft",
     tags: [],
-})
+});
 
 const props = defineProps({
     modelValue: {
@@ -194,38 +246,38 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
-})
+});
 
-const emit = defineEmits(["update:modelValue"])
+const emit = defineEmits(["update:modelValue"]);
 
-let timeoutId: ReturnType<typeof setTimeout> | null = null
+let timeoutId: ReturnType<typeof setTimeout> | null = null;
 watch(
     blog,
     (newValue) => {
-        if (timeoutId) clearTimeout(timeoutId)
-        saving.value = true
+        if (timeoutId) clearTimeout(timeoutId);
+        saving.value = true;
 
         timeoutId = setTimeout(() => {
-            localStorage.setItem("blogCache", JSON.stringify(newValue))
-            saving.value = false
-        }, 500)
+            localStorage.setItem("blogCache", JSON.stringify(newValue));
+            saving.value = false;
+        }, 500);
 
         if (newValue.slug) {
-            newValue.slug = newValue.slug.replace(/\s+/g, "-")
+            newValue.slug = newValue.slug.replace(/\s+/g, "-");
         }
 
-        emit("update:modelValue", newValue)
+        emit("update:modelValue", newValue);
     },
-    { deep: true }
-)
+    { deep: true },
+);
 
 async function initEditor() {
-    let blogData: Blog
+    let blogData: Blog;
 
     if (!props.editing) {
-        blogData = getCache("blogCache") as Blog
+        blogData = getCache("blogCache") as Blog;
     } else {
-        blogData = (await $Blogs.getBlogById(blogId)) as Blog
+        blogData = (await $Blogs.getBlogById(blogId)) as Blog;
     }
 
     if (blogData) {
@@ -239,48 +291,48 @@ async function initEditor() {
             slug: blogData.slug,
             status: blogData.status,
             tags: blogData.tags,
-        })
-        cache("blogCache", blogData)
+        });
+        cache("blogCache", blogData);
     } else {
-        console.warn("blogObj is undefined or not properly initialized")
+        console.warn("blogObj is undefined or not properly initialized");
     }
 
-    cache("blogCache", blogData)
+    cache("blogCache", blogData);
 }
 
 onMounted(async () => {
-    await initEditor()
-})
+    await initEditor();
+});
 
 onUnmounted(async () => {
-    const blog = getCache("blogCache")
+    const blog = getCache("blogCache");
 
     if (blog) {
         try {
-            const slugExists = slugValidator()
-            if (slugExists) blog.slug = ""
-            await $Blogs.update(blog)
-            localStorage.removeItem("blogCache")
+            const slugExists = slugValidator();
+            if (slugExists) blog.slug = "";
+            await $Blogs.update(blog);
+            localStorage.removeItem("blogCache");
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
-})
+});
 const readTime = computed(() => {
-    const blogLength = blog.value.html ? blog.value.html.length : 0
+    const blogLength = blog.value.html ? blog.value.html.length : 0;
     // Avg read speed: 1000 characters per minute
-    const readMinutes = Math.ceil(blogLength / 1000)
-    return readMinutes
-})
+    const readMinutes = Math.ceil(blogLength / 1000);
+    return readMinutes;
+});
 
 onClickOutside(asideRef, () => {
-    asideActive.value = false
-})
+    asideActive.value = false;
+});
 
 definePageMeta({
     layout: "dashboard",
     auth: "admin-auth",
-})
+});
 </script>
 <style lang="sass" scoped>
 $asideWidth : 400px
@@ -442,7 +494,7 @@ aside
 
             &:hover
                 background: rgba(0, 0, 0, 0.05)
-    
+
     .input, .field
         border: none
         margin-left: 3px
@@ -463,7 +515,7 @@ input, textarea, .input, .field
     padding-block: 10px
 
     margin: 0
-    border: none 
+    border: none
     background: rgba(0, 0, 0, 0.05)
     background: rgba(255, 255, 255, 0.7)
 

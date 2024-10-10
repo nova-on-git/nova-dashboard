@@ -1,15 +1,17 @@
 <template>
     <main>
-
         <form @submit.prevent="handleResetPassword">
             <lheader>
                 <h5>Forgot Password?</h5>
-                <p>Enter the email address associated with your account and we will send a link to reset your password.</p>
+                <p>
+                    Enter the email address associated with your account and we
+                    will send a link to reset your password.
+                </p>
             </lheader>
-            
+
             <cflex>
                 <label for="email">Email Address</label>
-                <input type="text" name="email" v-model="email">
+                <input type="text" name="email" v-model="email" />
             </cflex>
 
             <p v-if="successMessage" class="success-message">
@@ -23,40 +25,41 @@
                 <div v-else>Reset Password</div>
             </button>
 
-            <p class="no-account-p">Remember your password? <nuxt-link to="/auth/login">Sign In</nuxt-link></p>
+            <p class="no-account-p">
+                Remember your password?
+                <nuxt-link to="/auth/login">Sign In</nuxt-link>
+            </p>
         </form>
-
-    </main> 
+    </main>
 </template>
 
 <script setup>
-import { Icon } from '@iconify/vue'
+import { Icon } from "@iconify/vue";
 definePageMeta({
-    layout: 'veloris-auth'
-})
-const loading = ref(false)
-const email = ref('')
-const successMessage = ref('')
-const errorMessage = ref('')
+    layout: "veloris-auth",
+});
+const loading = ref(false);
+const email = ref("");
+const successMessage = ref("");
+const errorMessage = ref("");
 
-const { $authUtils } = useNuxtApp()
+const { $authUtils } = useNuxtApp();
 
 const handleResetPassword = async () => {
-    loading.value = true
-    let response = await $authUtils.resetPassword(email.value)
+    loading.value = true;
+    let response = await $authUtils.resetPassword(email.value);
 
     if (response.success) {
-        successMessage.value = response.message
+        successMessage.value = response.message;
     } else {
-        errorMessage.value = response.message
+        errorMessage.value = response.message;
     }
 
-    loading.value = false
-}
-
+    loading.value = false;
+};
 </script>
 
-<style lang='sass' scoped>
+<style lang="sass" scoped>
 
 main
     height: 100%
@@ -64,8 +67,8 @@ main
     align-items: center
     justify-content: center
     background: $admin-background
-    
-form 
+
+form
     display: flex
     background: white
     box-shadow: 0 1px 3px #00000026
@@ -82,12 +85,12 @@ form
 
     input
         border: 1px solid rgb(206, 212, 218)
-        padding: 10px 
+        padding: 10px
         border-radius: 2px
         margin-bottom: 20px
         min-height: 44px
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, background 0.15s ease-in-out
-        
+
         &:focus
             color: #212529
             background-color: #fff
@@ -119,7 +122,7 @@ form
         display: flex
         gap: 5px
         color: grey
-        
+
         a
             text-decoration: underline
             color: black
@@ -134,7 +137,7 @@ form
     font-size: 0.9rem
     margin-inline: auto
     text-align: left
-    
+
 .forgot-password-link
     margin-left: auto
     font-size: 0.9rem

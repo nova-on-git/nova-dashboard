@@ -1,15 +1,7 @@
 <template>
-    <main>
-
-        // Todo: hookup advertisement api
-
-    </main>
+    <main>// Todo: hookup advertisement api</main>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts"></script>
 
-</script>
-
-<style lang='sass' scoped>
-
-</style>
+<style lang="sass" scoped></style>
