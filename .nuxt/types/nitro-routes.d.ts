@@ -40,6 +40,11 @@ declare module 'nitropack' {
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/orders/index.post').default>>>>
       'put': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/orders/index.put').default>>>>
     }
+    '/api/projects': {
+      'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/projects/index.get').default>>>>
+      'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/projects/index.post').default>>>>
+      'put': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/projects/index.put').default>>>>
+    }
     '/api/realtimeAnalytics': {
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/realtimeAnalytics.post').default>>>>
     }

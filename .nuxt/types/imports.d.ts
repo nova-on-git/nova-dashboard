@@ -10,6 +10,7 @@ declare global {
   const $Orders: typeof import('../../composables/pinia')['$Orders']
   const $Payment: typeof import('../../composables/pinia')['$Payment']
   const $Products: typeof import('../../composables/pinia')['$Products']
+  const $Projects: typeof import('../../composables/pinia')['$Projects']
   const $Users: typeof import('../../composables/pinia')['$Users']
   const abortNavigation: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/router')['abortNavigation']
   const acceptHMRUpdate: typeof import('../../node_modules/.pnpm/@pinia+nuxt@0.5.5_magicast@0.3.5_rollup@4.24.0_typescript@5.6.2_vue@3.5.11_typescript@5.6.2_/node_modules/@pinia/nuxt/dist/runtime/composables')['acceptHMRUpdate']
@@ -173,6 +174,7 @@ declare global {
   const usePinia: typeof import('../../node_modules/.pnpm/@pinia+nuxt@0.5.5_magicast@0.3.5_rollup@4.24.0_typescript@5.6.2_vue@3.5.11_typescript@5.6.2_/node_modules/@pinia/nuxt/dist/runtime/composables')['usePinia']
   const usePreviewMode: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/preview')['usePreviewMode']
   const useProductStore: typeof import('../../stores/products')['useProductStore']
+  const useProjectStore: typeof import('../../stores/projects')['useProjectStore']
   const useRequestEvent: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/ssr')['useRequestEvent']
   const useRequestFetch: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/ssr')['useRequestFetch']
   const useRequestHeader: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/ssr')['useRequestHeader']
@@ -234,7 +236,7 @@ declare global {
   export type { Component, ComponentPublicInstance, ComputedRef, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode } from '../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue'
   import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')
   // @ts-ignore
-  export type { NotificationStore, BlogStore, CurrentUserStore, OrderStore, ProductStore, AnalyticsStore, UserStore, BasketStore, DashboardStore, PaymentStore } from '../../composables/pinia'
+  export type { ProjectStore, NotificationStore, BlogStore, CurrentUserStore, OrderStore, ProductStore, AnalyticsStore, UserStore, BasketStore, DashboardStore, PaymentStore } from '../../composables/pinia'
   import('../../composables/pinia')
 }
 // for vue template auto import
@@ -250,6 +252,7 @@ declare module 'vue' {
     readonly $Orders: UnwrapRef<typeof import('../../composables/pinia')['$Orders']>
     readonly $Payment: UnwrapRef<typeof import('../../composables/pinia')['$Payment']>
     readonly $Products: UnwrapRef<typeof import('../../composables/pinia')['$Products']>
+    readonly $Projects: UnwrapRef<typeof import('../../composables/pinia')['$Projects']>
     readonly $Users: UnwrapRef<typeof import('../../composables/pinia')['$Users']>
     readonly abortNavigation: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/router')['abortNavigation']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('../../node_modules/.pnpm/@pinia+nuxt@0.5.5_magicast@0.3.5_rollup@4.24.0_typescript@5.6.2_vue@3.5.11_typescript@5.6.2_/node_modules/@pinia/nuxt/dist/runtime/composables')['acceptHMRUpdate']>
@@ -413,6 +416,7 @@ declare module 'vue' {
     readonly usePinia: UnwrapRef<typeof import('../../node_modules/.pnpm/@pinia+nuxt@0.5.5_magicast@0.3.5_rollup@4.24.0_typescript@5.6.2_vue@3.5.11_typescript@5.6.2_/node_modules/@pinia/nuxt/dist/runtime/composables')['usePinia']>
     readonly usePreviewMode: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/preview')['usePreviewMode']>
     readonly useProductStore: UnwrapRef<typeof import('../../stores/products')['useProductStore']>
+    readonly useProjectStore: UnwrapRef<typeof import('../../stores/projects')['useProjectStore']>
     readonly useRequestEvent: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/ssr')['useRequestEvent']>
     readonly useRequestFetch: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/ssr')['useRequestFetch']>
     readonly useRequestHeader: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/ssr')['useRequestHeader']>

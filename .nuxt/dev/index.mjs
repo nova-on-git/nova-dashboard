@@ -870,19 +870,22 @@ const errorHandler = (async function errorhandler(error, event) {
 
 const _lazy_ls95NO = () => Promise.resolve().then(function () { return analytics_post$1; });
 const _lazy_pHNFkM = () => Promise.resolve().then(function () { return _id__delete$1; });
-const _lazy_XelycO = () => Promise.resolve().then(function () { return index_get$9; });
-const _lazy_ar33ak = () => Promise.resolve().then(function () { return index_post$f; });
+const _lazy_XelycO = () => Promise.resolve().then(function () { return index_get$b; });
+const _lazy_ar33ak = () => Promise.resolve().then(function () { return index_post$h; });
 const _lazy_zvZN36 = () => Promise.resolve().then(function () { return status_put$1; });
-const _lazy_Lv2pTL = () => Promise.resolve().then(function () { return index_post$d; });
-const _lazy_VRSINA = () => Promise.resolve().then(function () { return index_get$7; });
-const _lazy_iiRnyg = () => Promise.resolve().then(function () { return index_post$b; });
+const _lazy_Lv2pTL = () => Promise.resolve().then(function () { return index_post$f; });
+const _lazy_VRSINA = () => Promise.resolve().then(function () { return index_get$9; });
+const _lazy_iiRnyg = () => Promise.resolve().then(function () { return index_post$d; });
 const _lazy_CeXODP = () => Promise.resolve().then(function () { return read_put$1; });
 const _lazy_FedzLG = () => Promise.resolve().then(function () { return _orderId__delete$1; });
-const _lazy_vtXg3D = () => Promise.resolve().then(function () { return index_post$9; });
+const _lazy_vtXg3D = () => Promise.resolve().then(function () { return index_post$b; });
 const _lazy_C4T1sE = () => Promise.resolve().then(function () { return resolveOrder_put$1; });
-const _lazy_SlhiBz = () => Promise.resolve().then(function () { return index_get$5; });
-const _lazy_Z33rJ4 = () => Promise.resolve().then(function () { return index_post$7; });
-const _lazy_RHhGz7 = () => Promise.resolve().then(function () { return index_put$5; });
+const _lazy_SlhiBz = () => Promise.resolve().then(function () { return index_get$7; });
+const _lazy_Z33rJ4 = () => Promise.resolve().then(function () { return index_post$9; });
+const _lazy_RHhGz7 = () => Promise.resolve().then(function () { return index_put$6; });
+const _lazy_Lpr3i8 = () => Promise.resolve().then(function () { return index_get$5; });
+const _lazy_BpGlMF = () => Promise.resolve().then(function () { return index_post$7; });
+const _lazy_ETZE5H = () => Promise.resolve().then(function () { return index_put$4; });
 const _lazy_eZKxc9 = () => Promise.resolve().then(function () { return realtimeAnalytics_post$1; });
 const _lazy_7k1Cgi = () => Promise.resolve().then(function () { return _itemId__delete$1; });
 const _lazy_0xZg4B = () => Promise.resolve().then(function () { return _category__get$1; });
@@ -918,6 +921,9 @@ const handlers = [
   { route: '/api/orders', handler: _lazy_SlhiBz, lazy: true, middleware: false, method: "get" },
   { route: '/api/orders', handler: _lazy_Z33rJ4, lazy: true, middleware: false, method: "post" },
   { route: '/api/orders', handler: _lazy_RHhGz7, lazy: true, middleware: false, method: "put" },
+  { route: '/api/projects', handler: _lazy_Lpr3i8, lazy: true, middleware: false, method: "get" },
+  { route: '/api/projects', handler: _lazy_BpGlMF, lazy: true, middleware: false, method: "post" },
+  { route: '/api/projects', handler: _lazy_ETZE5H, lazy: true, middleware: false, method: "put" },
   { route: '/api/realtimeAnalytics', handler: _lazy_eZKxc9, lazy: true, middleware: false, method: "post" },
   { route: '/api/store/:itemId', handler: _lazy_7k1Cgi, lazy: true, middleware: false, method: "delete" },
   { route: '/api/store/categories/:category', handler: _lazy_0xZg4B, lazy: true, middleware: false, method: "get" },
@@ -1174,7 +1180,7 @@ const _id__delete$1 = /*#__PURE__*/Object.freeze({
   default: _id__delete
 });
 
-const index_get$8 = eventHandler(async (event) => {
+const index_get$a = eventHandler(async (event) => {
   const db = event.context.db;
   const colRef = collection(db, "blogs");
   const querySnapshot = await getDocs(colRef);
@@ -1204,12 +1210,12 @@ const index_get$8 = eventHandler(async (event) => {
   return blogsWithHtml;
 });
 
-const index_get$9 = /*#__PURE__*/Object.freeze({
+const index_get$b = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_get$8
+  default: index_get$a
 });
 
-const index_post$e = defineEventHandler(async (event) => {
+const index_post$g = defineEventHandler(async (event) => {
   const body = await readBody(event);
   const { content, filename } = body;
   if (!filename || !filename.endsWith(".md")) {
@@ -1227,9 +1233,9 @@ const index_post$e = defineEventHandler(async (event) => {
   }
 });
 
-const index_post$f = /*#__PURE__*/Object.freeze({
+const index_post$h = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_post$e
+  default: index_post$g
 });
 
 const status_put = eventHandler(async (event) => {
@@ -1248,17 +1254,17 @@ const status_put$1 = /*#__PURE__*/Object.freeze({
   default: status_put
 });
 
-const index_post$c = eventHandler(async (event) => {
+const index_post$e = eventHandler(async (event) => {
   event.context.db;
   event.context.storage;
 });
 
-const index_post$d = /*#__PURE__*/Object.freeze({
+const index_post$f = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_post$c
+  default: index_post$e
 });
 
-const index_get$6 = eventHandler(async (event) => {
+const index_get$8 = eventHandler(async (event) => {
   const db = event.context.db;
   const colRef = collection(db, "notifications");
   const snapShot = await getDocs(colRef);
@@ -1271,12 +1277,12 @@ const index_get$6 = eventHandler(async (event) => {
   return notifications;
 });
 
-const index_get$7 = /*#__PURE__*/Object.freeze({
+const index_get$9 = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_get$6
+  default: index_get$8
 });
 
-const index_post$a = defineEventHandler(async (event) => {
+const index_post$c = defineEventHandler(async (event) => {
   const db = event.context.db;
   const { notification } = await readBody(event);
   if (!notification)
@@ -1333,9 +1339,9 @@ function getStyle(notification) {
   return style;
 }
 
-const index_post$b = /*#__PURE__*/Object.freeze({
+const index_post$d = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_post$a
+  default: index_post$c
 });
 
 const read_put = eventHandler(async (event) => {
@@ -1376,7 +1382,7 @@ const _orderId__delete$1 = /*#__PURE__*/Object.freeze({
   default: _orderId__delete
 });
 
-const index_post$8 = eventHandler(async (event) => {
+const index_post$a = eventHandler(async (event) => {
   const db = event.context.db;
   const body = await readBody(event);
   const colRef = collection(db, "incomplete-orders");
@@ -1388,9 +1394,9 @@ const index_post$8 = eventHandler(async (event) => {
   }
 });
 
-const index_post$9 = /*#__PURE__*/Object.freeze({
+const index_post$b = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_post$8
+  default: index_post$a
 });
 
 const resolveOrder_put = eventHandler(async (event) => {
@@ -1435,7 +1441,7 @@ const resolveOrder_put$1 = /*#__PURE__*/Object.freeze({
   default: resolveOrder_put
 });
 
-const index_get$4 = eventHandler(async (event) => {
+const index_get$6 = eventHandler(async (event) => {
   const db = event.context.db;
   const ordersCol = collection(db, "orders");
   const ordersQuery = query(ordersCol, orderBy("timestamp", "desc"));
@@ -1446,12 +1452,12 @@ const index_get$4 = eventHandler(async (event) => {
   return orders;
 });
 
-const index_get$5 = /*#__PURE__*/Object.freeze({
+const index_get$7 = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_get$4
+  default: index_get$6
 });
 
-const index_post$6 = eventHandler(async (event) => {
+const index_post$8 = eventHandler(async (event) => {
   const db = event.context.db;
   const body = await readBody(event);
   const colRef = collection(db, "orders");
@@ -1463,12 +1469,12 @@ const index_post$6 = eventHandler(async (event) => {
   }
 });
 
-const index_post$7 = /*#__PURE__*/Object.freeze({
+const index_post$9 = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_post$6
+  default: index_post$8
 });
 
-const index_put$4 = eventHandler(async (event) => {
+const index_put$5 = eventHandler(async (event) => {
   const db = event.context.db;
   const body = await readBody(event);
   const { id, newStatus } = body;
@@ -1494,9 +1500,43 @@ const index_put$4 = eventHandler(async (event) => {
   }
 });
 
-const index_put$5 = /*#__PURE__*/Object.freeze({
+const index_put$6 = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_put$4
+  default: index_put$5
+});
+
+const index_get$4 = eventHandler(async (event) => {
+  const db = event.context.velorisDb;
+  const colRef = collection(db, "projects");
+  getDocs(colRef);
+});
+
+const index_get$5 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: index_get$4
+});
+
+const index_post$6 = eventHandler(async (event) => {
+  const db = event.context.velorisDb;
+  const { project } = await readBody(event);
+  if (!project) {
+    throw createError({ statusCode: 400, statusMessage: "No project data found" });
+  }
+  try {
+    const colRef = collection(db, "projects");
+    await addDoc(colRef, project);
+  } catch (error) {
+    throw createError({ statusCode: 500, statusMessage: `Unable to create project: ${error}` });
+  }
+});
+
+const index_post$7 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: index_post$6
+});
+
+const index_put$4 = /*#__PURE__*/Object.freeze({
+  __proto__: null
 });
 
 const __filename = fileURLToPath(globalThis._importMeta_.url);
@@ -1816,8 +1856,6 @@ const access_get = eventHandler(async (event) => {
   const db = event.context.velorisDb;
   const query = getQuery$1(event);
   const uid = query.uid;
-  const domain = event.node.req.headers.host;
-  domain == null ? void 0 : domain.split(":")[0];
   if (!uid) {
     console.error("Document ID not provided");
     throw createError({ statusCode: 400, statusMessage: "uid required" });
@@ -1829,7 +1867,7 @@ const access_get = eventHandler(async (event) => {
       throw createError({ statusCode: 404, statusMessage: "Document not found" });
     }
     const userObj = docSnap.data();
-    return userObj.siteAccess;
+    return userObj.siteAccess || [];
   } catch (error) {
     console.error("Error fetching document: ", error);
     throw createError({ statusCode: 500, statusMessage: `${error}` });

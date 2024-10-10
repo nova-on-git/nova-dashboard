@@ -32,7 +32,7 @@ export { signIn, signUp, signInWithGoogle, resetPassword, getErrorMessage } from
 export { cache, getCache } from '../composables/caching';
 export { compressImage, saveFileToStorage, resizeImage, processImage } from '../composables/imageProcessing';
 export { formatDate, getStatusIcon } from '../composables/ordersUtils';
-export { initStores, $Notifications, $CurrentUser, $Orders, $Products, $Users, $Basket, $Dashboard, $Analytics, $Blogs, $Payment, NotificationStore, BlogStore, CurrentUserStore, OrderStore, ProductStore, AnalyticsStore, UserStore, BasketStore, DashboardStore, PaymentStore } from '../composables/pinia';
+export { initStores, $Notifications, $CurrentUser, $Orders, $Products, $Users, $Basket, $Dashboard, $Analytics, $Blogs, $Payment, $Projects, ProjectStore, NotificationStore, BlogStore, CurrentUserStore, OrderStore, ProductStore, AnalyticsStore, UserStore, BasketStore, DashboardStore, PaymentStore } from '../composables/pinia';
 export { stripeCheckout } from '../composables/stripe';
 export { useVelorisConfig, useAuth, useDb } from '../composables/useGlobals';
 export { getRandomNumber } from '../composables/utils';
@@ -48,6 +48,7 @@ export { useNotificationStore, exampleNotifications } from '../stores/notificati
 export { useOrderStore, testOrderObject } from '../stores/orders';
 export { usePaymentStore } from '../stores/payment';
 export { useProductStore } from '../stores/products';
+export { useProjectStore } from '../stores/projects';
 export { useUserStore } from '../stores/users';
 export { defineStore, acceptHMRUpdate, usePinia, storeToRefs } from '../node_modules/.pnpm/@pinia+nuxt@0.5.5_magicast@0.3.5_rollup@4.24.0_typescript@5.6.2_vue@3.5.11_typescript@5.6.2_/node_modules/@pinia/nuxt/dist/runtime/composables';
 export { useNuxtDevTools } from '../node_modules/.pnpm/@nuxt+devtools@1.5.2_rollup@4.24.0_vite@5.4.8_@types+node@22.7.4_sass@1.79.4_terser@5.34.1__vue@3.5.11_typescript@5.6.2_/node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';
