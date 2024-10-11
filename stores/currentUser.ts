@@ -87,7 +87,9 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
         },
 
         async init() {
-            const $auth = useAuth()
+            const nuxtApp = useNuxtApp()
+            const $auth = nuxtApp.$auth
+            // const $auth = useAuth()
             this.currentUser = await this.getCache()
             onAuthStateChanged($auth, async (user: User | null) => {
                 this.isLoadings = true

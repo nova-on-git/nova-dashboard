@@ -27,7 +27,6 @@ const message = ref({
 
 async function addDocument() {
     const $storage = useVelorisStorage()
-
     const storageRef = ref($storage, `${props.chatroomId}/files/${fileInput.value.name}`)
     try {
         await uploadBytes(storageRef, fileInput.value)

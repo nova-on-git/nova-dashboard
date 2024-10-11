@@ -66,7 +66,7 @@ export default defineNuxtPlugin(() => {
     useNuxtApp().provide("db", db)
     useNuxtApp().provide("storage", storage)
 
-    useNuxtApp().provide("auth", velorisDb)
+    useNuxtApp().provide("auth", auth)
     useNuxtApp().provide("velorisStorage", velorisStorage)
     useNuxtApp().provide("velorisDb", velorisDb)
 })

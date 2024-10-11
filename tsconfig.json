@@ -19,6 +19,7 @@
             "layer/*": ["./layers/*"]
         }
     },
+
     "include": [
         "../veloris-dashboard/**/*",
         "../veloris-dashboard/composables/pinia.ts",
