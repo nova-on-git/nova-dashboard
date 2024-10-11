@@ -5,11 +5,11 @@ export default eventHandler(async (event) => {
     const { id, message }: { id: string; message: Message } = await readBody(event)
 
     if (!id || !message)
-        throw createError({ statusCode: 400, statusMessage: "Id and message are required!" })
+        throw createError({ statusCode: 400, statusMessage: "id and message are required!" })
 
     const projectsColRef = collection(db, "projects")
     const projectDocRef = doc(projectsColRef, id)
-    const messageColRef = collection(projectDocRef, "chatroom-messages")
+    const messageColRef = collection(projectDocRef, "messages")
 
     try {
         await addDoc(messageColRef, message)

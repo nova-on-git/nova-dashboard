@@ -1,4 +1,5 @@
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore"
+import { onAuthStateChanged } from "firebase/auth"
+import { collection, doc, onSnapshot, orderBy, query } from "firebase/firestore"
 import { defineStore } from "pinia"
 
 export const useChatroomStore = defineStore("chatrooms", {
@@ -12,7 +13,11 @@ export const useChatroomStore = defineStore("chatrooms", {
         },
 
         getChatroomMessages: (state) => (chatroomId: string) => {
-            const chatroom = state.chatrooms
+            const chatroom = state.chatrooms.find((chatroom) => {
+                return chatroom.projectId === chatroomId
+            })
+
+            return chatroom ? chatroom.messages : []
         },
 
         getChatroomNames(state) {
@@ -24,35 +29,69 @@ export const useChatroomStore = defineStore("chatrooms", {
 
     actions: {
         async init() {
-            // this.readChatrooms()
+            this.readChatrooms()
+
+            const $db = useVelorisDb()
+
+            const projectsRef = collection($db, "projects")
+
+            const listenToMessages = (projectId: string) => {
+                const messagesRef = collection(doc($db, "projects", projectId), "messages")
+
+                onSnapshot(messagesRef, (snapshot) => {
+                    const messages = snapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        ...doc.data(),
+                    }))
+
+                    const chatroom = this.chatrooms.find(
+                        (chatroom) => chatroom.projectId === projectId
+                    )
+
+                    if (chatroom) {
+                        chatroom.messages = messages
+                    }
+                })
+            }
+
+            onSnapshot(projectsRef, (snapshot) => {
+                snapshot.docChanges().forEach((change) => {
+                    if (change.type === "added") {
+                        // A new project has been added
+                        const projectId = change.doc.id
+                        listenToMessages(projectId)
+                    }
+                    if (change.type === "removed") {
+                        // A project has been removed
+                        // Handle project removal if needed
+                    }
+                })
+            })
         },
 
         async readChatrooms() {
             const { data: idsData } = useFetch("/api/projects/ids")
             const chatroomIds = idsData.value
+            if (!chatroomIds) return []
 
-            console.log(chatroomIds)
-            console.log("here")
             let chatrooms = [] as Chatroom[]
 
-            for (let id in chatroomIds) {
+            for (let id of chatroomIds) {
                 let chatroom = {
                     projectId: id,
-                    messages: [],
+                    messages: [] as Message[],
                 } as Chatroom
 
-                const { data } = useFetch("/api/chatrooms/messages")
-                chatroom.messages = data.value || []
+                const messages = await this.readChatroomMessages(id)
+                chatroom.messages = messages || []
 
                 chatrooms.push(chatroom)
             }
-
             this.chatrooms = chatrooms
         },
 
         async readChatroomMessages(projectId: string) {
-            const { data } = await useFetch("/api/chatrooms/messages")
-
+            const { data } = await useFetch(`/api/chatrooms/messages/${projectId}`)
             return data.value
         },
 

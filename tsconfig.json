@@ -11,15 +11,25 @@
         "forceConsistentCasingInFileNames": true,
         "baseUrl": "./",
         "paths": {
+            "../veloris-dashboard/*": ["types/*"],
             "*": ["types/*"],
             "~~/*": ["types/*"],
-            "~/*": ["./*"]
+            "~/*": ["./*"],
+            "@layer/*": ["./layers/*"],
+            "layer/*": ["./layers/*"]
         }
     },
     "include": [
+        "../veloris-dashboard/**/*",
+        "../veloris-dashboard/composables/pinia.ts",
+        "../veloris-dashboard/.nuxt/*.d.ts",
+        "../veloris-dashboard/types/*",
+        "../veloris-dashboard/*",
         "types/**/*.ts",
         "types/**/*.d.ts",
         "src/**/*.ts",
-        "src/**/*.d.ts"
+        "src/**/*.d.ts",
+        "layers/**/*",
+        "layers/**/*"
     ]
 }

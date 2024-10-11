@@ -1,9 +1,10 @@
 <template>
-    <main>
+    <main class="admin-page">
         <pre>
             // Project details page
 
-            <CalendlyEmbed v-if="project.action === 'meeting'"/>
+            <!-- <CalendlyEmbed v-if="project.action === 'meeting'"/> -->
+             <btn :to="`/admin/projects/chatrooms/${project.id}`">Project Chatroom</btn>
         </pre>
 
         <pre>

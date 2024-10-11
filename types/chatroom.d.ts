@@ -11,7 +11,6 @@ declare global {
         id: string
         message: string
         sender: string
-        projectId: string
         timestamp: Date
     }
 }

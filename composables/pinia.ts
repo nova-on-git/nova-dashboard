@@ -1,4 +1,6 @@
 let $Notifications: NotificationStore
+
+/**Holds data about the logged in user. */
 let $CurrentUser: CurrentUserStore
 let $Orders: OrderStore
 let $Products: ProductStore
