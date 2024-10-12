@@ -2,28 +2,20 @@
     <div class="admin-nav">
         <cflex class="admin-nav-links">
             <div
-                v-for="(subHeaders, subHeaderKey) in $velorisConfig.sections
-                    .subheaders"
+                v-for="(subHeaders, subHeaderKey) in $velorisConfig.sections.subheaders"
                 class="link-group"
             >
                 <div class="link-group-header">{{ subHeaderKey }}</div>
-                <div
-                    v-for="(section, sectionKey) in subHeaders"
-                    :style="{ order: section?.order }"
-                >
+                <div v-for="(section, sectionKey) in subHeaders" :style="{ order: section?.order }">
                     <div v-for="page of section?.pages" key="key">
-                        <div
-                            v-if="
-                                $velorisConfig.sectionSwitches[sectionKey] ===
-                                true
-                            "
-                        >
-                            <anchor @click="" :to="page.url" class="page row">
-                                <Icon
-                                    :icon="page.icon"
-                                    color="white"
-                                    width="25px"
-                                />
+                        <div v-if="$velorisConfig.sectionSwitches[sectionKey] === true">
+                            <anchor
+                                v-if="page.access && page.access.includes(role)"
+                                @click=""
+                                :to="page.url"
+                                class="page row"
+                            >
+                                <Icon :icon="page.icon" color="white" width="25px" />
                                 {{ page.name }}
                             </anchor>
 
@@ -58,8 +50,16 @@
 </template>
 
 <script setup lang="ts">
-import { Icon } from "@iconify/vue";
-const $velorisConfig = useVelorisConfig();
+import { Icon } from "@iconify/vue"
+const $velorisConfig = useVelorisConfig()
+
+const role = computed(() => {
+    if ($CurrentUser && $CurrentUser.role) {
+        return $CurrentUser.role
+    }
+
+    return "client"
+})
 </script>
 
 <style lang="sass" scoped>

@@ -41,7 +41,7 @@ export const useProjectStore = defineStore("projects", {
             this.projects = data.value
         },
 
-        async create(project: Omit<Project, "id">) {
+        async create(project: Omit<Project, "id" | "action">) {
             await useFetch("/api/projects", {
                 method: "POST",
                 body: {

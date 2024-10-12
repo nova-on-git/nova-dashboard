@@ -2,10 +2,21 @@ import { defineStore } from "pinia"
 import { onAuthStateChanged, signOut as firebaseSignOut } from "firebase/auth"
 import type { Auth, User } from "firebase/auth"
 import axios from "axios"
+import { Meta } from "~/.nuxt/components"
 
 export const useCurrentUserStore = defineStore("currentUserStore", {
     state: () => ({
-        currentUser: {} as UserProfile,
+        currentUser: {
+            uid: "",
+            displayName: "",
+            email: "",
+            siteAccess: [
+                {
+                    domain: "localhost",
+                    role: "client",
+                },
+            ],
+        } as UserProfile,
         isLoadings: false,
     }),
 
@@ -49,12 +60,13 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
         },
 
         role(state) {
+            if (!import.meta.client) return "client"
             const domain = window.location.hostname
 
             if (state.currentUser && state.currentUser.siteAccess) {
                 const siteRole = state.currentUser.siteAccess.find((site) => site.domain === domain)
 
-                if (!siteRole) return
+                if (!siteRole) return "client"
                 return siteRole.role
             }
         },

@@ -45,9 +45,6 @@
                 <label for="Name">Emails:</label>
                 <input type="text" name="emails" v-model="projectDetails.emails" />
 
-                <label for="Name">Status:</label>
-                <input type="text" name="status" v-model="projectDetails.status" />
-
                 <!-- TODO: make this send an email to everyone in the email list. -->
                 <btn type="submit">Create Project</btn>
             </form>
@@ -59,11 +56,12 @@
 </template>
 
 <script setup lang="ts">
-const projectDetails = ref({
+const projectDetails: Ref<Omit<Project, "id" | "action">> = ref({
     name: "",
     emails: [""],
-    status: "onboarding",
+    phase: "onboarding",
 })
+
 definePageMeta({
     layout: "dashboard",
     middleware: "admin-auth",

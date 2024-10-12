@@ -2,6 +2,7 @@
     <main>
         <pre>
             This is where the project control will take place.
+
         </pre>
 
         <pre>{{ project }}</pre>
