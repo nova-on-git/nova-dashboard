@@ -20,30 +20,23 @@
 
         <section class="chat-main">
             <div v-if="!activeChatroomId" class="no-chat-selected">
-                <h3>Select a project chatroom to start messaging</h3>
+                <h5>Select a project chatroom to start messaging</h5>
             </div>
-            
-            <Chatroom
-                v-else
-                :chatroom-id="activeChatroomId"
-                :project-name="activeProject?.name"
-                @new-message="handleNewMessage"
-            />
+
+            <Chatroom v-else :chatroom-id="activeChatroomId" :project-name="activeProject?.name" />
         </section>
     </main>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
-
-const activeChatroomId = ref('')
+const activeChatroomId = ref("")
 const activeProject = ref(null)
 const unreadCounts = ref<Record<string, number>>({})
-const notificationPermission = ref<NotificationState>('default')
+const notificationPermission = ref<NotificationState>("default")
 
 // Request notification permission on mount
 onMounted(async () => {
-    if ('Notification' in window) {
+    if ("Notification" in window) {
         notificationPermission.value = await Notification.requestPermission()
     }
 })
@@ -59,9 +52,9 @@ function handleNewMessage(message: any) {
     if (message.chatroomId !== activeChatroomId.value) {
         // Increment unread count for other chatrooms
         unreadCounts.value[message.chatroomId] = (unreadCounts.value[message.chatroomId] || 0) + 1
-        
+
         // Show notification if permission granted
-        if (notificationPermission.value === 'granted') {
+        if (notificationPermission.value === "granted") {
             new Notification(`New message in ${message.projectName}`, {
                 body: `${message.sender}: ${message.message}`,
             })
@@ -70,8 +63,8 @@ function handleNewMessage(message: any) {
 }
 
 definePageMeta({
-    layout: 'dashboard',
-    middleware: 'admin-auth',
+    layout: "dashboard",
+    middleware: "admin-auth",
 })
 </script>
 

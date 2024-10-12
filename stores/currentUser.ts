@@ -18,6 +18,11 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
             return state.currentUser?.uid ? state.currentUser.uid : "No uid"
         },
 
+        /**Returns display name if available, otherwise it returns the email. */
+        reference(state) {
+            return state.currentUser.displayName || state.currentUser.email
+        },
+
         email(state) {
             return state.currentUser?.email ? state.currentUser.email : "No email"
         },

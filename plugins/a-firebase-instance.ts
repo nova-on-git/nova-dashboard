@@ -55,7 +55,7 @@ export default defineNuxtPlugin(() => {
         velorisApp = initializeApp(velorisFirebaseConfig, "velorisApp")
         auth = getAuth(velorisApp)
         velorisDb = getFirestore(velorisApp)
-        velorisStorage = getFirestore(velorisApp)
+        velorisStorage = getStorage(velorisApp)
 
         console.log("Firebase client app, auth, db, and storage initialized.")
     } catch (error) {

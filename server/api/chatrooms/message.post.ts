@@ -1,4 +1,4 @@
-import { addDoc, collection, doc } from "firebase/firestore"
+import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore"
 
 export default eventHandler(async (event) => {
     const db = event.context.velorisDb
@@ -6,6 +6,8 @@ export default eventHandler(async (event) => {
 
     if (!id || !message)
         throw createError({ statusCode: 400, statusMessage: "id and message are required!" })
+
+    message.timestamp = serverTimestamp()
 
     const projectsColRef = collection(db, "projects")
     const projectDocRef = doc(projectsColRef, id)

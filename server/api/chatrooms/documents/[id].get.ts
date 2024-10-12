@@ -6,10 +6,10 @@ export default eventHandler(async (event) => {
 
     const projectsColRef = collection(db, "projects")
     const projectDocRef = doc(projectsColRef, id)
-    const messagesColRef = collection(projectDocRef, "messages")
+    const documentsColRef = collection(projectDocRef, "documents")
 
     try {
-        const messagesQuery = query(messagesColRef, orderBy("timestamp", "desc"))
+        const messagesQuery = query(documentsColRef, orderBy("timestamp", "desc"))
 
         const snapshot = await getDocs(messagesQuery)
         const messages = snapshot.docs.map((doc) => ({
@@ -17,7 +17,6 @@ export default eventHandler(async (event) => {
             ...doc.data(),
         }))
 
-        console.log(messages)
         return messages
     } catch (error) {
         throw createError({ statusCode: 500, statusMessage: `Error getting messages: ${error}` })

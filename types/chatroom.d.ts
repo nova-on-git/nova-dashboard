@@ -3,7 +3,7 @@ export {}
 declare global {
     interface Chatroom {
         projectId: string
-        // documents: Documents[]
+        documents: ChatroomDocument[]
         messages: Message[] | []
     }
 
@@ -11,6 +11,14 @@ declare global {
         id: string
         message: string
         sender: string
-        timestamp: Date
+        timestamp: FieldValue
+    }
+
+    interface ChatroomDocument {
+        id: string
+        url: string
+        name: string
+        timestamp: FieldValue
+        type: "document" | "image"
     }
 }
