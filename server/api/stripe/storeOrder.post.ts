@@ -9,9 +9,12 @@ const stripe = new Stripe(config.STRIPE_SECRET_KEY)
 
 export default eventHandler(async (event) => {
     const body = await readBody(event)
-    const { orderOptions }: { orderOptions: PaymentOptions } = body
+    const { total, itemName, order } = body
 
     const origin = event.node.req.headers["origin"]
+
+    const response = await axios.post(`${origin}/api/orders/incomplete`, order)
+    const orderID = response.data
 
     try {
         const session = await stripe.checkout.sessions.create({

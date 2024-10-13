@@ -3,11 +3,7 @@
         <mpage>
             <rflex class="content-container">
                 <cflex class="basket-items" v-if="basket">
-                    <anchor
-                        class="item"
-                        :to="`/store/${item.id}`"
-                        v-for="item in basket"
-                    >
+                    <anchor class="item" :to="`/store/${item.id}`" v-for="item in basket">
                         <rflex class="left-container">
                             <div class="image-container">
                                 <img :src="item.images[0].preview" />
@@ -20,8 +16,7 @@
                             </div>
                             <rflex>
                                 <div>
-                                    <strong>Size:</strong> {{ item.height }}cm x
-                                    {{ item.width }}cm
+                                    <strong>Size:</strong> {{ item.height }}cm x {{ item.width }}cm
                                 </div>
                                 <div>
                                     <strong>£{{ item.price }}</strong>
@@ -147,9 +142,7 @@
                         </rflex>
                     </cflex>
 
-                    <btn class="darkgrey-button checkout-button" type="submit"
-                        >Checkout</btn
-                    >
+                    <btn class="darkgrey-button checkout-button" type="submit">Checkout</btn>
                 </form>
             </rflex>
         </mpage>
@@ -159,12 +152,12 @@
 <script setup lang="ts">
 // const $Basket = use$Basket()
 
-const basket = ref();
-const basketSubTotal = ref<number>(0);
-const deliveryPrice = ref<number>(2000);
-const basketTotal = ref<number>(0);
+const basket = ref()
+const basketSubTotal = ref<number>(0)
+const deliveryPrice = ref<number>(2000)
+const basketTotal = ref<number>(0)
 
-const notes = ref("");
+const notes = ref("")
 const addressData = ref<Address>({
     name: "Random Name Johnson",
     postcode: "RGB6YZ",
@@ -172,18 +165,17 @@ const addressData = ref<Address>({
     street: "Milk Street",
     country: "England",
     county: "Buckinghamshire",
-});
+})
 
 onMounted(async () => {
-    $Basket.read();
-    basket.value = $Basket.get;
-    basketSubTotal.value = $Basket.getBasketTotal;
-    basketTotal.value =
-        Number(basketSubTotal.value) + Number(deliveryPrice.value);
-});
+    $Basket.read()
+    basket.value = $Basket.get
+    basketSubTotal.value = $Basket.getBasketTotal
+    basketTotal.value = Number(basketSubTotal.value) + Number(deliveryPrice.value)
+})
 
 async function startCheckout() {
-    await stripeCheckout(100000, "testitem", {});
+    await stripeOrderCheckout(100000, "testitem", {})
 }
 </script>
 
