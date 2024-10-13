@@ -8,7 +8,7 @@
 
             <ProjectPhase :phase="project.phase" />
 
-            <rflex>
+            <!-- <rflex>
                 <cflex class="phase-description">
                     <h5>Phase Description</h5>
                     <pre v-if="project.phase === 'onboarding'">
@@ -73,28 +73,54 @@
                         
                     </pre>
                 </cflex>
-            </rflex>
+            </rflex> -->
+
+            <div>Project Phase: {{ project.phase }}</div>
+
+            <cflex v-if="project.action === 'meeting'">
+                <p>Please book our next call at your convenience.</p>
+                <button class="calendly-button">
+                    <CalendlyPopupButton v-bind="options" :root-element="rootElement" />
+                </button>
+            </cflex>
+
+            <cflex v-if="project.meeting?.meetingUrl">
+                <h4>Booked meeting link</h4>
+                <p>
+                    Meeting Link:
+                    <anchor target="_blank" :to="project.meeting?.meetingUrl" class="meeting-link">
+                        Zoom Meeting Link</anchor
+                    >
+                </p>
+            </cflex>
+
+            <cflex v-if="project.quote">
+                <h4>A project proposal has been submitted</h4>
+
+                <anchor :to="project.quote.proposalUrl" target="_blank">View Proposal</anchor>
+                <anchor :to="project.quote.quoteUrl" target="_blank">View Quote</anchor>
+
+                <rflex>
+                    <btn modal="offerAccepted">Accept Offer</btn>
+                    <btn>Schedule Meeting</btn>
+                    <btn>Send us a message</btn>
+                    <btn>Decline Offer</btn>
+                </rflex>
+            </cflex>
+
+            <btn :to="`/admin/projects/chatrooms/${project.id}`">Project Chatroom</btn>
+
+            <div ref="rootElement" />
+            <pre>
+                {{ project }}
+            </pre>
+
+            <modal id="offerAccepted">
+                <h6>TODO: add doc signing</h6>
+                <h6>Which payment plan would you like to use?</h6>
+                <h6>TODO: Add payment methods and payment integration</h6>
+            </modal>
         </mpage>
-
-        <pre>
-            // Project details page
-
-            1. See required action
-            2. See project phase
-            3. Chatroom
-            4. Act on action
-            5. Request meeting
-            6.
-        </pre>
-
-        <div>Project Phase: {{ project.phase }}</div>
-
-        <!-- <CalendlyEmbed v-if="project.action === 'meeting'"/> -->
-        <btn :to="`/admin/projects/chatrooms/${project.id}`">Project Chatroom</btn>
-
-        <pre>
-            {{ project }}
-        </pre>
     </main>
 </template>
 
@@ -107,6 +133,26 @@ definePageMeta({
     layout: "dashboard",
     middleware: "admin-auth",
 })
+const rootElement = ref()
+const options = {
+    url: "https://calendly.com/codypwakeford/30min",
+    text: "Book your next meeting",
+}
+
+useCalendlyEventListener({
+    onEventScheduled: (event) => {
+        const velorisMeetingUrl = event.data.payload.event.uri
+        const clientMeetingUrl = event.data.payload.invitee.uri
+
+        $Projects.meetingScheduled(project.id, velorisMeetingUrl, clientMeetingUrl)
+    },
+})
 </script>
 
-<style lang="sass" scoped></style>
+<style lang="sass" scoped>
+.calendly-button
+    background: red
+
+.meeting-link
+    color: blue
+</style>

@@ -1,4 +1,6 @@
+import axios from "axios"
 import { defineStore } from "pinia"
+import Id from "~/pages/admin/blogs/[id].vue"
 
 export const useProjectStore = defineStore("projects", {
     state: () => ({
@@ -56,6 +58,84 @@ export const useProjectStore = defineStore("projects", {
                 body: {
                     id: projectId,
                     phase: phase,
+                },
+            })
+        },
+
+        async meetingScheduled(projectId: Project["id"], meetingUrl: string, clientUrl: string) {
+            const meeting = await this.getCalendlyMeetingDetails(meetingUrl, clientUrl)
+
+            await useFetch("/api/projects", {
+                method: "PUT",
+                body: {
+                    id: projectId,
+                    key: "meeting",
+                    value: meeting,
+                },
+            })
+
+            await useFetch("/api/projects", {
+                method: "PUT",
+                body: {
+                    id: projectId,
+                    key: "action",
+                    value: "none",
+                },
+            })
+        },
+
+        async getCalendlyMeetingDetails(meetingUrl: string, clientUrl: string): Promise<Meeting> {
+            const config = useRuntimeConfig()
+
+            const meetingDetails = await axios.get(meetingUrl, {
+                headers: {
+                    "content-type": "application/json",
+                    Authorization: `Bearer ${config.public.CALENDLY_AUTH}`,
+                },
+            })
+
+            const clientDetailsResponse = await axios.get(clientUrl, {
+                headers: {
+                    "content-type": "application/json",
+                    Authorization: `Bearer ${config.public.CALENDLY_AUTH}`,
+                },
+            })
+
+            const calendlyMeeting = meetingDetails.data
+            const clientDetails = clientDetailsResponse.data
+
+            const meeting: Meeting = Object.assign(
+                {},
+                {
+                    name: calendlyMeeting.resource.name as string,
+                    startTime: calendlyMeeting.resource.start_time as string,
+                    meetingUrl: calendlyMeeting.resource.location.join_url as string,
+                    cancelUrl: clientDetails.resource.cancel_url as string,
+                    rescheduleUrl: clientDetails.resource.reschedule_url as string,
+
+                    clients: [
+                        {
+                            name: clientDetails.resource.name as string,
+                            email: clientDetails.resource.email as string,
+                        },
+                    ],
+                }
+            )
+
+            return meeting
+        },
+
+        async uploadQuote(projectId: string, quoteUrl: string, proposalUrl: string, total: number) {
+            await useFetch("/api/projects", {
+                method: "put",
+                body: {
+                    id: projectId,
+                    key: "quote",
+                    value: {
+                        total: total,
+                        quoteUrl: quoteUrl,
+                        proposalUrl: proposalUrl,
+                    },
                 },
             })
         },

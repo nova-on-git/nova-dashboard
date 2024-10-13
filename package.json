@@ -30,6 +30,7 @@
         "md-editor-v3": "^4.20.3",
         "nuxt": "^3.13.2",
         "nuxt-build-cache": "^0.1.1",
+        "nuxt-calendly": "^0.1.21",
         "path": "^0.12.7",
         "pinia": "^2.2.4",
         "stripe": "^16.12.0",

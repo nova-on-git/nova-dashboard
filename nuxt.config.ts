@@ -4,7 +4,7 @@ export default defineNuxtConfig({
 
     extends: [["github:Veloris-Designs/nova#v1.1.9", { install: true }]],
 
-    modules: ["@nuxt/fonts", "@pinia/nuxt", "nuxt-build-cache"],
+    modules: ["@nuxt/fonts", "@pinia/nuxt", "nuxt-build-cache", "nuxt-calendly"],
 
     vite: {
         css: {
