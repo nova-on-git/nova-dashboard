@@ -1,4 +1,6 @@
 import axios from "axios"
+import { collection, onSnapshot } from "firebase/firestore"
+import { snapshot } from "node:test"
 import { defineStore } from "pinia"
 
 export const useProjectStore = defineStore("projects", {
@@ -34,6 +36,39 @@ export const useProjectStore = defineStore("projects", {
     actions: {
         async init() {
             this.read()
+
+            const $db = useDb()
+
+            const colRef = collection($db, "projects")
+
+            onSnapshot(colRef, (snapshot) => {
+                snapshot.docChanges().forEach((change) => {
+                    const projectData = change.doc.data() as Project
+                    projectData.id = change.doc.id // Ensure each project has its Firestore ID
+
+                    if (change.type === "added") {
+                        // Add new projects to the state
+                        this.projects.push(projectData)
+                    }
+
+                    if (change.type === "modified") {
+                        // Find and update the modified project in the state
+                        const index = this.projects.findIndex(
+                            (project) => project.id === change.doc.id
+                        )
+                        if (index !== -1) {
+                            this.projects[index] = projectData
+                        }
+                    }
+
+                    if (change.type === "removed") {
+                        // Remove deleted projects from the state
+                        this.projects = this.projects.filter(
+                            (project) => project.id !== change.doc.id
+                        )
+                    }
+                })
+            })
         },
 
         async read() {

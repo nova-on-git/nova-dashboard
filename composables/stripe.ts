@@ -1,7 +1,7 @@
 import { loadStripe } from "@stripe/stripe-js"
 import axios from "axios"
 
-export const stripeOrderCheckout = async (total: number, itemName: string, order: Order) => {
+export const stripeCheckout = async (total: number, itemName: string, order: Order) => {
     try {
         const sessionId = await createPaymentIntent(total, itemName, order)
 
