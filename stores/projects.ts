@@ -1,11 +1,10 @@
 import axios from "axios"
 import { collection, onSnapshot } from "firebase/firestore"
-import { snapshot } from "node:test"
 import { defineStore } from "pinia"
 
 export const useProjectStore = defineStore("projects", {
     state: () => ({
-        projects: {} as Project[],
+        projects: [] as Project[],
     }),
 
     getters: {
@@ -35,30 +34,38 @@ export const useProjectStore = defineStore("projects", {
 
     actions: {
         async init() {
-            this.read()
+            if (!import.meta.client) return
 
             const $db = useDb()
-
             const colRef = collection($db, "projects")
 
             onSnapshot(colRef, (snapshot) => {
                 snapshot.docChanges().forEach((change) => {
-                    const projectData = change.doc.data() as Project
-                    projectData.id = change.doc.id // Ensure each project has its Firestore ID
+                    const projectData = change.doc.data()
+
+                    const project = {
+                        id: change.doc.id,
+                        ...projectData,
+                    } as Project
 
                     if (change.type === "added") {
-                        // Add new projects to the state
-                        this.projects.push(projectData)
+                        console.log("project add detected")
+                        this.projects.push(project)
+                        return
                     }
 
                     if (change.type === "modified") {
-                        // Find and update the modified project in the state
-                        const index = this.projects.findIndex(
-                            (project) => project.id === change.doc.id
-                        )
-                        if (index !== -1) {
-                            this.projects[index] = projectData
+                        console.log("change detected")
+
+                        const index = this.projects.findIndex((p) => p.id === project.id)
+
+                        if (index === -1) {
+                            console.log("Project not fouind")
+                            return
                         }
+
+                        console.log("Project not fouind")
+                        this.projects[index] = project
                     }
 
                     if (change.type === "removed") {
@@ -74,15 +81,14 @@ export const useProjectStore = defineStore("projects", {
         async read() {
             const { data } = await useFetch<Project[]>("/api/projects")
             if (!data.value) return
+            console.log("overwriting projects")
             this.projects = data.value
         },
 
-        async create(project: Omit<Project, "id" | "action">) {
+        async create(project: Omit<Project, "id">) {
             await useFetch("/api/projects", {
                 method: "POST",
-                body: {
-                    project: project,
-                },
+                body: { project: project },
             })
         },
 

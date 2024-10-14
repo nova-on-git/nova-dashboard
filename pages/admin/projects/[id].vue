@@ -1,6 +1,6 @@
 <template>
     <main class="admin-page">
-        <mpage class="admin-mpage">
+        <mpage class="admin-mpage" v-if="project">
             <rflex>
                 <h4>{{ project.name }}</h4>
                 <h5>Phase: {{ project.phase }}</h5>

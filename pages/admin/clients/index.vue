@@ -30,7 +30,7 @@
         <cflex>
             <h5>Projects</h5>
 
-            <anchor v-for="project in $Projects.get" :to="`/admin/clients/${project.id}`">{{
+            <anchor v-for="project in projects" :to="`/admin/clients/${project.id}`">{{
                 project.name
             }}</anchor>
         </cflex>
@@ -52,14 +52,22 @@
 
         <btn @click="$Projects.createDummy()">Create dummy project</btn>
         <btn to="/admin/clients/chatroom">Chatroom</btn>
+
+        <pre>{{ projects }}</pre>
     </main>
 </template>
 
 <script setup lang="ts">
-const projectDetails: Ref<Omit<Project, "id" | "action">> = ref({
+const projects = computed(() => {
+    return $Projects.get
+})
+
+const projectDetails: Ref<Omit<Project, "id">> = ref({
     name: "",
     emails: [""],
     phase: "onboarding",
+    action: "none",
+    paymentPlan: "noneSelected",
 })
 
 definePageMeta({
