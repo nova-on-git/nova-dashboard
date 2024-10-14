@@ -48,20 +48,6 @@ function selectChatroom(project: any) {
     unreadCounts.value[project.id] = 0
 }
 
-function handleNewMessage(message: any) {
-    if (message.chatroomId !== activeChatroomId.value) {
-        // Increment unread count for other chatrooms
-        unreadCounts.value[message.chatroomId] = (unreadCounts.value[message.chatroomId] || 0) + 1
-
-        // Show notification if permission granted
-        if (notificationPermission.value === "granted") {
-            new Notification(`New message in ${message.projectName}`, {
-                body: `${message.sender}: ${message.message}`,
-            })
-        }
-    }
-}
-
 definePageMeta({
     layout: "dashboard",
     middleware: "admin-auth",

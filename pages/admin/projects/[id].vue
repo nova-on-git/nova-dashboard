@@ -6,6 +6,8 @@
                 <h5>Phase: {{ project.phase }}</h5>
             </rflex>
 
+            <btn preset="dark" :to="`/admin/projects/chatrooms/${project.id}`">Chatroom</btn>
+
             <!-- Phase tracker bar -->
             <ProjectPhase :phase="project.phase" />
 

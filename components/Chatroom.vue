@@ -1,8 +1,10 @@
 <template>
     <section class="chatroom-container">
         <div class="messages-container" ref="messagesContainer">
+            <!-- TODO: ui -->
             <pre>docs: {{ $Chatroom.getChatroomDocuments(props.chatroomId) }}</pre>
             <pre>images: {{ $Chatroom.getChatroomImages(props.chatroomId) }}</pre>
+
             <div v-if="loading" class="loading-state">
                 <p>Loading messages...</p>
             </div>
@@ -42,11 +44,12 @@
             <div class="message-form">
                 <div class="input-wrapper">
                     <input
-                        v-model="messageObj.message"
+                        v-model="message"
                         type="text"
                         placeholder="Type a message..."
                         class="message-input"
                         :disabled="sending"
+                        @keyup.enter="sendMessage"
                     />
                     <label class="file-input-label">
                         <input
@@ -77,12 +80,17 @@ interface Props {
 const fileInput = ref<File | null>(null)
 const props = defineProps<Props>()
 const messagesContainer = ref<HTMLElement | null>(null)
+
 const loading = ref(false)
 const sending = ref(false)
+
 const messages = computed(() => $Chatroom.getChatroomMessages(props.chatroomId))
-const messageObj = ref({
-    message: "",
-    sender: $CurrentUser.reference,
+const message = ref("")
+const messageObj = computed(() => {
+    return {
+        message: message.value,
+        sender: $CurrentUser.reference,
+    }
 })
 
 watch(fileInput, (newValue) => {
@@ -91,12 +99,14 @@ watch(fileInput, (newValue) => {
     }
 })
 
-function sendMessage(event: Event) {
-    if (messageObj.value.message === "") return
-    console.log("sending message")
-    $Chatroom.sendMessage(props.chatroomId, messageObj.value)
+watch(messages, (newValue) => {
+    scrollToBottom()
+})
 
-    messageObj.value.message = ""
+function sendMessage() {
+    if (messageObj.value.message === "") return
+    $Chatroom.sendMessage(props.chatroomId, messageObj.value)
+    message.value = ""
 }
 
 function scrollToBottom() {
@@ -104,7 +114,7 @@ function scrollToBottom() {
         if (messagesContainer.value) {
             messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
         }
-    }, 100)
+    }, 10)
 }
 
 function handleFileSelect(event: Event) {
@@ -152,6 +162,9 @@ async function sendDocument() {
         throw error
     }
 }
+onMounted(() => {
+    scrollToBottom()
+})
 </script>
 
 <style lang="scss" scoped>
