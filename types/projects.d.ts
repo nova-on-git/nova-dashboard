@@ -17,8 +17,6 @@ declare global {
 
     type Actions = "meeting" | "document" | "none"
 
-    type PaymentPlan = "once" | "installments"
-
     interface Meeting {
         meetingUrl: string
         name: string
@@ -45,15 +43,44 @@ declare global {
         phase: ProjectPhase
         action: Actions
         meeting?: Meeting
-        paymentPlan?: PaymentPlan
 
-        quote?: {
-            status: "awaiting" | "rejected" | "paid"
+        /**
+         * What kind of payment plan does the client use.
+         *
+         * - One: Payment in full upfront.
+         *
+         * - Three: One payment upfront, once on first built website draft and once on completion.
+         *
+         * - Installments: A reccuring monthly payment for the site. //TODO
+         *
+         */
+        paymentPlan: "noneSelected" | "three" | "installments" | "one"
 
-            quoteUrl: string
-            price: number
-            proposalUrl: string
-            domain?: number
-        }
+        quote?: ProjectQuote
+    }
+
+    interface ProjectQuote {
+        /**items being purchased */
+        items: ProjectQuoteItem[]
+
+        /**Url link to pdf */
+        quoteUrl: string
+
+        /**Url link to pdf */
+        proposalUrl: string
+    }
+
+    interface ProjectQuoteItem {
+        /**Name of the product or service */
+        name: "website"
+
+        /**Amount in pence */
+        amount: number
+
+        /**Amount Paid */
+        amountPaid: number
+
+        /**Type of payment for the transaction */
+        paymentType: "payment" | "subscription"
     }
 }

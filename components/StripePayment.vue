@@ -1,20 +1,45 @@
 <template>
     <form @submit.prevent="pay" id="payment-form">
+        <h5>Amount Due: £{{ options.amount / 100 }}</h5>
         <label for="name">Name</label>
-        <input type="text" name="name" placeholder="Full name on card" />
+        <input
+            type="text"
+            name="name"
+            placeholder="Full name on card"
+            v-model="billingAddress.name"
+        />
 
-        <label for="email">Email</label>
-        <input type="text" name="email" placeholder="email" />
+        <label for="email">Email for recipt</label>
+        <input type="text" name="email" placeholder="Full name on card" v-model="receipt_email" />
 
-        <label for="email">Email</label>
-        <input type="text" name="email" placeholder="email" />
+        <label for="email">Street</label>
+        <input type="text" name="street" placeholder="street" v-model="billingAddress.street" />
 
-        <label for="email">Email</label>
-        <input type="text" name="email" placeholder="email" />
+        <label for="email">city</label>
+        <input type="text" name="city" placeholder="city" v-model="billingAddress.city" />
+
+        <label for="email">country</label>
+        <input type="text" name="country" placeholder="country" v-model="billingAddress.country" />
+
+        <label for="email">postcode</label>
+        <input
+            type="text"
+            name="postcode"
+            placeholder="postcode"
+            v-model="billingAddress.postcode"
+        />
 
         <div id="card-element"></div>
-        <btn @click="pay" preset="dark" :disabled="isProcessing" type="submit">Pay</btn>
-        <div id="card-errors" role="alert"></div>
+        <btn
+            :loading="isProcessing"
+            @click="pay"
+            preset="dark"
+            :disabled="isProcessing"
+            type="submit"
+            >Pay
+        </btn>
+        <div id="card-errors" role="alert">{{ errorMessage }}</div>
+        <div id="card-success">{{ successMessage }}</div>
     </form>
 </template>
 
@@ -24,9 +49,22 @@ import { loadStripe, type Stripe } from "@stripe/stripe-js"
 const stripe = ref<Stripe | null>(null)
 const card = ref<any>(null)
 const isProcessing = ref(false)
+const errorMessage = ref("")
+const successMessage = ref("")
+
+const receipt_email = ref("codypwakeford@gmail.com")
+const billingAddress = ref({
+    name: "",
+    street: "",
+    city: "",
+    county: "",
+    country: "",
+    postcode: "",
+})
 
 interface Props {
     options: StripePaymentOptions
+    metadata: StripeMetaData
 }
 
 const props = defineProps<Props>()
@@ -51,20 +89,50 @@ async function pay() {
 
     isProcessing.value = true
 
+    const paymentOptions = {
+        ...props.options,
+        receipt_email: receipt_email.value,
+    }
+
     try {
         const { paymentIntent, error } = await stripe.value.confirmCardPayment(
-            await getClientSecret(testPaymentOptions),
+            await getClientSecret(paymentOptions),
             {
                 payment_method: {
                     card: card.value,
                     billing_details: {
-                        name: "Test User",
+                        name: billingAddress.value.name,
+                        email: receipt_email.value,
                     },
                 },
             }
         )
 
-        console.log("Payment Intent:", paymentIntent)
+        if (error && error.message) {
+            errorMessage.value = error.message
+            return
+        }
+
+        if (!paymentIntent) {
+            throw createError({ statusCode: 500 })
+        }
+
+        errorMessage.value = ""
+        successMessage.value = "Payment Successful. Thank you for your business."
+
+        const paymentRecord: PaymentRecord = {
+            totalPaid: paymentIntent.amount,
+            transactionId: paymentIntent.id,
+            email: receipt_email.value,
+            billingAddress: billingAddress.value,
+            timestamp: String(Date.now()),
+            currency: props.options.currency,
+            refundStatus: false,
+            taxRate: props.metadata.taxRate,
+            description: props.metadata.description,
+        }
+
+        $Payment.createRecord(paymentRecord)
     } catch (error) {
         console.error("Error handling payment:", error)
     } finally {
@@ -95,4 +163,10 @@ async function getClientSecret(paymentOptions: StripePaymentOptions): Promise<st
     border: 1px solid #ccc
     border-radius: 4px
     margin-bottom: 12px
+
+form
+    display: flex
+    flex-direction: column
+    gap: 10px
+    max-width: 500px
 </style>

@@ -1,25 +1,35 @@
 export {}
 
 declare global {
+    /**Data sent to stripe for the payment processing. */
     interface StripePaymentOptions {
         /**Amount in pence */
         amount: number
         currency: "gbp" | "usd" | "eur"
     }
 
-    interface PaymentOptions {
-        payment_method_types: ["card"]
-        line_items: {
-            price_data: {
-                currency: "gbp" | "usd"
-                product_data: {
-                    name: string
-                }
-                /**Price of the item in pence*/
-                unit_amount: number
-            }
-            quantity: 1
-        }[]
-        mode: "payment" | "subscription"
+    /**Data for our personal records. */
+    interface StripeMetaData {
+        /**Description of whats being bought. */
+        description: string
+        /**Percentage of the whole amount */
+        taxRate: string
+    }
+
+    interface PaymentRecord {
+        transactionId: string
+        email: string
+        timestamp: string
+        currency: "gbp" | "usd" | "eur"
+
+        refundStatus: boolean
+
+        /**Percentage of the whole amount */
+        taxRate: string
+        billingAddress: Address
+        description: string
+
+        /**Amount Paid in pence */
+        totalPaid: number
     }
 }

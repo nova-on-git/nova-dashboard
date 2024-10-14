@@ -1,3 +1,5 @@
+import velorisConfig from "~~/veloris.config.ts"
+
 let $Notifications: NotificationStore
 
 /**Holds data about the logged in user. */
@@ -49,14 +51,18 @@ export async function initStores() {
     $Payment = usePaymentStore()
 
     $Blogs = useBlogStore()
-    $Blogs.init()
+    if (velorisConfig.sectionSwitches.blogs) {
+        $Blogs.init()
+    }
 
     $Orders = useOrderStore()
-    $Orders.init()
-
+    if (velorisConfig.sectionSwitches.store) {
+        $Orders.init()
+    }
     $Products = useProductStore()
-    $Users = useUserStore()
     $Basket = useBasketStore()
+    $Users = useUserStore()
+
     $Dashboard = useDashboardStore()
 
     $Analytics = useAnalyticsStore()

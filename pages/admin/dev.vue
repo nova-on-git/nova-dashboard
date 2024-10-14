@@ -5,11 +5,6 @@
         </header>
 
         <rflex class="action-buttons">
-            <btn
-                preset="dark"
-                @click="$Payment.createPayment('stripe', 10000, 'Test Item', testOrderObject)"
-                >Simulate checkout</btn
-            >
             <btn preset="dark" @click="$Orders.createDummy()">Add order to db</btn>
             <btn preset="dark" @click="$Notifications.createDummy()">Create notification</btn>
         </rflex>
@@ -22,8 +17,6 @@
         <rflex>
             <btn preset="dark" @click="$Analytics.refresh()">Refresh Analytics</btn>
         </rflex>
-
-        <StripePayment />
     </mpage>
 </template>
 

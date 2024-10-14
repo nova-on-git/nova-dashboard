@@ -125,17 +125,13 @@ export const useProjectStore = defineStore("projects", {
             return meeting
         },
 
-        async uploadQuote(projectId: string, quoteUrl: string, proposalUrl: string, total: number) {
+        async uploadQuote(projectId: string, quote: ProjectQuote) {
             await useFetch("/api/projects", {
                 method: "put",
                 body: {
                     id: projectId,
                     key: "quote",
-                    value: {
-                        total: total,
-                        quoteUrl: quoteUrl,
-                        proposalUrl: proposalUrl,
-                    },
+                    value: quote,
                 },
             })
         },

@@ -103,7 +103,7 @@
                 <rflex>
                     <btn modal="offerAccepted">Accept Offer</btn>
                     <btn>Schedule Meeting</btn>
-                    <btn>Send us a message</btn>
+                    <btn :to="`/admin/projects/chatrooms/${project.id}`">Send us a message</btn>
                     <btn>Decline Offer</btn>
                 </rflex>
             </cflex>
@@ -111,15 +111,31 @@
             <btn :to="`/admin/projects/chatrooms/${project.id}`">Project Chatroom</btn>
 
             <div ref="rootElement" />
-            <pre>
-                {{ project }}
-            </pre>
 
             <modal id="offerAccepted">
-                <h6>TODO: add doc signing</h6>
-                <h6>Which payment plan would you like to use?</h6>
-                <h6>TODO: Add payment methods and payment integration</h6>
+                <div class="offer-accepted-modal">
+                    <!-- TODO: add doc signing -->
+                    <h6>Payment plans</h6>
+                    <rflex>
+                        <btn
+                            class="payment-plan-button"
+                            @click="selectedPaymentPlan = 'three'"
+                            :class="{ active: selectedPaymentPlan === 'three' }"
+                            >3 Installments</btn
+                        >
+                        <btn
+                            class="payment-plan-button"
+                            @click="selectedPaymentPlan = 'one'"
+                            :class="{ active: selectedPaymentPlan === 'one' }"
+                            >1 Installment</btn
+                        >
+                        <!-- <btn>Monthly Subscription</btn> -->
+                    </rflex>
+                    <StripePayment :options="stripeOptions" :metadata="StripeMetadata" />
+                </div>
             </modal>
+
+            <pre>{{ project.quote }}</pre>
         </mpage>
     </main>
 </template>
@@ -128,6 +144,39 @@
 const route = useRoute()
 const projectId = route.params.id as string
 const project = $Projects.getProjectById(projectId)
+const selectedPaymentPlan = ref<Project["paymentPlan"]>("one")
+
+const amountDue = computed(() => {
+    if (!project.quote) return 0
+
+    const paymentItems: ProjectQuoteItem[] = project.quote.items.filter((item) => {
+        return item.paymentType === "payment"
+    })
+
+    let total = 0
+
+    paymentItems.forEach((item) => {
+        total += item.amount
+    })
+
+    if (selectedPaymentPlan.value === "three") {
+        total = Math.ceil(total / 3)
+    }
+
+    return total
+})
+
+const stripeOptions = computed(() => {
+    return {
+        amount: amountDue.value,
+        currency: "gbp",
+    }
+})
+
+const StripeMetadata = {
+    taxRate: 0,
+    description: "Web development services.",
+}
 
 definePageMeta({
     layout: "dashboard",
@@ -155,4 +204,12 @@ useCalendlyEventListener({
 
 .meeting-link
     color: blue
+
+.offer-accepted-modal
+    background: white
+    padding: 50px
+
+.payment-plan-button
+    &.active
+        border: 1px solid blue
 </style>
