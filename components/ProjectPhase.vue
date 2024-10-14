@@ -44,7 +44,7 @@ const phases = [
     "final approval",
     "testing",
     "launch",
-    "completed",
+    "live",
 ]
 
 // Calculate the current phase index
@@ -66,7 +66,7 @@ const phasePositions = [
     450, // Final Approval
     550, // Testing
     650, // Launch
-    750, // Completed
+    750, // Live
 ]
 
 // Calculate the x-coordinate for the current phase

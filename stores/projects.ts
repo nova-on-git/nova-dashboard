@@ -28,7 +28,7 @@ export const useProjectStore = defineStore("projects", {
 
         getNextProjectPhase: (state) => (phase: ProjectPhase) => {
             const index = projectPhases.indexOf(phase)
-            return projectPhases[index + 1]
+            return projectPhases[index + 1] as ProjectPhase
         },
     },
 

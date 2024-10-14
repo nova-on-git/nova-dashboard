@@ -1,32 +1,5 @@
 <template>
     <main>
-        <pre>
-            This is where we will manage client projects.
-
-            1. Create and manage projects
-            2. Invite link for client (or email invite)
-            3. Invite link will allow them to create a veloris account linked to the new project.
-            4. Ask them a few questions 
-                Domain?
-                Web Hosting?
-                Custom Email?
-
-            5. Allow us to schedule meetings
-
-            // Settings
-
-            We will need to add settings for our rates, payment plans and so on.
-
-
-            #Requirements
-
-            1. CRUD client projects.
-            2. Use chatroom with client.
-            3. Make project quote and send contract.
-            4. Ask for client to book meeting (through embeded calender).
-            5. Automatic notifications.
-        </pre>
-
         <cflex>
             <h5>Projects</h5>
 

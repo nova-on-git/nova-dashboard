@@ -1,9 +1,6 @@
 <template>
     <main>
         <ProjectPhase :phase="project.phase" />
-        <pre>
-            This is where the project control will take place.
-        </pre>
 
         <pre>project:{{ project }}</pre>
 
