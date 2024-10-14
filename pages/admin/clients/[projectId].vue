@@ -1,5 +1,6 @@
 <template>
     <main>
+        <ProjectPhase :phase="project.phase" />
         <pre>
             This is where the project control will take place.
         </pre>
@@ -7,9 +8,7 @@
         <pre>{{ project }}</pre>
 
         <btn
-            @click="
-                $Projects.updateStatus(project.id, $Projects.getNextProjectPhase(project.phase))
-            "
+            @click="$Projects.updatePhase(project.id, $Projects.getNextProjectPhase(project.phase))"
             >Go to next stage</btn
         >
 

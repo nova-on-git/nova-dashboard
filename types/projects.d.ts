@@ -63,11 +63,17 @@ declare global {
         /**items being purchased */
         items: ProjectQuoteItem[]
 
-        /**Url link to pdf */
+        /**Url link to pdf. */
         quoteUrl: string
 
-        /**Url link to pdf */
+        /**Url link to pdf. */
         proposalUrl: string
+
+        /**Total of all the payment type items. E.g subscriptions not included. */
+        totalAmount: number
+
+        /**Total amount paid. */
+        amountPaid: number
     }
 
     interface ProjectQuoteItem {
@@ -76,9 +82,6 @@ declare global {
 
         /**Amount in pence */
         amount: number
-
-        /**Amount Paid */
-        amountPaid: number
 
         /**Type of payment for the transaction */
         paymentType: "payment" | "subscription"

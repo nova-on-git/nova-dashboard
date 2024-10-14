@@ -1,6 +1,5 @@
 import axios from "axios"
 import { defineStore } from "pinia"
-import Id from "~/pages/admin/blogs/[id].vue"
 
 export const useProjectStore = defineStore("projects", {
     state: () => ({
@@ -52,12 +51,23 @@ export const useProjectStore = defineStore("projects", {
             })
         },
 
-        async updateStatus(projectId: string, phase: ProjectPhase) {
+        async updatePhase(projectId: string, phase: ProjectPhase) {
             await useFetch("/api/projects/status", {
                 method: "PUT",
                 body: {
                     id: projectId,
                     phase: phase,
+                },
+            })
+        },
+
+        async setPaymentPlan(projectId: string, paymentPlan: Project["paymentPlan"]) {
+            await useFetch("/api/projects", {
+                method: "PUT",
+                body: {
+                    id: projectId,
+                    key: "paymentPlan",
+                    value: paymentPlan,
                 },
             })
         },
@@ -136,6 +146,13 @@ export const useProjectStore = defineStore("projects", {
             })
         },
 
+        async updateAmountPaid(projectId: string, amountPaid: number) {
+            await $fetch("/api/projects/update-amount-paid", {
+                method: "PUT",
+                body: { id: projectId, amountPaid },
+            })
+        },
+
         async requestMeeting(id: string) {
             await useFetch("/api/projects", {
                 method: "put",
@@ -164,7 +181,8 @@ const DummyProject: Omit<Project, "id"> = {
     name: "Test Project",
     emails: ["codypwakeford@gmail.com"],
     phase: "onboarding",
-    action: "none",
+    action: "meeting",
+    paymentPlan: "noneSelected",
 }
 
 /**List of project phases in order for reference. */

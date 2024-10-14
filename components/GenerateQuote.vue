@@ -1,5 +1,5 @@
 <template>
-    <div class="send-quote">
+    <div class="send-quote" v-if="project.phase === 'discovery'">
         <h5>Send quote</h5>
 
         <div class="add-item">
@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        <div v-if="project.phase === 'discovery'">
+        <div>
             <label for="quote-upload">Upload Quote (PDF):</label>
             <input
                 id="quote-upload"
@@ -50,7 +50,7 @@
             />
         </div>
 
-        <div v-if="project.phase === 'discovery'">
+        <div>
             <label for="proposal-upload">Upload Project Proposal (PDF):</label>
             <input
                 id="proposal-upload"
@@ -59,7 +59,7 @@
                 @change="handleProposalUpload"
             />
         </div>
-
+        <div>{{ errorMessage }}</div>
         <div class="pdf" v-if="quoteFile">
             {{ quoteFile.name }}
         </div>
@@ -76,11 +76,11 @@ import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "fire
 
 const quoteFile = ref<File | null>(null)
 const proposalFile = ref<File | null>(null)
+const errorMessage = ref("")
 const projectQuoteItems = ref<ProjectQuoteItem[]>([])
 const quoteItemInput = ref<ProjectQuoteItem>({
     name: "website",
     amount: 0,
-    amountPaid: 0,
     paymentType: "payment",
 })
 
@@ -96,7 +96,6 @@ function addQuoteItem() {
     quoteItemInput.value = {
         name: "website",
         amount: 0,
-        amountPaid: 0,
         paymentType: "payment",
     }
 }
@@ -115,7 +114,10 @@ const handleProposalUpload = (event: Event) => {
 }
 
 async function sendProposal() {
-    if (!quoteFile.value || !proposalFile.value) return
+    if (!quoteFile.value || !proposalFile.value) {
+        errorMessage.value = "Please attach quote and proposal PDF's."
+        return
+    }
 
     let quoteUrl: string
     let proposalUrl: string
@@ -138,8 +140,22 @@ async function sendProposal() {
 
     if (!quoteUrl || !proposalUrl) return
 
+    const getItemAmount = () => {
+        const nonSubscriptionItems = projectQuoteItems.value.filter((item) => {
+            item.paymentType === "payment"
+        })
+
+        const totalAmount = nonSubscriptionItems.reduce((total, item) => {
+            return total + item.amount
+        }, 0)
+
+        return totalAmount
+    }
+
     const quote: ProjectQuote = {
         items: projectQuoteItems.value,
+        totalAmount: getItemAmount(),
+        amountPaid: 0,
         quoteUrl: quoteUrl,
         proposalUrl: proposalUrl,
     }

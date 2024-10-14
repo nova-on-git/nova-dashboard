@@ -10,12 +10,10 @@ export const usePaymentStore = defineStore("payment", {
     },
 
     actions: {
-        async createRecord(payment: PaymentRecord) {
+        async createRecord(paymentRecord: PaymentRecord) {
             await useFetch("/api/payments", {
                 method: "POST",
-                body: {
-                    payment,
-                },
+                body: { paymentRecord },
             })
 
             //TODO save payment records to db.

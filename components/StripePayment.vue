@@ -65,6 +65,9 @@ const billingAddress = ref({
 interface Props {
     options: StripePaymentOptions
     metadata: StripeMetaData
+    project: Project
+    paymentPlan: Project["paymentPlan"]
+    onPayment: (paymentRecord: PaymentRecord) => void
 }
 
 const props = defineProps<Props>()
@@ -132,7 +135,7 @@ async function pay() {
             description: props.metadata.description,
         }
 
-        $Payment.createRecord(paymentRecord)
+        props.onPayment(paymentRecord)
     } catch (error) {
         console.error("Error handling payment:", error)
     } finally {

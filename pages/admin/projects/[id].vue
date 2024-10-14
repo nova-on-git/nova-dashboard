@@ -93,49 +93,60 @@
                     >
                 </p>
             </cflex>
+            <div v-if="project.quote && project.phase === 'discovery'">
+                <cflex v-if="project.quote">
+                    <h4>A project proposal has been submitted</h4>
 
-            <cflex v-if="project.quote">
-                <h4>A project proposal has been submitted</h4>
+                    <anchor :to="project.quote.proposalUrl" target="_blank">View Proposal</anchor>
+                    <anchor :to="project.quote.quoteUrl" target="_blank">View Quote</anchor>
 
-                <anchor :to="project.quote.proposalUrl" target="_blank">View Proposal</anchor>
-                <anchor :to="project.quote.quoteUrl" target="_blank">View Quote</anchor>
-
-                <rflex>
-                    <btn modal="offerAccepted">Accept Offer</btn>
-                    <btn>Schedule Meeting</btn>
-                    <btn :to="`/admin/projects/chatrooms/${project.id}`">Send us a message</btn>
-                    <btn>Decline Offer</btn>
-                </rflex>
-            </cflex>
-
-            <btn :to="`/admin/projects/chatrooms/${project.id}`">Project Chatroom</btn>
-
-            <div ref="rootElement" />
-
-            <modal id="offerAccepted">
-                <div class="offer-accepted-modal">
-                    <!-- TODO: add doc signing -->
-                    <h6>Payment plans</h6>
                     <rflex>
-                        <btn
-                            class="payment-plan-button"
-                            @click="selectedPaymentPlan = 'three'"
-                            :class="{ active: selectedPaymentPlan === 'three' }"
-                            >3 Installments</btn
-                        >
-                        <btn
-                            class="payment-plan-button"
-                            @click="selectedPaymentPlan = 'one'"
-                            :class="{ active: selectedPaymentPlan === 'one' }"
-                            >1 Installment</btn
-                        >
-                        <!-- <btn>Monthly Subscription</btn> -->
+                        <btn modal="offerAccepted">Accept Offer</btn>
+                        <btn>Schedule Meeting</btn>
+                        <btn :to="`/admin/projects/chatrooms/${project.id}`">Send us a message</btn>
+                        <btn>Decline Offer</btn>
                     </rflex>
-                    <StripePayment :options="stripeOptions" :metadata="StripeMetadata" />
-                </div>
-            </modal>
+                </cflex>
 
-            <pre>{{ project.quote }}</pre>
+                <btn :to="`/admin/projects/chatrooms/${project.id}`">Project Chatroom</btn>
+
+                <div ref="rootElement" />
+
+                <modal id="offerAccepted">
+                    <div class="offer-accepted-modal">
+                        <!-- TODO: add doc signing -->
+                        <h6>Payment plans</h6>
+                        <rflex>
+                            <btn
+                                class="payment-plan-button"
+                                @click="
+                                    (selectedPaymentPlan = 'three'), (project.paymentPlan = 'three')
+                                "
+                                :class="{ active: selectedPaymentPlan === 'three' }"
+                                >3 Installments</btn
+                            >
+                            <btn
+                                class="payment-plan-button"
+                                @click="
+                                    (selectedPaymentPlan = 'one'), (project.paymentPlan = 'one')
+                                "
+                                :class="{ active: selectedPaymentPlan === 'one' }"
+                                >1 Installment</btn
+                            >
+                            <!-- <btn>Monthly Subscription</btn> -->
+                        </rflex>
+
+                        <StripePayment
+                            :options="stripeOptions"
+                            :metadata="StripeMetadata"
+                            :project="project"
+                            :paymentPlan="selectedPaymentPlan"
+                            :onPayment="onDiscoveryPayment"
+                        />
+                    </div>
+                </modal>
+            </div>
+            <pre>{{ project }}</pre>
         </mpage>
     </main>
 </template>
@@ -172,6 +183,13 @@ const stripeOptions = computed(() => {
         currency: "gbp",
     }
 })
+
+function onDiscoveryPayment(paymentRecord: PaymentRecord) {
+    $Payment.createRecord(paymentRecord)
+    $Projects.updateAmountPaid(project.id, paymentRecord.totalPaid)
+    $Projects.setPaymentPlan(project.id, selectedPaymentPlan.value)
+    $Projects.updatePhase(project.id, $Projects.getNextProjectPhase(project.phase))
+}
 
 const StripeMetadata = {
     taxRate: 0,
