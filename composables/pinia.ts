@@ -1,3 +1,4 @@
+// @ts-ignore
 import velorisConfig from "~~/veloris.config.ts"
 
 let $Notifications: NotificationStore
@@ -74,6 +75,7 @@ export async function initStores() {
     $Chatroom = useChatroomStore()
     $Chatroom.init()
 
+    $Dashboard.loadingState(false)
     console.debug("[Veloris] Pinia stores initialized")
 }
 
