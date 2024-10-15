@@ -18,6 +18,14 @@ export const useProjectStore = defineStore("projects", {
             })
         },
 
+        getPhaseById: (state) => (projectId: string) => {
+            const projectIndex = state.projects.findIndex((project) => {
+                return project.id === projectId
+            })
+
+            return state.projects[projectIndex].phase
+        },
+
         getProjectById: (state) => (id: string) => {
             const match = state.projects.filter((project) => {
                 return project.id === id
@@ -55,16 +63,12 @@ export const useProjectStore = defineStore("projects", {
                     }
 
                     if (change.type === "modified") {
-                        console.log("change detected")
-
                         const index = this.projects.findIndex((p) => p.id === project.id)
 
                         if (index === -1) {
-                            console.log("Project not fouind")
                             return
                         }
 
-                        console.log("Project not fouind")
                         this.projects[index] = project
                     }
 
@@ -116,6 +120,7 @@ export const useProjectStore = defineStore("projects", {
         async meetingScheduled(projectId: Project["id"], meetingUrl: string, clientUrl: string) {
             const meeting = await this.getCalendlyMeetingDetails(meetingUrl, clientUrl)
 
+            // Add meeting details to db
             await useFetch("/api/projects", {
                 method: "PUT",
                 body: {
@@ -155,6 +160,7 @@ export const useProjectStore = defineStore("projects", {
             const calendlyMeeting = meetingDetails.data
             const clientDetails = clientDetailsResponse.data
 
+            console.log(calendlyMeeting)
             const meeting: Meeting = Object.assign(
                 {},
                 {
@@ -192,6 +198,10 @@ export const useProjectStore = defineStore("projects", {
                 method: "PUT",
                 body: { id: projectId, amountPaid },
             })
+        },
+
+        async incrementPhase(projectId: string) {
+            this.updatePhase(projectId, this.getNextProjectPhase(this.getPhaseById(projectId)))
         },
 
         async requestMeeting(id: string) {

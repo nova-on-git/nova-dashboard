@@ -133,7 +133,7 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
         async createUserProfile() {
             this.isLoadings = true
 
-            await useFetch(`/api/users`, {
+            await $fetch(`/api/users`, {
                 method: "POST",
                 body: {
                     uid: this.currentUser.uid,
@@ -146,11 +146,11 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
         },
 
         async readAccess(uid: UserProfile["uid"]): Promise<UserProfile["siteAccess"]> {
-            const { data } = await useFetch<UserProfile["siteAccess"]>(`/api/users/access`, {
+            const data = await $fetch<UserProfile["siteAccess"]>(`/api/users/access`, {
                 params: { uid: uid },
             })
 
-            return data.value || []
+            return data || []
         },
 
         async logout() {

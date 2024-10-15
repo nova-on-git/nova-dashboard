@@ -1,13 +1,9 @@
 <template>
     <div>
-        <mflex class="dashboard-loader">
+        <div class="mflex dashboard-loader">
             <div class="background" />
             <h2>Veloris Technology</h2>
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 300 150"
-                class="svg-icon"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150" class="svg-icon">
                 <path
                     fill="none"
                     stroke="#000000"
@@ -27,13 +23,17 @@
                     ></animate>
                 </path>
             </svg>
-        </mflex>
+        </div>
     </div>
 </template>
 
 <style lang="sass" scoped>
 .mflex
     position: absolute
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
     height: 100%
     width: 100%
     z-index: 10000

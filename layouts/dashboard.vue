@@ -1,36 +1,45 @@
 <script setup>
-import { onClickOutside } from "@vueuse/core";
+import { onClickOutside } from "@vueuse/core"
 
-const sidebar = ref(null);
-const router = useRouter();
+const sidebar = ref(null)
+const router = useRouter()
 
 onClickOutside(sidebar, (event) => {
-    if (window.innerWidth < 1400) $Dashboard.closeNav();
-});
+    if (window.innerWidth < 1400) $Dashboard.closeNav()
+})
 
 function checkWindowSize() {
     if (window.innerWidth < 1400) {
-        $Dashboard.closeNav();
+        $Dashboard.closeNav()
     } else {
-        $Dashboard.openNav();
+        $Dashboard.openNav()
     }
 }
 
 onMounted(() => {
-    checkWindowSize();
-    window.addEventListener("resize", checkWindowSize);
+    checkWindowSize()
+    window.addEventListener("resize", checkWindowSize)
 
     router.beforeEach(() => {
         if (window.innerWidth < 1400) {
-            $Dashboard.closeNav();
+            $Dashboard.closeNav()
         }
-    });
-});
+    })
+})
 
 onUnmounted(() => {
-    window.removeEventListener("resize", checkWindowSize);
-});
+    window.removeEventListener("resize", checkWindowSize)
+})
+
+const dashboardLoading = computed(() => {
+    return (
+        $Dashboard.loading === undefined ||
+        $Dashboard.loading === null ||
+        $Dashboard.loading === true
+    )
+})
 </script>
+
 <template>
     <cflex>
         <AdminTopbar />
@@ -47,7 +56,7 @@ onUnmounted(() => {
         <DashboardMessages />
 
         <Transition name="loader">
-            <DashboardLoader v-if="$Dashboard.loading" />
+            <DashboardLoader v-if="dashboardLoading" />
         </Transition>
     </cflex>
 </template>
@@ -62,13 +71,6 @@ onUnmounted(() => {
 
 
 // Transitions
-
-.gravLoader
-    position: absolute
-    background: #111
-    width: 100%
-    height: 100%
-    z-index: 1000
 .button-loading
     position: fixed
     bottom: 100px
