@@ -67,6 +67,7 @@
             </div>
         </div>
     </section>
+    {{ $Chatroom.get }}
 </template>
 
 <script setup lang="ts">
@@ -125,9 +126,10 @@ function handleFileSelect(event: Event) {
 }
 
 async function sendDocument() {
+    console.log("here")
     if (!fileInput.value) return
     const file = fileInput.value
-
+    console.log("here")
     const $storage = useVelorisStorage()
     const fileStorageRef = storageRef($storage, `${props.chatroomId}/files/${file.name}`)
 

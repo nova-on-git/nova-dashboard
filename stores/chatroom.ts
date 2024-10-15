@@ -143,6 +143,8 @@ export const useChatroomStore = defineStore("chatrooms", {
         },
 
         async sendMessage(projectId: string, message: Omit<Message, "id" | "timestamp">) {
+            console.log("righty here")
+            console.log(message)
             await useFetch("/api/chatrooms/message", {
                 method: "POST",
                 body: {
