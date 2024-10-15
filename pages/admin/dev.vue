@@ -17,6 +17,9 @@
         <rflex>
             <btn preset="dark" @click="$Analytics.refresh()">Refresh Analytics</btn>
         </rflex>
+
+        <!-- <pre>$CurrentUser.get: {{ currentUser }}</pre> -->
+        {{ notifications }}
     </mpage>
 </template>
 
@@ -26,6 +29,12 @@ definePageMeta({
     middleware: "admin-auth",
 })
 
+const notifications = computed(() => {
+    return $Notifications.get
+})
+const currentUser = computed(() => {
+    return $CurrentUser.get
+})
 function generateAdminLink() {}
 </script>
 

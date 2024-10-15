@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth"
-import { collection, doc, onSnapshot, orderBy, query } from "firebase/firestore"
+import { collection, doc, Firestore, onSnapshot, orderBy, query } from "firebase/firestore"
 import { defineStore } from "pinia"
 
 export const useChatroomStore = defineStore("chatrooms", {
@@ -54,7 +54,9 @@ export const useChatroomStore = defineStore("chatrooms", {
         async init() {
             this.readChatrooms()
 
-            const $db = useVelorisDb()
+            const nuxtApp = useNuxtApp()
+            const $db = nuxtApp.$velorisDb as Firestore
+
             const projectsRef = collection($db, "projects")
 
             const listenToMessagesAndDocuments = (projectId: string) => {

@@ -42,11 +42,11 @@ export type DashboardStore = ReturnType<typeof useDashboardStore>
 export type PaymentStore = ReturnType<typeof usePaymentStore>
 
 export async function initStores() {
+    $CurrentUser = useCurrentUserStore()
+    await $CurrentUser.init()
+
     $Notifications = useNotificationStore()
     $Notifications.init()
-
-    $CurrentUser = useCurrentUserStore()
-    $CurrentUser.init()
 
     $Payment = usePaymentStore()
 
