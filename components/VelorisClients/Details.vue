@@ -151,14 +151,14 @@ const amountDue = computed(() => {
     return total
 })
 
-const stripeOptions = computed(() => {
+const stripeOptions = computed((): StripePaymentOptions => {
     return {
         amount: amountDue.value,
         currency: "gbp",
     }
 })
 
-const StripeMetadata = {
+const StripeMetadata: StripeMetaData = {
     taxRate: 0,
     description: "Web development services.",
 }

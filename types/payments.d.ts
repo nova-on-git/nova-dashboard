@@ -13,7 +13,7 @@ declare global {
         /**Description of whats being bought. */
         description: string
         /**Percentage of the whole amount */
-        taxRate: string
+        taxRate: number
     }
 
     interface PaymentRecord {
