@@ -1,117 +1,202 @@
 <template>
-    <main class="container">
-        <header class="header">
-            <h1>Projects</h1>
-        </header>
+    <form @submit.prevent="pay" id="payment-form">
+        <h5>Amount Due: £{{ options.amount / 100 }}</h5>
 
-        <div class="project-grid">
-            <div v-for="project in projects" :key="project.id" class="project-card">
-                <h3>{{ project.name }}</h3>
-                <p><strong>Phase:</strong> {{ project.phase }}</p>
-                <p><strong>Action:</strong> {{ project.action }}</p>
-                <p v-if="project.meeting">
-                    <strong>Next Meeting:</strong> {{ formatDate(project.meeting.startTime) }}
-                </p>
-                <p v-if="project.quote">
-                    <strong>Total Amount:</strong> ${{ (project.quote.totalAmount / 100).toFixed(2) }}
-                </p>
-                <btn :to="`/admin/clients/${project.id}`">View Details</btn>
-            </div>
-        </div>
+        <label for="name">Name</label>
+        <input
+            type="text"
+            name="name"
+            placeholder="Full name on card"
+            v-model="billingAddress.name"
+        />
 
+        <label for="email">Email for receipt</label>
+        <input
+            type="text"
+            name="email"
+            placeholder="Email for receipt"
+            v-model="receipt_email"
+        />
 
-        <div class="actions">
-            <modal id="createProject">
-                <form @submit.prevent="$Projects.create(projectDetails)">
-                    <label for="name">Project Name:</label>
-                    <input type="text" name="name" v-model="projectDetails.name" />
+        <label for="street">Street</label>
+        <input
+            type="text"
+            name="street"
+            placeholder="Street"
+            v-model="billingAddress.street"
+        />
 
-                    <label for="emails">Emails:</label>
-                    <input type="text" name="emails" v-model="projectDetails.emails" />
+        <label for="city">City</label>
+        <input
+            type="text"
+            name="city"
+            placeholder="City"
+            v-model="billingAddress.city"
+        />
 
-                    <btn type="submit">Create Project</btn>
-                </form>
-            </modal>
-        <div  class="buttons">
-            <btn @click="$Projects.createDummy()">Create Dummy Project</btn>
-            <btn to="/admin/clients/chatroom">Chatroom</btn>
-            <btn preset="dark" @click="openModal('createProject')">Create Project</btn>
-        </div>
-        </div>
-    </main>
+        <label for="country">Country</label>
+        <input
+            type="text"
+            name="country"
+            placeholder="Country"
+            v-model="billingAddress.country"
+        />
+
+        <label for="postcode">Postcode</label>
+        <input
+            type="text"
+            name="postcode"
+            placeholder="Postcode"
+            v-model="billingAddress.postcode"
+        />
+
+        <div id="card-element"></div>
+
+        <btn
+            :loading="isProcessing"
+            @click="pay"
+            preset="dark"
+            :disabled="isProcessing"
+            type="submit"
+        >
+            Pay
+        </btn>
+
+        <div id="card-errors" role="alert">{{ errorMessage }}</div>
+        <div id="card-success">{{ successMessage }}</div>
+    </form>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, Ref } from 'vue'
+import { loadStripe, type Stripe } from "@stripe/stripe-js";
+import { ref, onMounted, defineProps } from 'vue';
 
-const projects = computed(() => {
-    return $Projects.get
-})
+const stripe = ref<Stripe | null>(null);
+const card = ref<any>(null);
+const isProcessing = ref(false);
+const errorMessage = ref("");
+const successMessage = ref("");
+const receipt_email = ref("codypwakeford@gmail.com");
 
-const projectDetails: Ref<Omit<Project, "id">> = ref({
+const billingAddress = ref({
     name: "",
-    emails: [""],
-    phase: "onboarding",
-    action: "none",
-    paymentPlan: "noneSelected",
-})
+    street: "",
+    city: "",
+    county: "",
+    country: "",
+    postcode: "",
+});
 
-const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString()
+interface Props {
+    options: StripePaymentOptions;
+    metadata: StripeMetaData;
+    project: Project;
+    paymentPlan: Project["paymentPlan"];
+    onPayment: (paymentRecord: PaymentRecord) => void;
 }
 
-definePageMeta({
-    layout: "dashboard",
-    middleware: "admin-auth",
-})
+const props = defineProps<Props>();
+
+onMounted(async () => {
+    stripe.value = await loadStripe(
+        "pk_test_51Puv9RDO9pf6iPuQNqaYyLEHE7nJuLGrdxq2QImsTFPiVOIyFmdnrGOIMmUrIjnkYrFKMrXjZUzxTTlqJF3xuTfw00T3KzadgL"
+    );
+
+    if (stripe.value) {
+        const elements = stripe.value.elements();
+        card.value = elements.create("card");
+        card.value.mount("#card-element");
+    }
+});
+
+async function pay() {
+    if (!stripe.value || !card.value) {
+        console.error("Stripe not initialized or card element not created!");
+        return;
+    }
+
+    isProcessing.value = true;
+
+    const paymentOptions = {
+        ...props.options,
+        receipt_email: receipt_email.value,
+    };
+
+    try {
+        const { paymentIntent, error } = await stripe.value.confirmCardPayment(
+            await getClientSecret(paymentOptions),
+            {
+                payment_method: {
+                    card: card.value,
+                    billing_details: {
+                        name: billingAddress.value.name,
+                        email: receipt_email.value,
+                    },
+                },
+            }
+        );
+
+        if (error && error.message) {
+            errorMessage.value = error.message;
+            return;
+        }
+
+        if (!paymentIntent) {
+            throw createError({ statusCode: 500 });
+        }
+
+        errorMessage.value = "";
+        successMessage.value = "Payment Successful. Thank you for your business.";
+
+        const paymentRecord: PaymentRecord = {
+            totalPaid: paymentIntent.amount,
+            transactionId: paymentIntent.id,
+            email: receipt_email.value,
+            billingAddress: billingAddress.value,
+            timestamp: String(Date.now()),
+            currency: props.options.currency,
+            refundStatus: false,
+            taxRate: props.metadata.taxRate,
+            description: props.metadata.description,
+        };
+
+        props.onPayment(paymentRecord);
+    } catch (error) {
+        console.error("Error handling payment:", error);
+    } finally {
+        isProcessing.value = false;
+    }
+}
+
+async function getClientSecret(paymentOptions: StripePaymentOptions): Promise<string> {
+    const { data } = await useFetch<{ clientSecret: string }>("/api/stripe/payment-intent", {
+        method: "POST",
+        body: {
+            paymentOptions: paymentOptions,
+        },
+    });
+
+    if (!data.value || !data.value.clientSecret) {
+        throw createError({ statusCode: 500, statusMessage: "Failed to fetch client secret." });
+    }
+
+    return data.value.clientSecret;
+}
 </script>
 
-<style lang="sass" scoped>
-.container
-    padding: 2rem
-    overflow: auto
-    width: 100%
+<style scoped lang="scss">
+#card-element {
+    max-width: 500px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 12px;
+}
 
-.header
-    display: flex
-    justify-content: space-between
-    align-items: center
-    margin-bottom: 2rem
-
-.project-grid
-    display: grid
-    grid-template-columns: repeat(3, 1fr)  // Default to 3 columns
-    gap: 2rem
-
-    @media (max-width: 768px)  // Medium screens (md)
-        grid-template-columns: repeat(2, 1fr)  // Change to 2 columns
-
-    @media (max-width: 576px)  // Small screens (sm)
-        grid-template-columns: 1fr  // Change to 1 column
-
-.project-card
-    background-color: #f5f5f5
-    border-radius: 8px
-    padding: 1.5rem
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
-
-    h3
-        margin-top: 0
-        margin-bottom: 1rem
-
-    p
-        margin-bottom: 0.5rem
-
-    btn
-        margin-top: 1rem
-
-.actions
-    margin-top: 2rem
-    display: flex
-    gap: 1rem
-
-.buttons
-    display: flex
-    gap: 2rem
-
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 500px;
+}
 </style>
