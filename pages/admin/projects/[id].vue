@@ -7,16 +7,19 @@
                     :class="{ active: selectedTab === 'details' }"
                     >Project Details</anchor
                 >
+
                 <anchor
                     @click="selectedTab = 'chatroom'"
                     :class="{ active: selectedTab === 'chatroom' }"
                     >Chatroom</anchor
                 >
+
                 <anchor
                     @click="selectedTab = 'design'"
                     :class="{ active: selectedTab === 'design' }"
                     >Design</anchor
                 >
+
                 <anchor
                     @click="selectedTab = 'billing'"
                     :class="{ active: selectedTab === 'billing' }"

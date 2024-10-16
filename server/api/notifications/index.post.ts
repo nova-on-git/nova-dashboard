@@ -1,10 +1,10 @@
-import { addDoc, collection, doc } from "firebase/firestore"
+import { addDoc, collection, doc, getDocs, query, where } from "firebase/firestore"
 import { readBody } from "h3"
 
 export default defineEventHandler(async (event) => {
     const db = event.context.db
 
-    const { notification, userIds }: { notification: CreateNotification; userIds: string[] } =
+    const { notification }: { notification: CreateNotification; userIds: string[] } =
         await readBody(event)
 
     if (!notification) throw createError({ statusCode: 400 })
@@ -22,18 +22,23 @@ export default defineEventHandler(async (event) => {
 
     const usersColRef = collection(db, "users")
 
-    for (const userId of userIds) {
-        const userDocRef = doc(usersColRef, userId)
-        const userNotificationColRef = collection(userDocRef, "notifications")
+    for (const email of notification.to) {
+        const q = query(usersColRef, where("email", "==", email))
+        const querySnapshot = await getDocs(q)
 
-        try {
-            await addDoc(userNotificationColRef, notification)
-        } catch (error: any) {
-            throw createError({
-                statusCode: 500,
-                statusMessage: `Error adding notification for user ${userId}: ${error.message}`,
-            })
-        }
+        querySnapshot.forEach(async (userDoc) => {
+            const userDocRef = doc(db, "users", userDoc.id)
+            const userNotificationColRef = collection(userDocRef, "notifications")
+
+            try {
+                await addDoc(userNotificationColRef, notification)
+            } catch (error: any) {
+                throw createError({
+                    statusCode: 500,
+                    statusMessage: `Error adding notification for user with email ${email}: ${error.message}`,
+                })
+            }
+        })
     }
 })
 
@@ -53,6 +58,11 @@ function getStyle(notification: CreateNotification) {
         case "blog":
             style["icon"] = "material-symbols:edit-outline"
             break
+        case "client":
+            style["icon"] = "streamline:information-desk-customer"
+            break
+        case "project":
+            style["icon"] = "octicon:project"
     }
 
     switch (notification.mode) {

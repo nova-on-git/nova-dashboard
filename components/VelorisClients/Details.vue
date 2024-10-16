@@ -120,6 +120,8 @@
 </template>
 
 <script setup lang="ts">
+import { velorisStaffEmails } from "~/stores/notifications"
+
 const selectedPaymentPlan = ref<Project["paymentPlan"]>("one")
 
 const route = useRoute()
@@ -163,21 +165,33 @@ const StripeMetadata = {
 
 // Funtions passed to stripe as a callback.
 
+// Final payment callback
 function onLaunchPayment(paymentRecord: PaymentRecord) {
     $Payment.createRecord(paymentRecord)
     $Projects.updateAmountPaid(project.value.id, paymentRecord.totalPaid)
 }
 
+// 2nd payment callback (if required)
 function onDevelopmentPayment(paymentRecord: PaymentRecord) {
     $Payment.createRecord(paymentRecord)
     $Projects.updateAmountPaid(project.value.id, paymentRecord.totalPaid)
 }
 
+// Fired when the client accepts the quote and makes intial payment. //
 function onDiscoveryPayment(paymentRecord: PaymentRecord) {
     $Payment.createRecord(paymentRecord)
     $Projects.updateAmountPaid(project.value.id, paymentRecord.totalPaid)
     $Projects.setPaymentPlan(project.value.id, selectedPaymentPlan.value)
     $Projects.updatePhase(project.value.id, $Projects.getNextProjectPhase(project.value.phase))
+
+    // Notify staff
+    $Notifications.create({
+        message: "Quote Accepeted",
+        mode: "success",
+        title: `${project.value.name} has accepted the quote and made initial payment.`,
+        to: velorisStaffEmails,
+        type: "client",
+    })
 }
 
 const rootElement = ref()

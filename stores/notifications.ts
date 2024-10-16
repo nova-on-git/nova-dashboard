@@ -69,7 +69,7 @@ export const useNotificationStore = defineStore("notifications", {
         async create(notification: CreateNotification) {
             await useFetch("/api/notifications", {
                 method: "POST",
-                body: { notification, userIds: [$CurrentUser.uid] },
+                body: { notification },
             })
         },
 
@@ -98,77 +98,92 @@ export const useNotificationStore = defineStore("notifications", {
     },
 })
 
+/**Reference for the notifications that need to be sent to us. temporary */
+export const velorisStaffEmails = ["codypwakeford@gmail.com", "alooshalishariefaloosh06@gmail.com"]
+
 export const exampleNotifications: CreateNotification[] = [
     {
         type: "store",
         mode: "success",
         title: "hello",
         message: "you have a notification",
+        to: velorisStaffEmails,
     },
     {
         type: "store",
         mode: "danger",
         title: "hello",
         message: "you have a notification",
+        to: velorisStaffEmails,
     },
     {
         type: "store",
         mode: "info",
         title: "hello",
         message: "you have a notification",
+        to: velorisStaffEmails,
     },
     {
         type: "store",
         mode: "warning",
         title: "hello",
         message: "you have a notification",
+        to: velorisStaffEmails,
     },
     {
         type: "order",
         mode: "success",
         title: "hello",
         message: "you have a notification",
+        to: velorisStaffEmails,
     },
     {
         type: "order",
         mode: "danger",
         title: "hello",
         message: "you have a notification",
+        to: velorisStaffEmails,
     },
     {
         type: "order",
         mode: "info",
         title: "hello",
         message: "you have a notification",
+        to: velorisStaffEmails,
     },
     {
         type: "order",
         mode: "warning",
         title: "hello",
         message: "you have a notification",
+        to: velorisStaffEmails,
     },
     {
         type: "blog",
         mode: "success",
         title: "hello",
         message: "you have a notification",
+        to: velorisStaffEmails,
     },
     {
         type: "blog",
         mode: "danger",
         title: "hello",
         message: "you have a notification",
+        to: velorisStaffEmails,
     },
     {
         type: "blog",
         mode: "info",
         title: "hello",
         message: "you have a notification",
+        to: velorisStaffEmails,
     },
     {
         type: "blog",
         mode: "warning",
         title: "hello",
         message: "you have a notification",
+        to: velorisStaffEmails,
     },
 ]

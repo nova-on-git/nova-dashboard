@@ -44,10 +44,7 @@ export type PaymentStore = ReturnType<typeof usePaymentStore>
 
 export async function initStores() {
     $CurrentUser = useCurrentUserStore()
-    await $CurrentUser.init()
-
-    $Notifications = useNotificationStore()
-    $Notifications.init()
+    $CurrentUser.init()
 
     $Payment = usePaymentStore()
 
@@ -74,6 +71,9 @@ export async function initStores() {
 
     $Chatroom = useChatroomStore()
     $Chatroom.init()
+
+    $Notifications = useNotificationStore()
+    $Notifications.init()
 
     $Dashboard.loadingState(false)
     console.debug("[Veloris] Pinia stores initialized")

@@ -1,6 +1,7 @@
 import axios from "axios"
 import { collection, onSnapshot } from "firebase/firestore"
 import { defineStore } from "pinia"
+import { velorisStaffEmails } from "./notifications"
 
 export const useProjectStore = defineStore("projects", {
     state: () => ({
@@ -138,6 +139,20 @@ export const useProjectStore = defineStore("projects", {
                     value: "none",
                 },
             })
+
+            // Notify veloris staff
+            $Notifications.create({
+                message: "",
+                mode: "success",
+                title: "A client has booked a meeting.",
+
+                to: velorisStaffEmails,
+                action: {
+                    type: "link",
+                    url: `/admin/clients/${projectId}`,
+                },
+                type: "client",
+            })
         },
 
         async getCalendlyMeetingDetails(meetingUrl: string, clientUrl: string): Promise<Meeting> {
@@ -204,14 +219,29 @@ export const useProjectStore = defineStore("projects", {
             this.updatePhase(projectId, this.getNextProjectPhase(this.getPhaseById(projectId)))
         },
 
-        async requestMeeting(id: string) {
+        async requestMeeting(projectId: string) {
+            const project = this.getProjectById(projectId)
+
             await useFetch("/api/projects", {
                 method: "put",
                 body: {
-                    id: id,
+                    id: projectId,
                     key: "action",
                     value: "meeting",
                 },
+            })
+
+            // Notify all clients on project.
+            $Notifications.create({
+                message: "",
+                mode: "success",
+                title: "You have been requested for a meeting.",
+                to: project.emails,
+                action: {
+                    type: "link",
+                    url: `/admin/clients/${projectId}`,
+                },
+                type: "project",
             })
         },
 
