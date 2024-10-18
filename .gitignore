@@ -5,7 +5,7 @@ nuxt.d.ts
 .output
 .data
 .env
-.nuxt
+# .nuxt
 
 framework
 dist

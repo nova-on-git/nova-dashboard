@@ -88,7 +88,7 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
 
         async init() {
             const nuxtApp = useNuxtApp()
-            const $auth = nuxtApp.$auth
+            const $auth = nuxtApp.$auth as Auth
             // const $auth = useAuth()
             this.currentUser = await this.getCache()
             onAuthStateChanged($auth, async (user: User | null) => {
