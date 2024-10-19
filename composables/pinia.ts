@@ -5,6 +5,7 @@ let $Notifications: NotificationStore
 
 /**Holds data about the logged in user. */
 let $CurrentUser: CurrentUserStore
+let $Emails: EmailStore
 let $Orders: OrderStore
 let $Products: ProductStore
 let $Users: UserStore
@@ -28,8 +29,10 @@ import { useBlogStore } from "../stores/blogs"
 import { useAnalyticsStore } from "../stores/analytics"
 import { usePaymentStore } from "../stores/payment"
 import { useProjectStore } from "../stores/projects"
+import { useEmailsStore } from "~/stores/emails"
 
 export type ChatroomStore = ReturnType<typeof useChatroomStore>
+export type EmailStore = ReturnType<typeof useEmailsStore>
 export type ProjectStore = ReturnType<typeof useProjectStore>
 export type NotificationStore = ReturnType<typeof useNotificationStore>
 export type BlogStore = ReturnType<typeof useBlogStore>
@@ -75,6 +78,8 @@ export async function initStores() {
     $Notifications = useNotificationStore()
     $Notifications.init()
 
+    $Emails = useEmailsStore()
+
     $Dashboard.loadingState(false)
     console.debug("[Veloris] Pinia stores initialized")
 }
@@ -92,4 +97,5 @@ export {
     $Payment,
     $Projects,
     $Chatroom,
+    $Emails,
 }

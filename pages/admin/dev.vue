@@ -16,6 +16,9 @@
 
         <rflex>
             <btn preset="dark" @click="$Analytics.refresh()">Refresh Analytics</btn>
+            <btn preset="dark" @click="$Emails.sendClientInvitation('codypwakeford@gmail.com')"
+                >Send dummy email</btn
+            >
         </rflex>
 
         <!-- <pre>$CurrentUser.get: {{ currentUser }}</pre> -->
