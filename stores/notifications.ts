@@ -34,6 +34,8 @@ export const useNotificationStore = defineStore("notifications", {
 
     actions: {
         async init() {
+            if (!import.meta.client) return
+
             await this.read()
             const nuxtApp = useNuxtApp()
             const $db = nuxtApp.$velorisDb as Firestore

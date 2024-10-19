@@ -56,6 +56,15 @@ declare global {
          */
         paymentPlan: "noneSelected" | "three" | "installments" | "one"
 
+        /**A breif description of the project scope */
+        description?: string
+
+        /**Company domain name */
+        domain?: string
+
+        /**The company or person the project is for. */
+        companyName: string
+
         quote?: ProjectQuote
     }
 

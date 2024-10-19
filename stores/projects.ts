@@ -44,6 +44,7 @@ export const useProjectStore = defineStore("projects", {
     actions: {
         async init() {
             if (!import.meta.client) return
+            this.read()
 
             const $db = useDb()
             const colRef = collection($db, "projects")
@@ -264,6 +265,9 @@ const DummyProject: Omit<Project, "id"> = {
     phase: "onboarding",
     action: "meeting",
     paymentPlan: "noneSelected",
+    companyName: "VelorisDesigns",
+    domain: "velorisdesigns.com",
+    description: "Website design and developement.",
 }
 
 /**List of project phases in order for reference. */

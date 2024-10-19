@@ -1,8 +1,11 @@
-<template></template>
+<template>
+    <ProjectList interface="client" />
+</template>
 
 <script setup lang="ts">
-const projects = computed(() => {
-    return $Projects.getByEmail($CurrentUser.email)
+definePageMeta({
+    layout: "dashboard",
+    middleware: "admin-auth",
 })
 </script>
 
