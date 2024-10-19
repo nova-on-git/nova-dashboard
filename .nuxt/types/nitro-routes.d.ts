@@ -19,17 +19,25 @@ declare module 'nitropack' {
     '/api/chatrooms/documents': {
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/chatrooms/documents.post').default>>>>
     }
+    '/api/chatrooms/documents/:id': {
+      'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/chatrooms/documents/[id].get').default>>>>
+    }
     '/api/chatrooms/message': {
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/chatrooms/message.post').default>>>>
     }
     '/api/chatrooms/messages/:id': {
       'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/chatrooms/messages/[id].get').default>>>>
     }
+    '/api/emails': {
+      'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/emails/index.post').default>>>>
+    }
     '/api/galleries': {
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/galleries/index.post').default>>>>
     }
+    '/api/notifications/:uid': {
+      'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/notifications/[uid].get').default>>>>
+    }
     '/api/notifications': {
-      'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/notifications/index.get').default>>>>
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/notifications/index.post').default>>>>
     }
     '/api/notifications/read': {
@@ -49,6 +57,9 @@ declare module 'nitropack' {
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/orders/index.post').default>>>>
       'put': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/orders/index.put').default>>>>
     }
+    '/api/payments': {
+      'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/payments/index.post').default>>>>
+    }
     '/api/projects/:id': {
       'delete': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/projects/[id].delete').default>>>>
     }
@@ -62,6 +73,9 @@ declare module 'nitropack' {
     }
     '/api/projects/status': {
       'put': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/projects/status.put').default>>>>
+    }
+    '/api/projects/update-amount-paid': {
+      'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/projects/update-amount-paid').default>>>>
     }
     '/api/realtimeAnalytics': {
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/realtimeAnalytics.post').default>>>>
@@ -89,6 +103,15 @@ declare module 'nitropack' {
     }
     '/api/stripe': {
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/stripe/index.post').default>>>>
+    }
+    '/api/stripe/orderWebhook': {
+      'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/stripe/orderWebhook.post').default>>>>
+    }
+    '/api/stripe/payment-intent': {
+      'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/stripe/payment-intent.post').default>>>>
+    }
+    '/api/stripe/storeOrder': {
+      'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/stripe/storeOrder.post').default>>>>
     }
     '/api/stripe/webhook': {
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/stripe/webhook.post').default>>>>

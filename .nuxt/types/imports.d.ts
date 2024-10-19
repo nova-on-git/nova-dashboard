@@ -7,12 +7,14 @@ declare global {
   const $Chatroom: typeof import('../../composables/pinia')['$Chatroom']
   const $CurrentUser: typeof import('../../composables/pinia')['$CurrentUser']
   const $Dashboard: typeof import('../../composables/pinia')['$Dashboard']
+  const $Emails: typeof import('../../composables/pinia')['$Emails']
   const $Notifications: typeof import('../../composables/pinia')['$Notifications']
   const $Orders: typeof import('../../composables/pinia')['$Orders']
   const $Payment: typeof import('../../composables/pinia')['$Payment']
   const $Products: typeof import('../../composables/pinia')['$Products']
   const $Projects: typeof import('../../composables/pinia')['$Projects']
   const $Users: typeof import('../../composables/pinia')['$Users']
+  const CalendlyEvent: typeof import('../../node_modules/.pnpm/nuxt-calendly@0.1.21_magicast@0.3.5_rollup@4.24.0/node_modules/nuxt-calendly/dist/runtime/composables/useCalendlyEventListener')['CalendlyEvent']
   const abortNavigation: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/router')['abortNavigation']
   const acceptHMRUpdate: typeof import('../../node_modules/.pnpm/@pinia+nuxt@0.5.5_magicast@0.3.5_rollup@4.24.0_typescript@5.6.2_vue@3.5.11_typescript@5.6.2_/node_modules/@pinia/nuxt/dist/runtime/composables')['acceptHMRUpdate']
   const addRouteMiddleware: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/router')['addRouteMiddleware']
@@ -150,6 +152,8 @@ declare global {
   const useAuth: typeof import('../../composables/useGlobals')['useAuth']
   const useBasketStore: typeof import('../../stores/basket')['useBasketStore']
   const useBlogStore: typeof import('../../stores/blogs')['useBlogStore']
+  const useCalendly: typeof import('../../node_modules/.pnpm/nuxt-calendly@0.1.21_magicast@0.3.5_rollup@4.24.0/node_modules/nuxt-calendly/dist/runtime/composables/useCalendly')['useCalendly']
+  const useCalendlyEventListener: typeof import('../../node_modules/.pnpm/nuxt-calendly@0.1.21_magicast@0.3.5_rollup@4.24.0/node_modules/nuxt-calendly/dist/runtime/composables/useCalendlyEventListener')['default']
   const useChatroomStore: typeof import('../../stores/chatroom')['useChatroomStore']
   const useCookie: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/cookie')['useCookie']
   const useCssModule: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['useCssModule']
@@ -157,6 +161,7 @@ declare global {
   const useCurrentUserStore: typeof import('../../stores/currentUser')['useCurrentUserStore']
   const useDashboardStore: typeof import('../../stores/dashboard')['useDashboardStore']
   const useDb: typeof import('../../composables/useGlobals')['useDb']
+  const useEmailsStore: typeof import('../../stores/emails')['useEmailsStore']
   const useError: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/error')['useError']
   const useFetch: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/fetch')['useFetch']
   const useGalleryStore: typeof import('../../stores/galleries')['useGalleryStore']
@@ -172,7 +177,6 @@ declare global {
   const useNotificationStore: typeof import('../../stores/notifications')['useNotificationStore']
   const useNuxtApp: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/nuxt')['useNuxtApp']
   const useNuxtData: typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/asyncData')['useNuxtData']
-  const useNuxtDevTools: typeof import('../../node_modules/.pnpm/@nuxt+devtools@1.5.2_rollup@4.24.0_vite@5.4.8_@types+node@22.7.4_sass@1.79.4_terser@5.34.1__vue@3.5.11_typescript@5.6.2_/node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools')['useNuxtDevTools']
   const useOrderStore: typeof import('../../stores/orders')['useOrderStore']
   const usePaymentStore: typeof import('../../stores/payment')['usePaymentStore']
   const usePinia: typeof import('../../node_modules/.pnpm/@pinia+nuxt@0.5.5_magicast@0.3.5_rollup@4.24.0_typescript@5.6.2_vue@3.5.11_typescript@5.6.2_/node_modules/@pinia/nuxt/dist/runtime/composables')['usePinia']
@@ -226,6 +230,7 @@ declare global {
   const useVelorisConfig: typeof import('../../composables/useGlobals')['useVelorisConfig']
   const useVelorisDb: typeof import('../../composables/useGlobals')['useVelorisDb']
   const useVelorisStorage: typeof import('../../composables/useGlobals')['useVelorisStorage']
+  const velorisStaffEmails: typeof import('../../stores/notifications')['velorisStaffEmails']
   const watch: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['watch']
   const watchEffect: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['watchEffect']
   const watchPostEffect: typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['watchPostEffect']
@@ -243,7 +248,7 @@ declare global {
   export type { Component, ComponentPublicInstance, ComputedRef, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode } from '../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue'
   import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')
   // @ts-ignore
-  export type { ChatroomStore, ProjectStore, NotificationStore, BlogStore, CurrentUserStore, OrderStore, ProductStore, AnalyticsStore, UserStore, BasketStore, DashboardStore, PaymentStore } from '../../composables/pinia'
+  export type { ChatroomStore, EmailStore, ProjectStore, NotificationStore, BlogStore, CurrentUserStore, OrderStore, ProductStore, AnalyticsStore, UserStore, BasketStore, DashboardStore, PaymentStore } from '../../composables/pinia'
   import('../../composables/pinia')
 }
 // for vue template auto import
@@ -256,12 +261,14 @@ declare module 'vue' {
     readonly $Chatroom: UnwrapRef<typeof import('../../composables/pinia')['$Chatroom']>
     readonly $CurrentUser: UnwrapRef<typeof import('../../composables/pinia')['$CurrentUser']>
     readonly $Dashboard: UnwrapRef<typeof import('../../composables/pinia')['$Dashboard']>
+    readonly $Emails: UnwrapRef<typeof import('../../composables/pinia')['$Emails']>
     readonly $Notifications: UnwrapRef<typeof import('../../composables/pinia')['$Notifications']>
     readonly $Orders: UnwrapRef<typeof import('../../composables/pinia')['$Orders']>
     readonly $Payment: UnwrapRef<typeof import('../../composables/pinia')['$Payment']>
     readonly $Products: UnwrapRef<typeof import('../../composables/pinia')['$Products']>
     readonly $Projects: UnwrapRef<typeof import('../../composables/pinia')['$Projects']>
     readonly $Users: UnwrapRef<typeof import('../../composables/pinia')['$Users']>
+    readonly CalendlyEvent: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt-calendly@0.1.21_magicast@0.3.5_rollup@4.24.0/node_modules/nuxt-calendly/dist/runtime/composables/useCalendlyEventListener')['CalendlyEvent']>
     readonly abortNavigation: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/router')['abortNavigation']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('../../node_modules/.pnpm/@pinia+nuxt@0.5.5_magicast@0.3.5_rollup@4.24.0_typescript@5.6.2_vue@3.5.11_typescript@5.6.2_/node_modules/@pinia/nuxt/dist/runtime/composables')['acceptHMRUpdate']>
     readonly addRouteMiddleware: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/router')['addRouteMiddleware']>
@@ -399,6 +406,8 @@ declare module 'vue' {
     readonly useAuth: UnwrapRef<typeof import('../../composables/useGlobals')['useAuth']>
     readonly useBasketStore: UnwrapRef<typeof import('../../stores/basket')['useBasketStore']>
     readonly useBlogStore: UnwrapRef<typeof import('../../stores/blogs')['useBlogStore']>
+    readonly useCalendly: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt-calendly@0.1.21_magicast@0.3.5_rollup@4.24.0/node_modules/nuxt-calendly/dist/runtime/composables/useCalendly')['useCalendly']>
+    readonly useCalendlyEventListener: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt-calendly@0.1.21_magicast@0.3.5_rollup@4.24.0/node_modules/nuxt-calendly/dist/runtime/composables/useCalendlyEventListener')['default']>
     readonly useChatroomStore: UnwrapRef<typeof import('../../stores/chatroom')['useChatroomStore']>
     readonly useCookie: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/cookie')['useCookie']>
     readonly useCssModule: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['useCssModule']>
@@ -406,6 +415,7 @@ declare module 'vue' {
     readonly useCurrentUserStore: UnwrapRef<typeof import('../../stores/currentUser')['useCurrentUserStore']>
     readonly useDashboardStore: UnwrapRef<typeof import('../../stores/dashboard')['useDashboardStore']>
     readonly useDb: UnwrapRef<typeof import('../../composables/useGlobals')['useDb']>
+    readonly useEmailsStore: UnwrapRef<typeof import('../../stores/emails')['useEmailsStore']>
     readonly useError: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/error')['useError']>
     readonly useFetch: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/fetch')['useFetch']>
     readonly useGalleryStore: UnwrapRef<typeof import('../../stores/galleries')['useGalleryStore']>
@@ -421,7 +431,6 @@ declare module 'vue' {
     readonly useNotificationStore: UnwrapRef<typeof import('../../stores/notifications')['useNotificationStore']>
     readonly useNuxtApp: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/nuxt')['useNuxtApp']>
     readonly useNuxtData: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/app/composables/asyncData')['useNuxtData']>
-    readonly useNuxtDevTools: UnwrapRef<typeof import('../../node_modules/.pnpm/@nuxt+devtools@1.5.2_rollup@4.24.0_vite@5.4.8_@types+node@22.7.4_sass@1.79.4_terser@5.34.1__vue@3.5.11_typescript@5.6.2_/node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools')['useNuxtDevTools']>
     readonly useOrderStore: UnwrapRef<typeof import('../../stores/orders')['useOrderStore']>
     readonly usePaymentStore: UnwrapRef<typeof import('../../stores/payment')['usePaymentStore']>
     readonly usePinia: UnwrapRef<typeof import('../../node_modules/.pnpm/@pinia+nuxt@0.5.5_magicast@0.3.5_rollup@4.24.0_typescript@5.6.2_vue@3.5.11_typescript@5.6.2_/node_modules/@pinia/nuxt/dist/runtime/composables')['usePinia']>
@@ -475,6 +484,7 @@ declare module 'vue' {
     readonly useVelorisConfig: UnwrapRef<typeof import('../../composables/useGlobals')['useVelorisConfig']>
     readonly useVelorisDb: UnwrapRef<typeof import('../../composables/useGlobals')['useVelorisDb']>
     readonly useVelorisStorage: UnwrapRef<typeof import('../../composables/useGlobals')['useVelorisStorage']>
+    readonly velorisStaffEmails: UnwrapRef<typeof import('../../stores/notifications')['velorisStaffEmails']>
     readonly watch: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('../../node_modules/.pnpm/vue@3.5.11_typescript@5.6.2/node_modules/vue')['watchPostEffect']>
