@@ -13,10 +13,8 @@ export default defineEventHandler(async (event) => {
             throw createError({ statusCode: 400, statusMessage: "Missing required parameters." })
         }
 
-        // Create or retrieve the customer (you can handle user authentication here as well)
         let customer
 
-        // Option 1: If customer exists, retrieve them using email or ID
         const existingCustomers = await stripe.customers.list({
             email: customerEmail,
             limit: 1,
