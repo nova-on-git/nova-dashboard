@@ -28,6 +28,11 @@
         <cflex class="payment-history">Payment history</cflex>
         <cflex class="invoice-list">Invoice List</cflex>
     </rflex>
+
+    <rflex class="payments-subscriptions-box">
+        <cflex class="payment-methods"> Payment Methods</cflex>
+        <cflex class="subscriptions">Ongoing subscriptions</cflex>
+    </rflex>
     <pre>
         billing page
 
@@ -211,4 +216,25 @@ header
         border-radius: 5px
         padding: 20px
         min-height: 200px
+
+.payments-subscriptions-box
+    width: 100%
+    gap: 25px
+
+    align-items: start
+    margin-top: 25px
+
+    .payment-methods
+        background: white
+        flex-grow: 1
+        border-radius: 5px
+        padding: 20px
+        min-height: 250px
+
+    .subscriptions
+        min-width: 350px
+        background: white
+        border-radius: 5px
+        padding: 20px
+        min-height: 250px
 </style>

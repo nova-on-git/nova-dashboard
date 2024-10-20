@@ -77,10 +77,6 @@ import { getDownloadURL, uploadBytes, ref as storageRef } from "firebase/storage
 const route = useRoute()
 const projectId = route.params.id as string
 
-const project = computed(() => {
-    return $Projects.getProjectById(projectId)
-})
-
 const fileInput = ref<File | null>(null)
 const messagesContainer = ref<HTMLElement | null>(null)
 

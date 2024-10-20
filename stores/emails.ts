@@ -29,7 +29,7 @@ export const useEmailsStore = defineStore("emails", {
                 // Create a URL object
                 const url = new URL(baseUrl)
 
-                // Append query parameters
+                // Append query parameters#
                 url.searchParams.append("email", encodeURIComponent(clientEmail))
                 url.searchParams.append("type", encodeURIComponent("client"))
 
@@ -47,4 +47,3 @@ export const useEmailsStore = defineStore("emails", {
         },
     },
 })
-

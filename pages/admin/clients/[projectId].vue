@@ -1,8 +1,6 @@
 <template>
     <main class="admin-page">
-        <ProjectPhase :phase="project.phase" />
-
-        <pre>project:{{ project }}</pre>
+        <!-- <ProjectPhase :phase="project.phase" /> -->
 
         <btn
             @click="$Projects.updatePhase(project.id, $Projects.getNextProjectPhase(project.phase))"
