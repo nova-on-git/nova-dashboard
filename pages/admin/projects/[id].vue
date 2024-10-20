@@ -36,9 +36,9 @@
 
         <mpage class="admin-mpage" v-if="project">
             <VelorisClientsBilling v-if="selectedTab === 'billing'" />
-            <Chatroom :chatroomId="projectId" v-if="selectedTab === 'chatroom'" />
+            <Chatroom v-if="selectedTab === 'chatroom'" />
             <VelorisClientsDesign v-show="selectedTab === 'design'" />
-            <VelorisClientsDetails :project="project" v-if="selectedTab === 'details'" />
+            <VelorisClientsDetails v-if="selectedTab === 'details'" />
             <VelorisClientsDocuments v-if="selectedTab === 'documents'" />
         </mpage>
     </main>

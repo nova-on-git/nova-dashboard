@@ -66,6 +66,19 @@ declare global {
         companyName: string
 
         quote?: ProjectQuote
+
+        /**A project main docuements.
+         *
+         * Contracts, quotes, invoices, recipts.
+         */
+        documents: {
+            name: string
+            url: string
+            signed: boolean
+
+            /**File type extension. E.g pdf, docx */
+            fileExtension: string
+        }[]
     }
 
     interface ProjectQuote {

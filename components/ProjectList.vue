@@ -6,7 +6,7 @@
 
         <rflex class="cards">
             <anchor
-                :to="`/admin/projects/${project.id}`"
+                :to="getProjectUrl(project.id)"
                 class="project-card"
                 v-for="project in projects"
             >
@@ -19,10 +19,28 @@
                 <div class="project-phase">{{ project.phase }}</div>
             </anchor>
 
-            <mflex class="project-add-card">
+            <mflex
+                @click="openModal('createProject')"
+                v-if="props.interface === 'staff'"
+                class="project-add-card"
+            >
                 <Icon icon="material-symbols:add" width="25" color="#222" />
             </mflex>
         </rflex>
+
+        <modal id="createProject">
+            <form @submit.prevent="$Projects.create(projectDetails)" class="create-project-form">
+                <div class="form-group">
+                    <label for="name">Project Name:</label>
+                    <input type="text" id="name" name="name" v-model="projectDetails.name" />
+                </div>
+                <div class="form-group">
+                    <label for="emails">Emails:</label>
+                    <input type="text" id="emails" name="emails" v-model="projectDetails.emails" />
+                </div>
+                <btn type="submit" class="submit-btn">Create Project</btn>
+            </form>
+        </modal>
     </mpage>
 </template>
 
@@ -32,12 +50,28 @@ import { Icon } from "@iconify/vue"
 const projects = computed(() => {
     return $Projects.getByEmail($CurrentUser.email)
 })
-
+const projectDetails: Ref<Omit<Project, "id">> = ref({
+    name: "",
+    emails: [""],
+    phase: "onboarding",
+    action: "none",
+    paymentPlan: "noneSelected",
+    companyName: "Random Company",
+    documents: [],
+})
 interface Props {
     interface: "staff" | "client"
 }
 
 const props = defineProps<Props>()
+
+function getProjectUrl(projectId: string) {
+    if (props.interface === "staff") {
+        return `/admin/clients/${projectId}`
+    } else {
+        return `/admin/projects/${projectId}`
+    }
+}
 </script>
 
 <style lang="sass" scoped>

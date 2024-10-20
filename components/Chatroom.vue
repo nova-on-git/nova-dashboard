@@ -2,8 +2,8 @@
     <section class="chatroom-container">
         <div class="messages-container" ref="messagesContainer">
             <!-- TODO: ui -->
-            <pre>docs: {{ $Chatroom.getChatroomDocuments(props.chatroomId) }}</pre>
-            <pre>images: {{ $Chatroom.getChatroomImages(props.chatroomId) }}</pre>
+            <pre>docs: {{ $Chatroom.getChatroomDocuments(projectId) }}</pre>
+            <pre>images: {{ $Chatroom.getChatroomImages(projectId) }}</pre>
 
             <div v-if="loading" class="loading-state">
                 <p>Loading messages...</p>
@@ -74,18 +74,20 @@
 import { Icon } from "@iconify/vue"
 import { getDownloadURL, uploadBytes, ref as storageRef } from "firebase/storage"
 
-interface Props {
-    chatroomId: string
-}
+const route = useRoute()
+const projectId = route.params.id as string
+
+const project = computed(() => {
+    return $Projects.getProjectById(projectId)
+})
 
 const fileInput = ref<File | null>(null)
-const props = defineProps<Props>()
 const messagesContainer = ref<HTMLElement | null>(null)
 
 const loading = ref(false)
 const sending = ref(false)
 
-const messages = computed(() => $Chatroom.getChatroomMessages(props.chatroomId))
+const messages = computed(() => $Chatroom.getChatroomMessages(projectId))
 const message = ref("")
 const messageObj = computed(() => {
     return {
@@ -106,7 +108,7 @@ watch(messages, (newValue) => {
 
 function sendMessage() {
     if (messageObj.value.message === "") return
-    $Chatroom.sendMessage(props.chatroomId, messageObj.value)
+    $Chatroom.sendMessage(projectId, messageObj.value)
     message.value = ""
 }
 
@@ -131,7 +133,7 @@ async function sendDocument() {
     const file = fileInput.value
     console.log("here")
     const $storage = useVelorisStorage()
-    const fileStorageRef = storageRef($storage, `${props.chatroomId}/files/${file.name}`)
+    const fileStorageRef = storageRef($storage, `${projectId}/files/${file.name}`)
 
     const userRef = $CurrentUser.reference
     let fileType: ChatroomDocument["type"] = "document"
@@ -156,9 +158,9 @@ async function sendDocument() {
             type: fileType,
         } as ChatroomDocument
 
-        $Chatroom.sendDocument(props.chatroomId, document)
+        $Chatroom.sendDocument(projectId, document)
 
-        await $Chatroom.sendMessage(props.chatroomId, message)
+        await $Chatroom.sendMessage(projectId, message)
     } catch (error) {
         console.error("Error uploading document:", error)
         throw error

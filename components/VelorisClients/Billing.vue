@@ -1,5 +1,172 @@
-<template>billing</template>
+<template>
+    <rflex class="billing-stats">
+        <div class="stat-card">
+            <h2>Project Total</h2>
+            £{{ project.quote?.totalAmount }}
+        </div>
+        <div class="stat-card">
+            <h2>Amount Paid</h2>
+            £{{ project.quote?.amountPaid }}
+        </div>
+        <div class="stat-card">
+            <h2>Next Payment</h2>
+            date
+        </div>
+        <div class="stat-card">
+            <h2>Est Project Completion</h2>
+            date
+        </div>
+    </rflex>
+    <pre>
+        billing page
 
-<script setup lang="ts"></script>
+        * Project cost 
+        * Amount paid
+        * Amount Remaining 
+        * Invoice list
+        * Current plan
+        * Payment History
 
-<style lang="sass" scoped></style>
+    </pre>
+
+    <StripePayment
+        :options="stripeOptions"
+        :metadata="StripeMetadata"
+        :project="project"
+        :paymentPlan="selectedPaymentPlan"
+        :onPayment="onDiscoveryPayment"
+    />
+
+    <!-- Payment for devlopment. Development starts after payment. -->
+    <div v-if="project.paymentPlan === 'three' && project.phase === 'development'">
+        <StripePayment
+            :options="stripeOptions"
+            :metadata="StripeMetadata"
+            :project="project"
+            :paymentPlan="selectedPaymentPlan"
+            :onPayment="onDevelopmentPayment"
+        />
+    </div>
+
+    <!-- Payment upon website completion. After this website will be launched. -->
+    <div v-if="project.paymentPlan === 'three' && project.phase === 'launch'">
+        <StripePayment
+            :options="stripeOptions"
+            :metadata="StripeMetadata"
+            :project="project"
+            :paymentPlan="selectedPaymentPlan"
+            :onPayment="onLaunchPayment"
+        />
+    </div>
+    <modal id="offerAccepted">
+        <div class="offer-accepted-modal">
+            <!-- TODO: add doc signing -->
+            <h6>Payment plans</h6>
+            <rflex>
+                <btn
+                    class="payment-plan-button"
+                    @click="(selectedPaymentPlan = 'three'), (project.paymentPlan = 'three')"
+                    :class="{ active: selectedPaymentPlan === 'three' }"
+                    >3 Installments</btn
+                >
+                <btn
+                    class="payment-plan-button"
+                    @click="(selectedPaymentPlan = 'one'), (project.paymentPlan = 'one')"
+                    :class="{ active: selectedPaymentPlan === 'one' }"
+                    >1 Installment</btn
+                >
+            </rflex>
+        </div>
+    </modal>
+</template>
+
+<script setup lang="ts">
+const selectedPaymentPlan = ref<Project["paymentPlan"]>("one")
+
+const route = useRoute()
+const projectId = route.params.id as string
+
+const project = computed(() => {
+    return $Projects.getProjectById(projectId)
+})
+
+const amountDue = computed(() => {
+    if (!project.value.quote) return 0
+
+    const paymentItems: ProjectQuoteItem[] = project.value.quote.items.filter((item) => {
+        return item.paymentType === "payment"
+    })
+
+    let total = 0
+
+    paymentItems.forEach((item) => {
+        total += item.amount
+    })
+
+    if (selectedPaymentPlan.value === "three" || project.value.paymentPlan === "three") {
+        total = Math.ceil(total / 3)
+    }
+
+    return total
+})
+
+const stripeOptions = computed((): StripePaymentOptions => {
+    return {
+        amount: amountDue.value,
+        currency: "gbp",
+    }
+})
+
+const StripeMetadata: StripeMetaData = {
+    taxRate: 0,
+    description: "Web development services.",
+}
+
+// Funtions passed to stripe as a callback.
+
+// Final payment callback
+function onLaunchPayment(paymentRecord: PaymentRecord) {
+    $Payment.createRecord(paymentRecord)
+    $Projects.updateAmountPaid(project.value.id, paymentRecord.totalPaid)
+}
+
+// 2nd payment callback (if required)
+function onDevelopmentPayment(paymentRecord: PaymentRecord) {
+    $Payment.createRecord(paymentRecord)
+    $Projects.updateAmountPaid(project.value.id, paymentRecord.totalPaid)
+}
+
+// Fired when the client accepts the quote and makes intial payment. //
+function onDiscoveryPayment(paymentRecord: PaymentRecord) {
+    $Payment.createRecord(paymentRecord)
+    $Projects.updateAmountPaid(project.value.id, paymentRecord.totalPaid)
+    $Projects.setPaymentPlan(project.value.id, selectedPaymentPlan.value)
+    $Projects.updatePhase(project.value.id, $Projects.getNextProjectPhase(project.value.phase))
+
+    // Notify staff
+    $Notifications.create({
+        message: "Quote Accepeted",
+        mode: "success",
+        title: `${project.value.name} has accepted the quote and made initial payment.`,
+        to: velorisStaffEmails,
+        type: "client",
+    })
+}
+</script>
+
+<style lang="sass" scoped>
+.billing-stats
+    height: 125px
+    gap: 25px
+
+    .stat-card
+        background: white
+        min-width: 250px
+        height: 100%
+        padding: 15px 20px
+        border-radius: 5px
+
+        h2
+            font-size: 1.15rem
+            font-weight: bold
+</style>

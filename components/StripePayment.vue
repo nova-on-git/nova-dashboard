@@ -54,12 +54,12 @@ const successMessage = ref("")
 
 const receipt_email = ref("codypwakeford@gmail.com")
 const billingAddress = ref({
-    name: "",
-    street: "",
-    city: "",
-    county: "",
-    country: "",
-    postcode: "",
+    name: "Cody Wakeford",
+    street: "Smith Street",
+    city: "London",
+    county: "London",
+    country: "England",
+    postcode: "SU22 4RD",
 })
 
 interface Props {
@@ -131,7 +131,7 @@ async function pay() {
             timestamp: String(Date.now()),
             currency: props.options.currency,
             refundStatus: false,
-            taxRate: props.metadata.taxRate,
+            taxRate: Number(props.metadata.taxRate),
             description: props.metadata.description,
         }
 

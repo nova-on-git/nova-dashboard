@@ -43,7 +43,7 @@ export const useProjectStore = defineStore("projects", {
 
     actions: {
         async init() {
-            if (!import.meta.client) return
+            // if (!import.meta.client) return
             this.read()
 
             const $db = useDb()
@@ -65,6 +65,7 @@ export const useProjectStore = defineStore("projects", {
                     }
 
                     if (change.type === "modified") {
+                        console.log("modified")
                         const index = this.projects.findIndex((p) => p.id === project.id)
 
                         if (index === -1) {
@@ -75,6 +76,7 @@ export const useProjectStore = defineStore("projects", {
                     }
 
                     if (change.type === "removed") {
+                        console.log("removed")
                         // Remove deleted projects from the state
                         this.projects = this.projects.filter(
                             (project) => project.id !== change.doc.id
@@ -268,6 +270,7 @@ const DummyProject: Omit<Project, "id"> = {
     companyName: "VelorisDesigns",
     domain: "velorisdesigns.com",
     description: "Website design and developement.",
+    documents: [],
 }
 
 /**List of project phases in order for reference. */
