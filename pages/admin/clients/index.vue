@@ -1,5 +1,5 @@
 <template>
-    <main>
+    <mpage class="admin-mpage">
         <ProjectList interface="staff" />
 
         <div class="action-buttons">
@@ -12,7 +12,7 @@
                 >Create Project</btn
             >
         </div>
-    </main>
+    </mpage>
 </template>
 
 <script setup lang="ts">

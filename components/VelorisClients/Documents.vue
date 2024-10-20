@@ -1,5 +1,12 @@
 <template>
+    <header>
+        <h1>Project Documents</h1>
+    </header>
     <rflex class="cards">
+        <div v-if="!project.documents.length">
+            Here you will find all project related documents. Check back once the project is under
+            way.
+        </div>
         <btn
             modal="pdfModal"
             class="document"
@@ -34,6 +41,12 @@ const selectedDoc = ref("")
 </script>
 
 <style lang="sass" scoped>
+header
+    margin-block: 0px 20px
+
+    h1
+        font-size: 2rem
+        font-weight: bold
 .cards
     align-items: start
     gap: 25px

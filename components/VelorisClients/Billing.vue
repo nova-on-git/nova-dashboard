@@ -1,32 +1,39 @@
 <template>
+    <header>
+        <h1>Project Billing</h1>
+    </header>
     <rflex class="billing-stats">
         <div class="stat-card">
             <h2>Project Total</h2>
-            £{{ project.quote?.totalAmount }}
+            <h3 v-if="project.quote?.totalAmount">£{{ project.quote?.totalAmount / 100 }}</h3>
         </div>
+
         <div class="stat-card">
             <h2>Amount Paid</h2>
-            £{{ project.quote?.amountPaid }}
+            <h3>£{{ project.quote?.amountPaid || 0 / 100 }}</h3>
         </div>
+
         <div class="stat-card">
             <h2>Next Payment</h2>
-            date
+            <h3>date</h3>
         </div>
+
         <div class="stat-card">
             <h2>Est Project Completion</h2>
-            date
+            <h3>date</h3>
         </div>
+    </rflex>
+
+    <rflex class="payment-invoice-box">
+        <cflex class="payment-history">Payment history</cflex>
+        <cflex class="invoice-list">Invoice List</cflex>
     </rflex>
     <pre>
         billing page
 
-        * Project cost 
-        * Amount paid
-        * Amount Remaining 
         * Invoice list
         * Current plan
         * Payment History
-
     </pre>
 
     <StripePayment
@@ -155,18 +162,53 @@ function onDiscoveryPayment(paymentRecord: PaymentRecord) {
 </script>
 
 <style lang="sass" scoped>
+header
+    margin-block: 0px 20px
+
+    h1
+        font-size: 2rem
+        font-weight: bold
+
+
 .billing-stats
-    height: 125px
     gap: 25px
 
     .stat-card
+        display: flex
+        flex-direction: column
+        justify-content: space-between
         background: white
         min-width: 250px
-        height: 100%
         padding: 15px 20px
         border-radius: 5px
+        gap: 15px
+        flex-grow: 1
 
         h2
             font-size: 1.15rem
+
+        h3
             font-weight: bold
+            font-size: 1.75rem
+
+.payment-invoice-box
+    width: 100%
+    gap: 25px
+
+    align-items: start
+    margin-top: 25px
+
+    .payment-history
+        background: white
+        flex-grow: 1
+        border-radius: 5px
+        padding: 20px
+        min-height: 200px
+
+    .invoice-list
+        background: white
+        flex-grow: 1
+        border-radius: 5px
+        padding: 20px
+        min-height: 200px
 </style>

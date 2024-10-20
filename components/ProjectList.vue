@@ -1,5 +1,5 @@
 <template>
-    <mpage class="admin-mpage">
+    <section>
         <header>
             <h1>Projects</h1>
         </header>
@@ -41,7 +41,7 @@
                 <btn type="submit" class="submit-btn">Create Project</btn>
             </form>
         </modal>
-    </mpage>
+    </section>
 </template>
 
 <script setup lang="ts">
@@ -59,6 +59,7 @@ const projectDetails: Ref<Omit<Project, "id">> = ref({
     companyName: "Random Company",
     documents: [],
 })
+
 interface Props {
     interface: "staff" | "client"
 }

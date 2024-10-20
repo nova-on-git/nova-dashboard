@@ -1,7 +1,20 @@
 <template>
-    <rflex>
-        <h4>{{ project.name }}</h4>
-        <h5>Phase: {{ project.phase }}</h5>
+    <rflex class="header-row">
+        <header>
+            <h1>Project Details</h1>
+            <h5>Phase: {{ project.phase }}</h5>
+        </header>
+        <div class="action-required">
+            <h2>Action Required</h2>
+            <p>Please complete "action"</p>
+        </div>
+    </rflex>
+    <rflex class="action-buttons">
+        <btn>Book a call</btn>
+        <btn>Reschedule Call</btn>
+        <btn>Cancel Call</btn>
+        <btn>Report an Issue</btn>
+        <btn>Make a payment</btn>
     </rflex>
 
     <!-- Meeting button shown only when requested -->
@@ -12,9 +25,6 @@
             <CalendlyPopupButton v-bind="options" :root-element="rootElement" />
         </button>
     </cflex>
-
-    <!-- Phase tracker bar -->
-    <ProjectPhase :phase="project.phase" />
 
     <!-- Shows a message based on the phase. -->
     <ProjectPhaseMessage :phase="project.phase" />
@@ -99,6 +109,43 @@ useCalendlyEventListener({
 </script>
 
 <style lang="sass" scoped>
+.header-row
+    gap: 25px
+    align-items: start
+    height: 120px
+    margin-block: 0px 20px
+
+    header
+        display: flex
+        flex-direction: column
+        gap: 5px
+        background: white
+        padding: 20px 20px
+        border-radius: 5px
+        flex-grow: 1
+        height: 100%
+
+        h1
+            font-size: 2rem
+            font-weight: bold
+
+    .action-required
+        display: flex
+        flex-direction: column
+        gap: 5px
+        background: white
+        height: 100%
+        padding: 20px
+        border-radius: 5px
+
+        h2
+            font-weight: bold
+            font-size: 1rem
+
+.action-buttons
+    gap: 10px
+    margin-bottom: 25px
+
 .calendly-button
     background: red
 

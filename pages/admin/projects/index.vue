@@ -1,5 +1,7 @@
 <template>
-    <ProjectList interface="client" />
+    <mpage class="admin-mpage">
+        <ProjectList interface="client" />
+    </mpage>
 </template>
 
 <script setup lang="ts">

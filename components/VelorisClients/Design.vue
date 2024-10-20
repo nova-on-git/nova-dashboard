@@ -1,4 +1,7 @@
 <template>
+    <header>
+        <h1>Design Board</h1>
+    </header>
     <iframe
         style="border: 1px solid rgba(0, 0, 0, 0.1)"
         width="100%"
@@ -10,4 +13,11 @@
 
 <script setup lang="ts"></script>
 
-<style lang="sass" scoped></style>
+<style lang="sass" scoped>
+header
+    margin-block: 0px 20px
+
+    h1
+        font-size: 2rem
+        font-weight: bold
+</style>
