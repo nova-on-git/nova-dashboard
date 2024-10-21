@@ -71,14 +71,7 @@ declare global {
          *
          * Contracts, quotes, invoices, recipts.
          */
-        documents: {
-            name: string
-            url: string
-            signed: boolean
-
-            /**File type extension. E.g pdf, docx */
-            fileExtension: string
-        }[]
+        documents: ProjectDocument[]
     }
 
     interface ProjectQuote {
@@ -107,5 +100,14 @@ declare global {
 
         /**Type of payment for the transaction */
         paymentType: "payment" | "subscription"
+    }
+
+    interface ProjectDocument {
+        name: string
+        url: string
+        signed: boolean
+
+        /**File type extension. E.g pdf, docx */
+        extension: string
     }
 }

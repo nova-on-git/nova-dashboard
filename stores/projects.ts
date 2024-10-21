@@ -178,7 +178,6 @@ export const useProjectStore = defineStore("projects", {
             const calendlyMeeting = meetingDetails.data
             const clientDetails = clientDetailsResponse.data
 
-            console.log(calendlyMeeting)
             const meeting: Meeting = Object.assign(
                 {},
                 {
@@ -208,6 +207,25 @@ export const useProjectStore = defineStore("projects", {
                     key: "quote",
                     value: quote,
                 },
+            })
+
+            const docs: ProjectDocument[] = [
+                {
+                    name: "Project Proposal",
+                    url: quote.proposalUrl,
+                    extension: "pdf",
+                    signed: false,
+                },
+                { name: "Project Quote", url: quote.quoteUrl, extension: "pdf", signed: false },
+            ]
+
+            docs.forEach((doc) => this.addProjectDocument(projectId, doc))
+        },
+
+        async addProjectDocument(projectId: string, document: ProjectDocument) {
+            await useFetch("/api/projects/document", {
+                method: "POST",
+                body: { id: projectId, document },
             })
         },
 

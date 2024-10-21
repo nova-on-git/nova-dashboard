@@ -19,10 +19,21 @@
             <btn preset="dark" @click="$Emails.sendClientInvitation('codypwakeford@gmail.com')"
                 >Send dummy email</btn
             >
+            <btn
+                @click="
+                    $Projects.addProjectDocument('ovvyiFFAaTlNrHxiBcPu', {
+                        name: 'Project Quote',
+                        url: 'https://pdfobject.com/pdf/sample.pdf',
+                        extension: 'pdf',
+                        signed: false,
+                    })
+                "
+                >Add dummy project document</btn
+            >
         </rflex>
 
         <!-- <pre>$CurrentUser.get: {{ currentUser }}</pre> -->
-        {{ notifications }}
+        <!-- {{ notifications }} -->
     </mpage>
 </template>
 

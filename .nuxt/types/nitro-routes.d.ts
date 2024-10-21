@@ -110,6 +110,9 @@ declare module 'nitropack' {
     '/api/stripe/payment-intent': {
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/stripe/payment-intent.post').default>>>>
     }
+    '/api/stripe/paymentMethod': {
+      'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/stripe/paymentMethod.post').default>>>>
+    }
     '/api/stripe/storeOrder': {
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/stripe/storeOrder.post').default>>>>
     }
