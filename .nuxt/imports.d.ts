@@ -55,4 +55,4 @@ export { useUserStore } from '../stores/users';
 export { useCalendly } from '../node_modules/.pnpm/nuxt-calendly@0.1.21_magicast@0.3.5_rollup@4.24.0/node_modules/nuxt-calendly/dist/runtime/composables/useCalendly';
 export { default as useCalendlyEventListener, CalendlyEvent } from '../node_modules/.pnpm/nuxt-calendly@0.1.21_magicast@0.3.5_rollup@4.24.0/node_modules/nuxt-calendly/dist/runtime/composables/useCalendlyEventListener';
 export { defineStore, acceptHMRUpdate, usePinia, storeToRefs } from '../node_modules/.pnpm/@pinia+nuxt@0.5.5_magicast@0.3.5_rollup@4.24.0_typescript@5.6.2_vue@3.5.11_typescript@5.6.2_/node_modules/@pinia/nuxt/dist/runtime/composables';
-export { definePageMeta } from '../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/pages/runtime/composables';
+export { definePageMeta } from '../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__c66rwtv3il45bomjebhnfzznei/node_modules/nuxt/dist/pages/runtime/composables';

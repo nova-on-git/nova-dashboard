@@ -63,6 +63,9 @@ declare module 'nitropack' {
     '/api/projects/:id': {
       'delete': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/projects/[id].delete').default>>>>
     }
+    '/api/projects/document': {
+      'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/projects/document.post').default>>>>
+    }
     '/api/projects/ids': {
       'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/projects/ids.get').default>>>>
     }
@@ -110,8 +113,11 @@ declare module 'nitropack' {
     '/api/stripe/payment-intent': {
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/stripe/payment-intent.post').default>>>>
     }
-    '/api/stripe/paymentMethod': {
-      'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/stripe/paymentMethod.post').default>>>>
+    '/api/stripe/payment-methods': {
+      'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/stripe/payment-methods.get').default>>>>
+    }
+    '/api/stripe/setup-intent': {
+      'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/stripe/setup-intent').default>>>>
     }
     '/api/stripe/storeOrder': {
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/stripe/storeOrder.post').default>>>>
@@ -131,7 +137,7 @@ declare module 'nitropack' {
       'put': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/users/role.put').default>>>>
     }
     '/__nuxt_error': {
-      'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__lkes63js7yprtria6giswkle54/node_modules/nuxt/dist/core/runtime/nitro/renderer').default>>>>
+      'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../node_modules/.pnpm/nuxt@3.13.2_@parcel+watcher@2.4.1_@types+node@22.7.4_eslint@9.12.0_jiti@2.3.3__ioredis@5.4.1__c66rwtv3il45bomjebhnfzznei/node_modules/nuxt/dist/core/runtime/nitro/renderer').default>>>>
     }
   }
 }
