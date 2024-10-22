@@ -1,5 +1,5 @@
 import axios from "axios"
-import { collection, onSnapshot } from "firebase/firestore"
+import { collection, Firestore, onSnapshot } from "firebase/firestore"
 import { defineStore } from "pinia"
 import { velorisStaffEmails } from "./notifications"
 
@@ -9,7 +9,7 @@ export const useProjectStore = defineStore("projects", {
     }),
 
     getters: {
-        get(state) {
+        getProjects(state) {
             return state.projects
         },
 
@@ -46,7 +46,7 @@ export const useProjectStore = defineStore("projects", {
             // if (!import.meta.client) return
             this.read()
 
-            const $db = useDb()
+            const $db = useVelorisDb()
             const colRef = collection($db, "projects")
 
             onSnapshot(colRef, (snapshot) => {
@@ -59,13 +59,11 @@ export const useProjectStore = defineStore("projects", {
                     } as Project
 
                     if (change.type === "added") {
-                        console.log("project add detected")
                         this.projects.push(project)
                         return
                     }
 
                     if (change.type === "modified") {
-                        console.log("modified")
                         const index = this.projects.findIndex((p) => p.id === project.id)
 
                         if (index === -1) {
@@ -76,7 +74,6 @@ export const useProjectStore = defineStore("projects", {
                     }
 
                     if (change.type === "removed") {
-                        console.log("removed")
                         // Remove deleted projects from the state
                         this.projects = this.projects.filter(
                             (project) => project.id !== change.doc.id
@@ -88,9 +85,8 @@ export const useProjectStore = defineStore("projects", {
 
         async read() {
             const { data } = await useFetch<Project[]>("/api/projects")
-            if (!data.value) return
-            console.log("overwriting projects")
-            this.projects = data.value
+
+            this.projects = data.value || []
         },
 
         async create(project: Omit<Project, "id">) {
@@ -164,14 +160,14 @@ export const useProjectStore = defineStore("projects", {
             const meetingDetails = await axios.get(meetingUrl, {
                 headers: {
                     "content-type": "application/json",
-                    Authorization: `Bearer ${config.public.CALENDLY_AUTH}`,
+                    Authorization: `Bearer ${config.public.CALENDLY_PAT}`,
                 },
             })
 
             const clientDetailsResponse = await axios.get(clientUrl, {
                 headers: {
                     "content-type": "application/json",
-                    Authorization: `Bearer ${config.public.CALENDLY_AUTH}`,
+                    Authorization: `Bearer ${config.public.CALENDLY_PAT}`,
                 },
             })
 

@@ -65,8 +65,8 @@ const billingAddress = ref({
 interface Props {
     options: StripePaymentOptions
     metadata: StripeMetaData
-    project: Project
-    paymentPlan: Project["paymentPlan"]
+
+    /**Fired when payment is complete and returns a payment record for storage. */
     onPayment: (paymentRecord: PaymentRecord) => void
 }
 
@@ -131,7 +131,7 @@ async function pay() {
             timestamp: String(Date.now()),
             currency: props.options.currency,
             refundStatus: false,
-            taxRate: Number(props.metadata.taxRate),
+            taxRate: props.metadata.taxRate,
             description: props.metadata.description,
         }
 

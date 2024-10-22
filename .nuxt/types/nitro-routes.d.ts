@@ -66,6 +66,9 @@ declare module 'nitropack' {
     '/api/projects/document': {
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/projects/document.post').default>>>>
     }
+    '/api/projects/documents': {
+      'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/projects/documents.get').default>>>>
+    }
     '/api/projects/ids': {
       'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/projects/ids.get').default>>>>
     }

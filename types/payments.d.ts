@@ -25,7 +25,7 @@ declare global {
         refundStatus: boolean
 
         /**Percentage of the whole amount */
-        taxRate: string
+        taxRate: number
         billingAddress: Address
         description: string
 

@@ -1,4 +1,13 @@
-import { arrayUnion, collection, doc, updateDoc } from "firebase/firestore"
+import {
+    arrayUnion,
+    collection,
+    doc,
+    updateDoc,
+    getDoc,
+    setDoc,
+    addDoc,
+    getDocs,
+} from "firebase/firestore"
 
 export default eventHandler(async (event) => {
     const db = event.context.velorisDb
@@ -13,10 +22,16 @@ export default eventHandler(async (event) => {
 
     const colRef = collection(db, "projects")
     const docRef = doc(colRef, id)
+    const documentsColRef = collection(docRef, "project-documents")
 
     try {
-        await updateDoc(docRef, {
-            documents: arrayUnion(document),
+        const snapshot = await getDocs(documentsColRef)
+
+        return snapshot.docs.map((doc) => {
+            return {
+                id: doc.id,
+                ...doc.data(),
+            }
         })
     } catch (error) {
         throw createError({

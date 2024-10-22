@@ -4,46 +4,43 @@
             <h1>Project Details</h1>
             <h5>Phase: {{ project.phase }}</h5>
         </header>
+
         <div class="action-required">
             <h2>Action Required</h2>
-            <p>Please complete "action"</p>
+            <p>Please complete "{{ project.action }}"</p>
         </div>
     </rflex>
+
     <rflex class="action-buttons">
-        <btn>Book a call</btn>
-        <btn>Reschedule Call</btn>
-        <btn>Cancel Call</btn>
+        <btn v-if="project.action === 'meeting'">
+            <CalendlyPopupButton v-bind="options" :root-element="rootElement" />
+        </btn>
+
+        <btn v-if="project.meeting">
+            <anchor :to="project.meeting?.rescheduleUrl" target="_blank">Reschedule Call</anchor>
+        </btn>
+
+        <btn v-if="project.meeting">
+            <anchor :to="project.meeting?.cancelUrl" target="_blank">Cancel Call</anchor>
+        </btn>
+
+        <btn v-if="project.meeting">
+            <anchor :to="project.meeting?.meetingUrl" target="_blank">Join Meeting</anchor>
+        </btn>
+
         <btn>Report an Issue</btn>
-        <btn>Make a payment</btn>
+
+        <btn v-if="project.quote?.amountPaid < project.quote?.totalAmount">Make a payment</btn>
     </rflex>
 
-    <!-- Meeting button shown only when requested -->
-    <cflex v-if="project.action === 'meeting'">
-        <div ref="rootElement" />
-        <p>Please book our next call at your convenience.</p>
-        <button class="calendly-button">
-            <CalendlyPopupButton v-bind="options" :root-element="rootElement" />
-        </button>
-    </cflex>
-
     <!-- Shows a message based on the phase. -->
-    <ProjectPhaseMessage :phase="project.phase" />
-    <!-- Meeting Link when generated -->
-    <cflex v-if="project.meeting">
-        <h4>Booked meeting link</h4>
-        <p>
-            Meeting Link:
-            <anchor target="_blank" :to="project.meeting?.meetingUrl" class="meeting-link">
-                Google Meet Link</anchor
-            >
-        </p>
-    </cflex>
+    <!-- <ProjectPhaseMessage :phase="project.phase" /> -->
 
     <!-- Accept the design. TODO: show only after design meeting. -->
     <div v-if="project.phase === 'design'">
         <btn modal="finalDesign">Accept Final Design</btn>
         <modal id="finalDesign">
-            Are you sure? This action is irriverable.
+            Are you sure?
             <btn @click="closeModal('finalDesign')">Close</btn>
             <btn
                 @click="
@@ -59,8 +56,10 @@
         <cflex v-if="project.quote">
             <h4>A project proposal has been submitted</h4>
 
-            <anchor :to="project.quote.proposalUrl" target="_blank">View Proposal</anchor>
-            <anchor :to="project.quote.quoteUrl" target="_blank">View Quote</anchor>
+            <btn modal="pdfModal" @click="selectedDoc = project.quote.proposalUrl"
+                >View Proposal</btn
+            >
+            <btn modal="pdfModal" @click="selectedDoc = project.quote.proposalUrl">View Quote</btn>
 
             <rflex>
                 <btn modal="offerAccepted">Accept Offer</btn>
@@ -71,11 +70,14 @@
                 <btn>Decline Offer</btn>
             </rflex>
         </cflex>
-
-        <btn :to="`/admin/projects/chatrooms/${project.id}`">Project Chatroom</btn>
     </div>
+    <modal id="pdfModal">
+        <embed :src="selectedDoc" type="application/pdf" width="900px" height="1200px" />
+    </modal>
 
-    <pre>{{ project }}</pre>
+    <pre>{{ project.meeting }}</pre>
+    <!-- rootElement is for calendly -->
+    <div ref="rootElement"></div>
 </template>
 
 <script setup lang="ts">
@@ -83,7 +85,7 @@ import { velorisStaffEmails } from "~/stores/notifications"
 
 const route = useRoute()
 const projectId = route.params.id as string
-
+const selectedDoc = ref("")
 const project = computed(() => {
     return $Projects.getProjectById(projectId)
 })
@@ -91,7 +93,7 @@ const project = computed(() => {
 const rootElement = ref()
 const options = {
     url: "https://calendly.com/codypwakeford/veloris-project-meeting",
-    text: "Book your next meeting",
+    text: "Book a call",
 }
 
 useCalendlyEventListener({
