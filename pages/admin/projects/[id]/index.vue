@@ -34,9 +34,15 @@
                     <anchor :to="project.meeting?.meetingUrl" target="_blank">Join Meeting</anchor>
                 </btn>
 
+                <btn v-if="project.demoLink">
+                    <anchor :to="project.demoLink" target="_blank">Join Meeting</anchor>
+                </btn>
+
                 <btn>Report an Issue</btn>
 
-                <btn v-if="project.quote?.amountPaid < project.quote?.totalAmount"
+                <btn
+                    :to="`/admin/projects/${project.id}/payment`"
+                    v-if="project.quote?.amountPaid < project.quote?.totalAmount"
                     >Make a payment</btn
                 >
             </rflex>

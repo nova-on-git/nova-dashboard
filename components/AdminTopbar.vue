@@ -1,7 +1,10 @@
 <template>
     <div class="top-bar">
         <rflex class="left-content">
-            <div class="logo-container">VelorisDesigns</div>
+            <rflex class="logo-container">
+                <img src="../images/nova-logo.jpg" alt="Nova Logo" />
+                <h1>Nova</h1>
+            </rflex>
 
             <search placeholder="Search anything..." class="search" />
         </rflex>
@@ -19,10 +22,7 @@
                         <Icon icon="iconamoon:profile" width="25" />
 
                         <drop class="user-dropdown">
-                            <button
-                                class="sign-out-btn"
-                                @click="$CurrentUser.logout()"
-                            >
+                            <button class="sign-out-btn" @click="$CurrentUser.logout()">
                                 Sign Out
                             </button>
                         </drop>
@@ -30,17 +30,11 @@
                 </div>
 
                 <btn class="icon-button notification">
-                    <div
-                        v-if="$Notifications.unreadLength > 0"
-                        class="notification-badge"
-                    >
+                    <div v-if="$Notifications.unreadLength > 0" class="notification-badge">
                         {{ $Notifications.unreadLength }}
                     </div>
 
-                    <Icon
-                        icon="material-symbols:notifications-active-outline"
-                        width="25"
-                    />
+                    <Icon icon="material-symbols:notifications-active-outline" width="25" />
 
                     <drop class="notification-dropdown">
                         <NotificationDropdown />
@@ -52,7 +46,7 @@
 </template>
 
 <script setup>
-import { Icon } from "@iconify/vue";
+import { Icon } from "@iconify/vue"
 </script>
 
 <style scoped lang="sass">
@@ -88,6 +82,16 @@ import { Icon } from "@iconify/vue";
 
 .left-content
     .logo-container
+        gap: 25px
+        align-items: end
+        h1
+            line-height: 0.7
+            color: white
+            font-size: 2rem
+
+        img
+            height: 30px
+
         width: 250px
 .right-content
     display: flex

@@ -28,6 +28,7 @@
 </template>
 
 <script setup lang="ts">
+import { velorisStaffEmails } from "~/stores/notifications"
 const selectedPaymentPlan = ref<Project["paymentPlan"]>("one")
 
 const route = useRoute()

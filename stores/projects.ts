@@ -275,7 +275,7 @@ export const useProjectStore = defineStore("projects", {
     },
 })
 
-const DummyProject: Omit<Project, "id"> = {
+const DummyProject: Omit<Project, "id" | "quote"> = {
     name: "Test Project",
     emails: ["codypwakeford@gmail.com"],
     phase: "onboarding",

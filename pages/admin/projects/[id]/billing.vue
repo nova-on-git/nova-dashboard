@@ -17,17 +17,17 @@
 
                 <div class="stat-card">
                     <h2>Amount Paid</h2>
-                    <h3>£{{ project.quote?.amountPaid || 0 / 100 }}</h3>
+                    <h3>£{{ project.quote?.amountPaid / 100 }}</h3>
                 </div>
 
                 <div class="stat-card">
                     <h2>Next Payment</h2>
-                    <h3>date</h3>
+                    <h3>{{ nextPayment }}</h3>
                 </div>
 
                 <div class="stat-card">
                     <h2>Est Project Completion</h2>
-                    <h3>date</h3>
+                    <h3>TODO date</h3>
                 </div>
             </rflex>
 
@@ -41,35 +41,6 @@
                 <cflex class="subscriptions">Ongoing subscriptions</cflex>
             </rflex>
 
-            <StripePayment
-                :options="stripeOptions"
-                :metadata="StripeMetadata"
-                :project="project"
-                :paymentPlan="selectedPaymentPlan"
-                :onPayment="onDiscoveryPayment"
-            />
-
-            <!-- Payment for devlopment. Development starts after payment. -->
-            <div v-if="project.paymentPlan === 'three' && project.phase === 'development'">
-                <StripePayment
-                    :options="stripeOptions"
-                    :metadata="StripeMetadata"
-                    :project="project"
-                    :paymentPlan="selectedPaymentPlan"
-                    :onPayment="onDevelopmentPayment"
-                />
-            </div>
-
-            <!-- Payment upon website completion. After this website will be launched. -->
-            <div v-if="project.paymentPlan === 'three' && project.phase === 'launch'">
-                <StripePayment
-                    :options="stripeOptions"
-                    :metadata="StripeMetadata"
-                    :project="project"
-                    :paymentPlan="selectedPaymentPlan"
-                    :onPayment="onLaunchPayment"
-                />
-            </div>
             <modal id="offerAccepted">
                 <div class="offer-accepted-modal">
                     <!-- TODO: add doc signing -->
@@ -104,6 +75,34 @@ const projectId = route.params.id as string
 
 const project = computed(() => {
     return $Projects.getProjectById(projectId)
+})
+
+const nextPayment = computed(() => {
+    switch (project.value.phase) {
+        case "design":
+            return "Development Phase"
+
+        case "development":
+            return "Launch Phase"
+
+        case "final approval":
+            return "Launch Phase"
+
+        case "launch":
+            return "Launch Phase"
+
+        case "onboarding":
+            return "When the project kicks off."
+
+        case "testing":
+            return "Launch Phase"
+
+        case "completed":
+            return "Payment Complete"
+
+        default:
+            break
+    }
 })
 
 const amountDue = computed(() => {

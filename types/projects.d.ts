@@ -33,6 +33,7 @@ declare global {
     interface Project {
         /**Db reference id */
         id: string
+
         /**Name of the project e.g. client/ company name */
         name: string
 
@@ -57,15 +58,17 @@ declare global {
         paymentPlan: "noneSelected" | "three" | "installments" | "one"
 
         /**A breif description of the project scope */
-        description?: string
+        description: string
 
         /**Company domain name */
-        domain?: string
+        domain: string
 
         /**The company or person the project is for. */
         companyName: string
 
-        quote?: ProjectQuote
+        demoLink?: string
+
+        quote: ProjectQuote
 
         /**A project main docuements.
          *
