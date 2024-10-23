@@ -1,32 +1,3 @@
-<template>
-    <main class="admin-page">
-        <VelorisClientsNav />
-
-        <mpage class="admin-mpage">
-            <rflex v-if="project.paymentPlan === 'noneSelected'">
-                <btn
-                    class="payment-plan-button"
-                    @click="selectedPaymentPlan = 'three'"
-                    :class="{ active: selectedPaymentPlan === 'three' }"
-                    >3 Installments</btn
-                >
-                <btn
-                    class="payment-plan-button"
-                    @click="selectedPaymentPlan = 'one'"
-                    :class="{ active: selectedPaymentPlan === 'one' }"
-                    >1 Installment</btn
-                >
-            </rflex>
-
-            <StripePayment
-                :options="stripeOptions"
-                :metadata="StripeMetadata"
-                :onPayment="onStripePayment"
-            />
-        </mpage>
-    </main>
-</template>
-
 <script setup lang="ts">
 import { velorisStaffEmails } from "~/stores/notifications"
 const selectedPaymentPlan = ref<Project["paymentPlan"]>("one")
@@ -127,6 +98,115 @@ const StripeMetadata: StripeMetaData = {
     taxRate: 0,
     description: "Web development services.",
 }
+import { Icon } from "@iconify/vue"
 </script>
+<template>
+    <main class="admin-page">
+        <VelorisClientsNav />
 
-<style lang="sass" scoped></style>
+        <mpage class="admin-mpage">
+            <header>
+                <h1>Billing Info</h1>
+                <p>Choose a payment option below and fill out the appropriate information.</p>
+            </header>
+
+            <!--  v-if="project.paymentPlan === 'noneSelected'" -->
+            <rflex class="payment-plan-buttons">
+                <btn
+                    class="payment-plan-button"
+                    @click="selectedPaymentPlan = 'three'"
+                    :class="{ active: selectedPaymentPlan === 'three' }"
+                >
+                    <Icon icon="fluent:payment-32-regular" width="50" color="black" />
+                    3 Installments
+                </btn>
+                <btn
+                    class="payment-plan-button"
+                    @click="selectedPaymentPlan = 'installments'"
+                    :class="{ active: selectedPaymentPlan === 'installments' }"
+                    >1 Installment</btn
+                >
+
+                <btn
+                    class="payment-plan-button"
+                    @click="selectedPaymentPlan = 'one'"
+                    :class="{ active: selectedPaymentPlan === 'one' }"
+                    >Monthly Installments</btn
+                >
+            </rflex>
+
+            <StripePayment
+                :options="stripeOptions"
+                :metadata="StripeMetadata"
+                :onPayment="onStripePayment"
+            />
+        </mpage>
+    </main>
+</template>
+
+<style lang="sass" scoped>
+.mpage
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: 50px
+
+header
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: 15px
+    margin-top: 25px
+    margin-bottom: 25px
+
+    h1
+        font-size: 2.5rem
+        position: relative
+
+        &::before
+            content: ""
+            position: absolute
+            height: 3px
+            width: 75px
+            background: #999
+            left: -100px
+            top: 50%
+
+        &::after
+            content: ""
+            position: absolute
+            height: 3px
+            width: 75px
+            background: #999
+            right: -100px
+            top: 50%
+
+    p
+        font-size: 1rem
+        color: #666
+        max-width: 400px
+        line-height: 1.5
+        text-align: center
+
+
+.payment-plan-buttons
+    margin-inline: auto
+    gap: 25px
+    height: 100px
+    margin-bottom: 25px
+
+    .btn
+        height: 100px
+        width: 150px
+        background: rgba(0,0,0,0.04)
+        border: none
+        padding: 25px
+        display: flex
+        align-items: center
+        justify-content: center
+        border-radius: 5px
+
+        &.active
+            background: white
+            border: 1px solid blue
+</style>
